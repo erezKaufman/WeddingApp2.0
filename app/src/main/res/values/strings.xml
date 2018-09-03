@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WeddingApp</string>
+    <string name="sign_out_string">Sign Out!</string>
+</resources>
