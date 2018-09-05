@@ -8,26 +8,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class Login extends AppCompatActivity implements  View.OnClickListener {
 
@@ -37,10 +33,10 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
     private TextView mStatusTextView;
     private TextView mDetailTextView;
 
-    private Button signin_button, signout_button, misLogged;
     private static final int RC_SIGN_IN = 9001;
     private String TAG = "GoogleActivity";
     private ProgressDialog mprogressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,11 +44,9 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
 
         findViewById(R.id.sign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
-        findViewById(R.id.islogged).setOnClickListener(this);
+//        findViewById(R.id.islogged).setOnClickListener(this);
         mStatusTextView = findViewById(R.id.status);
         mDetailTextView = findViewById(R.id.detail);
-
-//        findViewById(R.id.disconnect_button).setOnClickListener(this);
 
         // initialize auth
         mAuth = FirebaseAuth.getInstance();
@@ -68,21 +62,29 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
 
     }
 
+    /**
+     * each button arrives here and by switch case goes to each method
+     * @param v view object
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.sign_in_button:
-                signIn();
+//                OpenSignIn_and_info(v);
+                Sign_in_and_info.start_info_activity(v.getContext());
                  break;
             case R.id.sign_out_button:
                 signOut();
                 break;
-            case R.id.islogged:
-                checkLogged();
+//            case R.id.islogged:
+//                checkLogged();
+//                break;
         }
-
     }
 
+    /**
+     * simple check if user is logged in
+     */
     private void checkLogged() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             mStatusTextView.setText("already logged in");
@@ -100,10 +102,14 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
         startActivityForResult(signInIntent,RC_SIGN_IN);
     }
 
+    /**
+     * sign out user (NOT DELETING THE USER)
+     */
     private void signOut() {
         // actuall FireBase sign out
         mAuth.signOut();
-        System.out.println("signing out");
+
+        // change UI for user
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
                 new OnCompleteListener<Void>() {
                     @Override
@@ -112,8 +118,14 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
 
                     }
                 });
+
+
     }
 
+    /**
+     * simple update to the UI so the user knows what's happening. TODO - change this method
+     * @param user
+     */
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
@@ -131,7 +143,13 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
         }
     }
 
-
+    /**
+     * called when signin method calls 'startActivityForResult' - catches the result and handle it.
+     * in here we log in the user
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -204,4 +222,20 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
         }
         mprogressDialog.show();
     }
+
+    public void OpenSignIn_and_info(View view) {
+        Sign_in_and_info.start_info_activity(view.getContext());
+    }
 }
+/**
+ * how to really delete the user from db
+ */
+//FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+//            @Override
+//            public void onComplete(@NonNull Task<Void> task) {
+//                if (task.isSuccessful()) {
+//                    Log.d(TAG, "User account deleted.");
+//                }
+//            }
+//        });

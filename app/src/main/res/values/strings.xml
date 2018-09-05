@@ -1,4 +1,32 @@
 <resources>
     <string name="app_name">WeddingApp</string>
     <string name="sign_out_string">Sign Out!</string>
+    <string name="Age">גיל</string>
+    <string name="living_area">איזור מועדף בארץ</string>
+    <string name="Oc_type">אירוע מועדף</string>
+    <string name="Oc_type_string">סוג אירוע מועדף</string>
+    <string name="number_of_guests">מספר המוזמנים</string>
+    <string name="Season">עונה מועדפת</string>
+    <string name="Cost">מה התקציב?</string>
+
+    <string-array name="occasions_types">
+        <item> </item>
+        <item>חצר פתוחה</item>
+        <item>אולם פנימי</item>
+    </string-array>
+    <string-array name="Season">
+        <item> </item>
+        <item>קיץ</item>
+        <item>חורף</item>
+    </string-array>
+
+    <string-array name="israel_areas">
+        <item> </item>
+        <item>שרון</item>
+        <item>מרכז</item>
+        <item>צפון</item>
+        <item>שפלה</item>
+        <item>דרום</item>
+        <item>אילת</item>
+    </string-array>
 </resources>
