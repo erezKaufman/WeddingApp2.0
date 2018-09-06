@@ -251,7 +251,7 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
                     bool_type = true;
                     type_string = parent.getSelectedItem().toString();
                     break;
-
+                default:
 
             }
             if (bool_age && bool_area && bool_type && bool_number && bool_season && bool_cost){
