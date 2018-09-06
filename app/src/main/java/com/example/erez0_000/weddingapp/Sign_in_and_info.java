@@ -11,12 +11,14 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,18 +27,27 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Sign_in_and_info extends AppCompatActivity implements View.OnClickListener, TextWatcher, AdapterView.OnItemSelectedListener {
     private FirebaseAuth mAuth;
+    private DatabaseReference mDatabase;
     private GoogleSignInClient mGoogleSignInClient;
     private boolean bool_age =false, bool_area=false, bool_type=false,
                     bool_number=false, bool_season=false, bool_cost=false;
-    private EditText edit_age, edit_area, edit_type,
-                     edit_vnumber, edit_season, edit_cost;
+    private EditText edit_age,edit_number,  edit_cost;
 
-    private Button sign_in;
+
+    private Spinner edit_season,edit_area, edit_type;
+
+    private String age_string, number_string, cost_string,
+                    season_string, area_string, type_string;
+
+    private SignInButton sign_in;
     private static final int RC_SIGN_IN = 9001;
     private String TAG = "GoogleActivity";
+
     private ProgressDialog mprogressDialog;
 
 
@@ -45,16 +56,41 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_and_info);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+
+        // START config 'google sign in option' object
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        // END config 'google sign in option' object
+        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
 
         // VIEW LOG IN BUTTON
         sign_in = findViewById(R.id.sign_in_button);
         sign_in.setOnClickListener(this);
         sign_in.setEnabled(false);
 
-        // VIEW EDIT TEXTs
+        // START VIEW EDIT TEXTS
         edit_age = findViewById(R.id.editTextAge);
+        edit_age.addTextChangedListener(this);
+
+        edit_number = findViewById(R.id.editTextNumber);
+        edit_number.addTextChangedListener(this);
+
+        edit_cost = findViewById(R.id.editTextCost);
+        edit_cost.addTextChangedListener(this);
+        // END VIEW EDIT TEXTS
 
 
+        // START VIEW Spinners
+        edit_season = findViewById(R.id.season_spinner);
+        edit_season.setOnItemSelectedListener(this);
+        edit_area = findViewById(R.id.area_spinner);
+        edit_area.setOnItemSelectedListener(this);
+        edit_type = findViewById(R.id.type_spinner);
+        edit_type.setOnItemSelectedListener(this);
     }
 
     public static void start_info_activity(Context context) {
@@ -116,6 +152,11 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            User newUser = new User(user.getEmail(),user.getDisplayName(),
+                                                    age_string,number_string,
+                                                    type_string,cost_string,
+                                                    area_string,season_string);
+                            mDatabase.child("Users").child(user.getProviderId()).setValue(newUser);
 //                            updateUI(user); //TODO change UI here
                         } else {
                             // If sign in fails, display a message to the user.
@@ -153,28 +194,39 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
 //    ######################################## START override of TextWatcher ##################################
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        System.out.println("test before");
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+        System.out.println("test On");
     }
 
     @Override
     public void afterTextChanged(Editable s) {
+        System.out.println("test after");
         View v = getCurrentFocus();
-        switch (v.getId()){
-            case R.id.editTextAge:
-                bool_age = true;
-                break;
-            case R.id.editTextCost:
-                bool_age = true;
-                break;
-            case R.id.editTextNumber:
-                bool_age = true;
-                break;
-
+        System.out.println(s.toString());;
+        if (s.toString().length() >=2) {
+            switch (v.getId()) {
+                case R.id.editTextAge:
+                    bool_age = true;
+                    age_string = s.toString();
+                    break;
+                case R.id.editTextCost:
+                    bool_cost = true;
+                    cost_string = s.toString();
+                    break;
+                case R.id.editTextNumber:
+                    bool_number = true;
+                    number_string = s.toString();
+                    break;
+                default:
+                    System.out.println(v.getId());
+            }
+        }
+        if (bool_age && bool_area && bool_type && bool_number && bool_season && bool_cost){
+            sign_in.setEnabled(true);
         }
 
     }
@@ -186,19 +238,24 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if (position >=1 ){
-            switch (view.getId()){
+            switch (parent.getId()){
                 case R.id.area_spinner:
                     bool_area = true;
+                    area_string = parent.getSelectedItem().toString();
                     break;
                 case R.id.season_spinner:
                     bool_season= true;
+                    season_string = parent.getSelectedItem().toString();
                     break;
                 case R.id.type_spinner:
                     bool_type = true;
+                    type_string = parent.getSelectedItem().toString();
                     break;
+                default:
+                    System.out.println(view.getId());
             }
             if (bool_age && bool_area && bool_type && bool_number && bool_season && bool_cost){
-
+                sign_in.setEnabled(true);
             }
         }
     }

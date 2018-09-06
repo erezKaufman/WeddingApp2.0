@@ -28,11 +28,10 @@
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content" />-->
         <Button
-            android:id="@+id/sign_in_button"
+            android:id="@+id/startsign_in_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="@string/common_signin_button_text"
-            android:onClick=""
             />
 
         <Button

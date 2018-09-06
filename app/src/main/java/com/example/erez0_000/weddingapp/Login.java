@@ -42,7 +42,7 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
+        findViewById(R.id.startsign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
 //        findViewById(R.id.islogged).setOnClickListener(this);
         mStatusTextView = findViewById(R.id.status);
@@ -69,7 +69,7 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.sign_in_button:
+            case R.id.startsign_in_button:
 //                OpenSignIn_and_info(v);
                 Sign_in_and_info.start_info_activity(v.getContext());
                  break;
@@ -96,7 +96,6 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
      * sign in options, and then retrieve data from the user
      */
     private void signIn() {
-        mAuth.signOut();
 
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent,RC_SIGN_IN);
@@ -132,13 +131,13 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
             mStatusTextView.setText("hello there, "+ user.getEmail());
             mDetailTextView.setText("your id is"+ user.getUid());
 
-            findViewById(R.id.sign_in_button).setVisibility(View.GONE);
+            findViewById(R.id.startsign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
         } else {
             mStatusTextView.setText("you signed out");
             mDetailTextView.setText(null);
 
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.startsign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
     }
