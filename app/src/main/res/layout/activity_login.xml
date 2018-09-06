@@ -11,6 +11,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
         android:orientation="vertical">
         <!--<TextView-->
         <!--android:layout_width="wrap_content"-->
@@ -21,10 +23,16 @@
         <!--app:layout_constraintRight_toRightOf="parent"-->
         <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-        <com.google.android.gms.common.SignInButton
-            android:id="@+id/sign_in_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!--<com.google.android.gms.common.SignInButton-->
+        <!--android:id="@+id/sign_in_button"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content" />-->
+        <Button
+            android:id="@+id/startsign_in_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/common_signin_button_text"
+            />
 
         <Button
             android:id="@+id/sign_out_button"
@@ -36,7 +44,7 @@
             android:id="@+id/status"
             style="@style/TextAppearance.AppCompat.SearchResult.Title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/detail"
@@ -46,11 +54,11 @@
             android:layout_height="match_parent"
             tools:text="Firebase User ID: 123456789abc" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/islogged"
-            android:text="check if logged"/>
+        <!--<Button-->
+            <!--android:id="@+id/islogged"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:text="check if logged" />-->
 
     </LinearLayout>
 </RelativeLayout>
