@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Logged_user_entry"
+    tools:layout_editor_absoluteY="81dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            tools:layout_editor_absoluteY="0dp"
+            android:layout_weight="0">
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteY="8dp">
+
+                <TextView
+                    android:id="@+id/balance"
+                    android:layout_width="202dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/amount"
+                    android:textAlignment="viewEnd"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/your_balance_text"
+                    android:layout_width="116dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cost_so_far"
+                    android:textSize="24sp"
+                    tools:layout_editor_absoluteX="134dp"
+                    tools:layout_editor_absoluteY="0dp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@android:color/holo_blue_dark"
+                tools:layout_editor_absoluteY="53dp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/weedingHello"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            tools:layout_editor_absoluteX="20dp"
+            tools:layout_editor_absoluteY="53dp"
+            android:layout_weight="4"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <Button
+                android:id="@+id/gotoSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/gotosearch"
+                tools:layout_editor_absoluteX="2dp"
+                tools:layout_editor_absoluteY="398dp" />
+
+            <Button
+                android:id="@+id/gotoPersonalZone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goto_pzone_string"
+                tools:layout_editor_absoluteX="257dp"
+                tools:layout_editor_absoluteY="341dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

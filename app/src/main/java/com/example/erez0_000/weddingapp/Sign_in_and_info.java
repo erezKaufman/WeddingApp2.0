@@ -47,6 +47,7 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
     private SignInButton sign_in;
     private static final int RC_SIGN_IN = 9001;
     private String TAG = "GoogleActivity";
+    private String TAG2= "MainActivity";
 
     private ProgressDialog mprogressDialog;
 
@@ -56,6 +57,7 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_and_info);
+        Log.d(TAG2, "onCreate: started Sign_in_and_info");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 
@@ -95,7 +97,6 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
 
     public static void start_info_activity(Context context) {
         context.startActivity(new Intent(context,Sign_in_and_info.class));
-
     }
 
     @Override
@@ -193,13 +194,11 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
 
 //    ######################################## START override of TextWatcher ##################################
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        System.out.println("test before");
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) { System.out.println("test before");
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        System.out.println("test On");
     }
 
     @Override
@@ -222,7 +221,7 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
                     number_string = s.toString();
                     break;
                 default:
-                    System.out.println(v.getId());
+                    System.out.println("couldnt find id "+v.getId());
             }
         }
         if (bool_age && bool_area && bool_type && bool_number && bool_season && bool_cost){
