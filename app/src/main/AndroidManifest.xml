@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".Sign_in_and_info" />
         <activity android:name=".Logged_user_entry" />
-        <activity android:name=".Anonnymos_user_entry" />
+        <activity android:name=".Anonymous_user_entry" />
         <activity android:name=".Personal_window"></activity>
     </application>
 

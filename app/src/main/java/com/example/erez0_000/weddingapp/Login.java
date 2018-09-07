@@ -1,6 +1,5 @@
 package com.example.erez0_000.weddingapp;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,7 +38,7 @@ public class Login extends AppCompatActivity {
      * start new anonymous-hello-screen activity
      */
     private void anonymousUserUI() {
-        startActivity(new Intent(this, Anonnymos_user_entry.class));
+        startActivity(new Intent(this, Anonymous_user_entry.class));
     }
 
     /**

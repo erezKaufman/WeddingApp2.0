@@ -1,47 +1,30 @@
 package com.example.erez0_000.weddingapp;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.media.Image;
-import android.support.annotation.NonNull;
 //import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewManager;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 
 
-public class Anonnymos_user_entry extends AppCompatActivity implements View.OnClickListener{
+public class Anonymous_user_entry extends AppCompatActivity implements View.OnClickListener{
     private FirebaseAuth mAuth;
 
 //    private TextView mStatusTextView;
 //    private TextView mDetailTextView;
 
-
+    private static final String TAG2 = "Anonymous_user_entry";
     private String TAG = "GoogleActivity";
     private ProgressDialog mprogressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_anonnymos_user_entry);
+        setContentView(R.layout.activity_anonymous_user_entry);
 
+        Log.d(TAG2, "onCreate: started Anonymous_user_entry");
         // TODO add image of app's logo
         ImageView weddingImage = (ImageView) findViewById(R.id.weedingHello);
         int imgResource = getResources().getIdentifier("@drawble/wedding planner30210",

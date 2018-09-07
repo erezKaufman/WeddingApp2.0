@@ -47,6 +47,7 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
     private SignInButton sign_in;
     private static final int RC_SIGN_IN = 9001;
     private String TAG = "GoogleActivity";
+    private String TAG2= "MainActivity";
 
     private ProgressDialog mprogressDialog;
 
@@ -56,6 +57,7 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_and_info);
+        Log.d(TAG2, "onCreate: started Sign_in_and_info");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
 

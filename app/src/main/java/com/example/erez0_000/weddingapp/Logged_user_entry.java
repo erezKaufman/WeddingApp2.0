@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class Logged_user_entry extends AppCompatActivity implements View.OnClickListener    {
+    private static final String TAG = "Logged_user_entry";
     private FirebaseAuth mAuth;
 
 
@@ -20,6 +22,7 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_user_entry);
+        Log.d(TAG, "onCreate: started Logged_user_entry");
         findViewById(R.id.startsign_in_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
 
