@@ -95,7 +95,6 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
 
     public static void start_info_activity(Context context) {
         context.startActivity(new Intent(context,Sign_in_and_info.class));
-
     }
 
     @Override
@@ -193,13 +192,11 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
 
 //    ######################################## START override of TextWatcher ##################################
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        System.out.println("test before");
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) { System.out.println("test before");
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        System.out.println("test On");
     }
 
     @Override
@@ -222,7 +219,7 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
                     number_string = s.toString();
                     break;
                 default:
-                    System.out.println(v.getId());
+                    System.out.println("couldnt find id "+v.getId());
             }
         }
         if (bool_age && bool_area && bool_type && bool_number && bool_season && bool_cost){

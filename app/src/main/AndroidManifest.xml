@@ -16,7 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Sign_in_and_info"></activity>
+        <activity android:name=".Sign_in_and_info" />
+        <activity android:name=".Logged_user_entry" />
+        <activity android:name=".Anonnymos_user_entry" />
+        <activity android:name=".Personal_window"></activity>
     </application>
 
 </manifest>

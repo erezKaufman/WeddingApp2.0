@@ -8,6 +8,12 @@
     <string name="number_of_guests">מספר המוזמנים</string>
     <string name="Season">עונה מועדפת</string>
     <string name="Cost">מה התקציב?</string>
+    <string name="cost_so_far"><u>עלות עד כה:</u></string>
+    <string name="log_out_message">התנתק</string>
+    <string name="click_to_sign_in">התחבר</string>
+    <string name="gotosearch">התחל חיפוש</string>
+    <string name="amount">0</string>
+    <string name="goto_pzone_string">לאיזור האישי שלך</string>
 
     <string-array name="occasions_types">
         <item> </item>
