@@ -1,9 +1,7 @@
 package com.example.erez0_000.weddingapp;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,26 +9,20 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Sign_in_and_info extends AppCompatActivity implements View.OnClickListener, TextWatcher, AdapterView.OnItemSelectedListener {
+public class Sign_in_and_info extends AppCompatActivity implements View.OnClickListener,
+                            TextWatcher, AdapterView.OnItemSelectedListener {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
     private GoogleSignInClient mGoogleSignInClient;
@@ -41,16 +33,17 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
 
     private Spinner edit_season,edit_area, edit_type;
 
-    private String age_string, number_string, cost_string,
-                    season_string, area_string, type_string;
+    private String age_string = "", number_string= "", cost_string= "",
+                    season_string= "", area_string= "", type_string= "";
 
+    private Button backtomainButton, savechangesButton;
     private SignInButton sign_in;
     private static final int RC_SIGN_IN = 9001;
     private String TAG = "GoogleActivity";
     private String TAG2= "MainActivity";
 
     private ProgressDialog mprogressDialog;
-
+    User newUser;
 
 
     @Override
@@ -60,7 +53,8 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
         Log.d(TAG2, "onCreate: started Sign_in_and_info");
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-
+        Intent i = getIntent();
+        newUser = (User) i.getSerializableExtra("newUser");
         // START config 'google sign in option' object
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -69,10 +63,22 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
         // END config 'google sign in option' object
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
 
-        // VIEW LOG IN BUTTON
-        sign_in = findViewById(R.id.sign_in_button);
-        sign_in.setOnClickListener(this);
-        sign_in.setEnabled(false);
+        // START VIEW ON BUTTONS
+        backtomainButton = findViewById(R.id.gobacktomain);
+        backtomainButton.setOnClickListener(this);
+
+        savechangesButton = findViewById(R.id.gotosignin);
+        savechangesButton.setOnClickListener(this);
+        // END VIEW ON BUTTONS
+
+        // START VIEW LOG IN BUTTON
+//        sign_in = findViewById(R.id.sign_in_button);
+//        sign_in.setOnClickListener(this);
+//        sign_in.setEnabled(false);
+        // END VIEW LOG IN BUTTON
+
+
+
 
         // START VIEW EDIT TEXTS
         edit_age = findViewById(R.id.editTextAge);
@@ -94,84 +100,99 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
         edit_type = findViewById(R.id.type_spinner);
         edit_type.setOnItemSelectedListener(this);
     }
-
-    public static void start_info_activity(Context context) {
-        context.startActivity(new Intent(context,Sign_in_and_info.class));
-    }
+//
+//    public static void start_info_activity(Context context) {
+//        Intent i = new Intent(context,Sign_in_and_info.class);
+//        context.startActivity(i);
+//    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.sign_in_button:
-                signin();
+            case R.id.gotosignin:
+                savechanges();
+                break;
+            case R.id.gobacktomain:
+                this.finish();
                 break;
         }
     }
 
-    private void signin() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent,RC_SIGN_IN);
+    private void savechanges() {
+//        FirebaseUser user = mAuth.getCurrentUser();
+        newUser.setAge(age_string);
+        newUser.setArea(area_string);
+        newUser.setCost(cost_string);
+        newUser.setNumber(number_string);
+        newUser.setSeason(season_string);
+        newUser.setType(type_string);
+        mDatabase.child("Users").child(newUser.getAccountId()).setValue(newUser);
     }
 
-    /**
-     * called when signin method calls 'startActivityForResult' - catches the result and handle it.
-     * in here we log in the user
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e);
-//                updateUI(null);//TODO change UI here
-            }
-        }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-
-        showProgressDialog();
-
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            User newUser = new User(user.getEmail(),user.getDisplayName(),
-                                                    age_string,number_string,
-                                                    type_string,cost_string,
-                                                    area_string,season_string);
-                            mDatabase.child("Users").child(user.getProviderId()).setValue(newUser);
-//                            updateUI(user); //TODO change UI here
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-//                            Snackbar.make(findViewById(R.id.login_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-//                            updateUI(null); //TODO change UI here
-                        }
-
-                        // [START_EXCLUDE]
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
+//    private void signin() {
+//        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+//        startActivityForResult(signInIntent,RC_SIGN_IN);
+//    }
+//
+//    /**
+//     * called when signin method calls 'startActivityForResult' - catches the result and handle it.
+//     * in here we log in the user
+//     * @param requestCode
+//     * @param resultCode
+//     * @param data
+//     */
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == RC_SIGN_IN) {
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            try {
+//                // Google Sign In was successful, authenticate with Firebase
+//                GoogleSignInAccount account = task.getResult(ApiException.class);
+//                firebaseAuthWithGoogle(account);
+//            } catch (ApiException e) {
+//                // Google Sign In failed, update UI appropriately
+//                Log.w(TAG, "Google sign in failed", e);
+////                updateUI(null);//TODO change UI here
+//            }
+//        }
+//    }
+//
+//    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
+//        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+//
+//        showProgressDialog();
+//
+//
+//        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d(TAG, "signInWithCredential:success");
+//                            FirebaseUser user = mAuth.getCurrentUser();
+//                            User newUser = new User(user.getEmail(),user.getDisplayName(),
+//                                                    age_string,number_string,
+//                                                    type_string,cost_string,
+//                                                    area_string,season_string,acct.getId());
+//                            mDatabase.child("Users").child(user.getProviderId()).setValue(newUser);
+////                            updateUI(user); //TODO change UI here
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+////                            Snackbar.make(findViewById(R.id.login_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+////                            updateUI(null); //TODO change UI here
+//                        }
+//
+//                        // [START_EXCLUDE]
+//                        hideProgressDialog();
+//                        // [END_EXCLUDE]
+//                    }
+//                });
+//    }
 
 
     private void showProgressDialog() {

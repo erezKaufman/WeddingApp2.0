@@ -29,18 +29,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/weedingHello">
 
-
         <Button
             android:id="@+id/gotosignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/click_to_sign_in" />
+            android:text="חפשני"/>
+        <!--<Button-->
+            <!--android:id="@+id/gotosignin"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/click_to_sign_in" />-->
 
         <Button
             android:id="@+id/gotoSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/gotosearch" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -19,7 +19,11 @@
         <activity android:name=".Sign_in_and_info" />
         <activity android:name=".Logged_user_entry" />
         <activity android:name=".Anonymous_user_entry" />
-        <activity android:name=".Personal_window"></activity>
+        <activity android:name=".Personal_window" />
+        <activity android:name=".Business_activity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".todos_section.testActivity" />
+        <activity android:name=".todos_section.todo_Activity"></activity>
     </application>
 
 </manifest>

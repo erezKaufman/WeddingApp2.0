@@ -23,8 +23,8 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_user_entry);
         Log.d(TAG, "onCreate: started Logged_user_entry");
-        findViewById(R.id.startsign_in_button).setOnClickListener(this);
-        findViewById(R.id.sign_out_button).setOnClickListener(this);
+        findViewById(R.id.gotoPersonalZone).setOnClickListener(this);
+        findViewById(R.id.gotoSearch).setOnClickListener(this);
 
         // TODO add image of app's logo
         ImageView weddingImage = (ImageView) findViewById(R.id.weedingHello);

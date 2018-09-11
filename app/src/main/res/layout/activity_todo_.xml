@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants" >
+        <Button
+            android:id="@+id/bt_child"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="הוסף"/>
+        <EditText
+            android:id="@+id/ed_child"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="לחץ להוספת קבוצה חדשה"
+            android:textSize="16sp" />
+    </LinearLayout>
+    <!--<Button-->
+        <!--android:id="@+id/btnClearChecks"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Clear Checks" />-->
+    <ExpandableListView
+        android:id="@+id/expandedListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ExpandableListView>
+</LinearLayout>
