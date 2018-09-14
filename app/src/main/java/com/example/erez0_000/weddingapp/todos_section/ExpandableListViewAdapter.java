@@ -1,6 +1,9 @@
 package com.example.erez0_000.weddingapp.todos_section;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -10,30 +13,35 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.erez0_000.weddingapp.R;
 
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
-public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
+public class ExpandableListViewAdapter extends BaseExpandableListAdapter
+        implements AddSubTaskFragment.SubTaskDialogFragmentListner {
 
-    private Context context;
-//    private List<GroupItem> listGroup;
+    private Activity activity;
     private TodoList groupList;
+    //    private TodoList groupList;
     private int checkedBoxesCount;
     private boolean[] checkedGroup;
 
-    public ExpandableListViewAdapter(Context context, List<String> listGroup, Map<String,
-            List<ChildItemSample>> listChild) {
-        this.context = context;
-//        this.listGroup = listGroup;
-//        this.listChild = listChild;
+    public ExpandableListViewAdapter(Activity activity,TodoList groupItems) {
+        groupList = groupItems;
+        this.activity = activity;
         checkedBoxesCount = 0;
-        checkedGroup = new boolean[listGroup.size()];
+
+    }
+
+    public TodoList getGroupList() {
+        return groupList;
     }
 
     @Override
@@ -43,7 +51,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return groupList.getGroupItem(groupPosition).getItemList().size();
+        return groupList.getTodoList().get(groupPosition).getItemList().size();
     }
 
     @Override
@@ -72,131 +80,155 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
-        GroupItem itemGroup = getGroup(groupPosition);
-        GroupViewHolder groupViewHolder;
+    public View getGroupView(final int groupPosition, boolean b, View view, ViewGroup viewGroup) {
+        final GroupItem itemGroup = getGroup(groupPosition);
+        final GroupViewHolder groupViewHolder;
 //        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.expanded_list_group, null);
-            groupViewHolder = new GroupViewHolder();
-            groupViewHolder.tvGroup = view.findViewById(R.id.tv_group);
-            groupViewHolder.cbGroup = view.findViewById(R.id.cb_group);
+        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        view = inflater.inflate(R.layout.expanded_list_group, null);
+        groupViewHolder = new GroupViewHolder();
+        groupViewHolder.tvGroup = view.findViewById(R.id.tv_group);
+        groupViewHolder.cbGroup = view.findViewById(R.id.cb_group);
+        groupViewHolder.cbGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (itemGroup.isChecked()){
 
-            groupViewHolder.cbGroup.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int pos = (int) view.getTag();
-                    checkedGroup[pos] = !checkedGroup[pos];
-//                    listChild.get(listGroup.get(pos))
-                    for (ChildItemSample item : groupList.getGroupItem(pos).getItemList()) {
-                        item.setChecked(checkedGroup[pos]);
+                    itemGroup.setChecked(false);
+                    groupViewHolder.cbGroup.setChecked(false);
+                    for (ChildItemSample child : itemGroup.getItemList()){
+                        child.setChecked(false);
                     }
-                    notifyDataSetChanged();
+                }else {
+                    itemGroup.setChecked(true);
+                    groupViewHolder.cbGroup.setChecked(false);
+                    for (ChildItemSample child : itemGroup.getItemList()){
+                        child.setChecked(true);
+                    }
                 }
-            });
-            view.setTag(groupViewHolder);
+                notifyDataSetChanged();
+            }
+        });
+        groupViewHolder.imbGroup = view.findViewById(R.id.imageButton);
+        groupViewHolder.imbGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCreateSubTaskFrag(v,groupPosition);
+            }
+        });
+        view.setTag(groupViewHolder);
 //        } else {
 //            groupViewHolder = (GroupViewHolder) view.getTag();
 //        }
-        groupViewHolder.tvGroup.setText(String.format("%s (%d)", itemGroup, getChildrenCount(groupPosition)));
-        groupViewHolder.cbGroup.setChecked(checkedGroup[groupPosition]);
+        groupViewHolder.tvGroup.setText(String.format("%s (%d)", itemGroup.getGroupName(),
+                getChildrenCount(groupPosition)));
+        groupViewHolder.cbGroup.setChecked(itemGroup.isChecked());
         groupViewHolder.cbGroup.setTag(groupPosition);
         return view;
     }
 
+    public void openCreateSubTaskFrag(View view, int groupPosition) {
+        FragmentManager ft = ((FragmentActivity)activity).getSupportFragmentManager();
+        AddSubTaskFragment myDialogFrag = new AddSubTaskFragment();
+        myDialogFrag.setListner(this);
+        myDialogFrag.setGroupPosition(groupPosition);
+        myDialogFrag.show(ft ,null);
+
+        notifyDataSetChanged();
+        notifyDataSetInvalidated();
+    }
     @Override
     public View getChildView(final int groupPosition, final int childPosition, boolean b, View view, ViewGroup viewGroup) {
         ChildItemSample expandedListText = getChild(groupPosition, childPosition);
         ChildViewHolder childViewHolder;
-        final EditTaskItem editTaskItem;
-        GroupItem curGroup = groupList.getGroupItem(groupPosition);
-//        if(view == null){
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        if (curGroup.getNumberOfItems() == childPosition){
-            view = inflater.inflate(R.layout.add_task_item,null);
-            editTaskItem = new EditTaskItem();
-            editTaskItem.btchild = view.findViewById(R.id.bt_child);
-            editTaskItem.etchild = view.findViewById(R.id.ed_child);
-            editTaskItem.btchild.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    groupList.addTaskInTodo(groupPosition,editTaskItem.etString);
-                }
-            });
-            editTaskItem.etchild.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//        final EditTaskItem editTaskItem;
+        final GroupItem curGroup = groupList.getGroupItem(groupPosition);
+        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    editTaskItem.etString = s.toString();
-                }
-            });
-        }
-        else{
-            view = inflater.inflate(R.layout.expanded_list_item, null);
-            childViewHolder = new ChildViewHolder();
-            childViewHolder.tvChild = view.findViewById(R.id.tv_child);
-            childViewHolder.cbChild = view.findViewById(R.id.cb_child);
-            childViewHolder.cbChild.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    CheckBox cb = (CheckBox) view;
-                    ChildItemSample selectedItem = getChild(groupPosition,childPosition);
-                    selectedItem.setChecked(cb.isChecked());
-                    if (cb.isChecked()) {
-                        checkedBoxesCount++;
-                        Toast.makeText(context, "Checked value is: " +
-                                getChild(groupPosition,childPosition),
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        checkedBoxesCount--;
-                        if (checkedBoxesCount == 0) {
-                            Toast.makeText(context, "nothing checked", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(context, "unchecked", Toast.LENGTH_SHORT).show();
-                        }
+        view = inflater.inflate(R.layout.expanded_list_item, null);
+        childViewHolder = new ChildViewHolder();
+        childViewHolder.tvChild = view.findViewById(R.id.tv_child);
+        childViewHolder.cbChild = view.findViewById(R.id.cb_child);
+        childViewHolder.cbChild.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CheckBox cb = (CheckBox) view;
+                ChildItemSample selectedItem = getChild(groupPosition,childPosition);
+                selectedItem.setChecked(cb.isChecked());
+                int counter = 0;
+                for (int i = 0;i<getChildrenCount(groupPosition);i++){
+                    if (curGroup.getItemList().get(i).isChecked()){
+                        counter++;
                     }
-                    notifyDataSetChanged();
                 }
-            });
 
-            view.setTag(childViewHolder);
-            childViewHolder.cbChild.setChecked(expandedListText.isChecked());
-            childViewHolder.tvChild.setText(expandedListText.getName());
-        }
+                if (counter == getChildrenCount(groupPosition)) {
+                    curGroup.setChecked(true);
+                }
+                else{
+                    curGroup.setChecked(false);
+                }
+
+                if (cb.isChecked()) {
+                    checkedBoxesCount++;
+
+                    Toast.makeText(activity, "Checked value is: " +
+                                    getChild(groupPosition,childPosition),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    checkedBoxesCount--;
+                    if (checkedBoxesCount == 0) {
+                        Toast.makeText(activity, "nothing checked", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(activity, "unchecked", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                notifyDataSetChanged();
+            }
+        });
+
+        view.setTag(childViewHolder);
+        childViewHolder.cbChild.setChecked(expandedListText.isChecked());
+        childViewHolder.tvChild.setText(expandedListText.getName());
+//        }
 //        }else {
 //            childViewHolder = (ChildViewHolder)view.getTag();
 //        }
         return view;
     }
 
-    public void clearChecks() {
-        for (int i = 0; i < checkedGroup.length; i++) checkedGroup[i] = false;
-        for (GroupItem item: groupList.getTodoList()) {
-            for (ChildItemSample sample : item.getItemList()) {
-                sample.setChecked(false);
-            }
-        }
-        checkedBoxesCount = 0;
-        notifyDataSetChanged();
-    }
+//    public void clearChecks() {
+//        for (int i = 0; i < checkedGroup.length; i++) checkedGroup[i] = false;
+//        for (GroupItem item: groupList.getTodoList()) {
+//            for (ChildItemSample sample : item.getItemList()) {
+//                sample.setChecked(false);
+//            }
+//        }
+//        checkedBoxesCount = 0;
+//        notifyDataSetChanged();
+//    }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
 
+    @Override
+    public void onDialogAddClick(String subTask,int groupPos) {
+        if (subTask.isEmpty()){
+            return;
+        }
+        groupList.getGroupItem(groupPos).addItem(new ChildItemSample(subTask));
+        notifyDataSetChanged();
+        notifyDataSetInvalidated();
+
+
+    }
+
     private class GroupViewHolder {
         CheckBox cbGroup;
         TextView tvGroup;
+        ImageButton imbGroup;
     }
 
     private class ChildViewHolder {
@@ -204,9 +236,9 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter {
         TextView tvChild;
     }
 
-    private class EditTaskItem{
-        EditText etchild;
-        Button   btchild;
-        String etString;
-    }
+//    private class EditTaskItem{
+//        EditText etchild;
+//        Button   btchild;
+//        String etString;
+//    }
 }

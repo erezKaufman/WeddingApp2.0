@@ -23,7 +23,9 @@
         <activity android:name=".Business_activity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".todos_section.testActivity" />
-        <activity android:name=".todos_section.todo_Activity"></activity>
+        <activity android:name=".todos_section.todo_Activity" />
+        <activity android:name=".todos_section.EXpandableActivity" />
+        <activity android:name=".todos_section.CategoriesActivity"></activity>
     </application>
 
 </manifest>

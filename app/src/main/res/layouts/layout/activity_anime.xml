@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.demotxt.myapp.parseJSON.activities.BusinessesActivity"
     android:background="#303030">
 
     <android.support.design.widget.AppBarLayout

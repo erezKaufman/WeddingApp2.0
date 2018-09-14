@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/subtask_fragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="100dp"
+        android:paddingTop="10dp"
+        android:text="הוסף כאן את המשימה הבאה שלך"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    <EditText
+        android:id="@+id/sub_task_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint=" כתוב כאן את המשימה שלך"
+
+        tools:layout_editor_absoluteY="27dp" />
+
+    <Button
+        android:id="@+id/sub_task_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="הוסף תת משימה" />
+</LinearLayout>

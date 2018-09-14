@@ -1,17 +1,18 @@
 package com.example.erez0_000.weddingapp.todos_section;
-
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupItem {
+public class GroupItem implements Serializable{
 
     private String groupName;
-    private List<ChildItemSample> itemList;
+    private ArrayList<ChildItemSample> itemList;
     private EditText newItemText;
     private Button addItemButton;
+    private boolean checked;
     private int numberOfItems =  0 ;
     public GroupItem(){
 
@@ -26,7 +27,7 @@ public class GroupItem {
         return numberOfItems;
     }
 
-    public GroupItem(String groupName, List<ChildItemSample> itemList){
+    public GroupItem(String groupName, ArrayList<ChildItemSample> itemList){
         this.groupName = groupName;
         this.itemList = itemList;
     }
@@ -48,5 +49,11 @@ public class GroupItem {
         itemList.remove(itemTodelete);
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
 
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 }

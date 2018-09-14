@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.demotxt.myapp.parseJSON.R ;
+import com.example.erez0_000.weddingapp.R ;
 
 public class BusinessesActivity extends AppCompatActivity {
 

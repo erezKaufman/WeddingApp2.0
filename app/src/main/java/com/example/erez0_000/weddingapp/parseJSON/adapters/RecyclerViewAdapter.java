@@ -1,4 +1,5 @@
-package com.demotxt.myapp.parseJSON.adapters;
+package com.example.erez0_000.weddingapp.parseJSON.adapters;
+//package com.example.erez0_000.weddingapp.todos_section;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,7 +15,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.demotxt.myapp.parseJSON.activities.BusinessesActivity;
 import com.demotxt.myapp.parseJSON.model.Businesses;
-import com.demotxt.myapp.parseJSON.R ;
+import com.example.erez0_000.weddingapp.R;
+
 
 import java.util.List;
 

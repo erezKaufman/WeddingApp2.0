@@ -40,7 +40,7 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
     private SignInButton sign_in;
     private static final int RC_SIGN_IN = 9001;
     private String TAG = "GoogleActivity";
-    private String TAG2= "MainActivity";
+    private String TAG2= "SignIn";
 
     private ProgressDialog mprogressDialog;
     User newUser;

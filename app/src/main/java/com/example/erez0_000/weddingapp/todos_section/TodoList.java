@@ -1,17 +1,23 @@
 package com.example.erez0_000.weddingapp.todos_section;
-
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
-public class TodoList {
+public class TodoList  implements Serializable{
 
-    private List<GroupItem> todoList;
-
+    private ArrayList<GroupItem> todoList;
+    private String todoName;
     public TodoList(){
 
     }
 
-    public TodoList(List<GroupItem> todoList){
+    public TodoList(ArrayList<GroupItem> todoList){
         this.todoList = todoList;
+    }
+
+    public TodoList(String name){
+        this.todoList = new ArrayList<>();
+        todoName = name;
     }
 
     public void addTaskInTodo(int groupIndex, String taskName){
@@ -32,6 +38,10 @@ public class TodoList {
     }
     public List<GroupItem> getTodoList() {
         return todoList;
+    }
+
+    public String getTodoName() {
+        return todoName;
     }
 }
 
