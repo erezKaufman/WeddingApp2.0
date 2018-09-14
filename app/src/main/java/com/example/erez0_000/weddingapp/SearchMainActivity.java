@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -20,10 +21,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class MainActivity extends AppCompatActivity {
+public class SearchMainActivity extends AppCompatActivity {
 
     private EditText mSearchField;
     private ImageButton mSearchBtn;
+
+    private Button mSouthBtn;
+    private Button mCenterBtn;
+    private Button mNorthBtn;
+
 
     private RecyclerView mResultList;
 
@@ -38,6 +44,34 @@ public class MainActivity extends AppCompatActivity {
         mSearchField = (EditText) findViewById(R.id.search_field);
         mSearchBtn = (ImageButton) findViewById(R.id.search_btn);
 
+
+        ///// find south region
+
+        mSouthBtn = (Button) findViewById(R.id.cat_btn);
+        mSouthBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                searchByRegion("south");
+            }
+        });
+
+        ///// find in center region
+
+        mCenterBtn = (Button) findViewById(R.id.cntBtn);
+        mCenterBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                searchByRegion("center");
+            }
+        });
+
+        ///// find in north region
+        mNorthBtn = (Button) findViewById(R.id.northBtn);
+        mNorthBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                searchByRegion("north");
+            }
+        });
+
+
         mResultList = (RecyclerView) findViewById(R.id.result_list);
         mResultList.setHasFixedSize(true);
         mResultList.setLayoutManager(new LinearLayoutManager(this));
@@ -48,19 +82,20 @@ public class MainActivity extends AppCompatActivity {
 
                 String searchText = mSearchField.getText().toString();
 
-                firebaseUserSearch(searchText);
-//                firebaseRegionSearch(searchText);
+                searchByBusinessName(searchText);
 
             }
         });
 
     }
 
-    private void firebaseUserSearch(String searchText) {
+    //// search by business name
+    private void searchByBusinessName(String searchText) {
 
-        Toast.makeText(MainActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+        Toast.makeText(SearchMainActivity.this, "Started Search", Toast.LENGTH_LONG).show();
 
         Query firebaseSearchQuery = mUserDatabase.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
+
 
         FirebaseRecyclerAdapter<Businesses, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Businesses, UsersViewHolder>(
 
@@ -87,37 +122,40 @@ public class MainActivity extends AppCompatActivity {
 
 
     //////////////////////////////////////////////////
-//    private void firebaseRegionSearch(String searchText) {
-//
-//        Toast.makeText(MainActivity.this, "Started Search", Toast.LENGTH_LONG).show();
-//
-//        Query firebaseSearchQuery = mUserDatabase.orderByChild("region").startAt(searchText).endAt(searchText + "\uf8ff");
-//
-//        FirebaseRecyclerAdapter<Businesses, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Businesses, UsersViewHolder>(
-//
-//                Businesses.class,
-//                R.layout.list_layout,
-//                UsersViewHolder.class,
-//                firebaseSearchQuery
-//
-//        ) {
-//            @Override
-//            protected void populateViewHolder(UsersViewHolder viewHolder, Businesses model, int position) {
-//
-//
-//                viewHolder.setDetails(getApplicationContext(), model.getName(), model.getAddress(), model.getImage(), model.getRegion());
-//
-//            }
-//        };
-//
-//        mResultList.setAdapter(firebaseRecyclerAdapter);
-//
-//    }
+
+    private void searchByRegion(String reg) {
+        Query firebaseSearchQuery;
+        if(reg.equals("south")){
+            firebaseSearchQuery = mUserDatabase.orderByChild("region").startAt("south").endAt("south" + "\uf8ff");
+        } else if(reg.equals("center")){
+            firebaseSearchQuery = mUserDatabase.orderByChild("region").startAt("center").endAt("center" + "\uf8ff");
+
+        }else{
+            firebaseSearchQuery = mUserDatabase.orderByChild("region").startAt("north").endAt("north" + "\uf8ff");
+        }
+
+        Toast.makeText(SearchMainActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+
+        FirebaseRecyclerAdapter<Businesses, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Businesses, UsersViewHolder>(
+
+                Businesses.class,
+                R.layout.list_layout,
+                UsersViewHolder.class,
+                firebaseSearchQuery
+
+        ) {
+            @Override
+            protected void populateViewHolder(UsersViewHolder viewHolder, Businesses model, int position) {
 
 
+                viewHolder.setDetails(getApplicationContext(), model.getName(), model.getAddress(), model.getImage(), model.getRegion());
 
+            }
+        };
 
+        mResultList.setAdapter(firebaseRecyclerAdapter);
 
+    }
 
 
     //////////////////////////////////////////////////////////

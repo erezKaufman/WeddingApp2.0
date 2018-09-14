@@ -1,4 +1,4 @@
-package com.demotxt.myapp.parseJSON.activities;
+package  com.example.erez0_000.weddingapp.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +10,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.demotxt.myapp.parseJSON.R;
-import com.demotxt.myapp.parseJSON.adapters.RecyclerViewAdapter;
-import com.demotxt.myapp.parseJSON.model.Businesses;
+
+import com.example.erez0_000.weddingapp.Businesses;
+import com.example.erez0_000.weddingapp.parseJSON.adapters.RecyclerViewAdapter;
+import com.example.erez0_000.weddingapp.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

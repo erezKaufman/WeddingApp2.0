@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.demotxt.myapp.parseJSON.activities.BusinessesActivity;
-import com.demotxt.myapp.parseJSON.model.Businesses;
+import com.example.erez0_000.weddingapp.activities.BusinessesActivity;
+import com.example.erez0_000.weddingapp.Businesses;
 import com.example.erez0_000.weddingapp.R;
 
 

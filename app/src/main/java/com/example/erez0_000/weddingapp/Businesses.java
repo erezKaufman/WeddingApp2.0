@@ -1,4 +1,4 @@
-package com.amir.ofir.connecttest;
+package  com.example.erez0_000.weddingapp;
 
 public class Businesses {
 
