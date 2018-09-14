@@ -95,7 +95,7 @@ public class Anonymous_user_entry extends AppCompatActivity implements View.OnCl
                 // TODO make User object in class -then put all information on the user there. when
                 // TODO the user is logged in - ask him to insert the favorite information and add
                 // TODO it to the already ready node in the DB
-
+//                finish();
 //                Sign_in_and_info.start_info_activity(v.getContext(),newuser);
                 break;
             case R.id.gotoSearch:

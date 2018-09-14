@@ -34,7 +34,7 @@
             android:id="@+id/gotosignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="חפשני"/>
+            android:text="התחבר"/>
         <!--<Button-->
             <!--android:id="@+id/gotosignin"-->
             <!--android:layout_width="match_parent"-->
