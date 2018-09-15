@@ -1,12 +1,17 @@
-package com.example.erez0_000.weddingapp;
+package com.example.erez0_000.weddingapp.searches;
 
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -15,13 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.erez0_000.weddingapp.Businesses;
+import com.example.erez0_000.weddingapp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 //import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class SearchMainActivity extends AppCompatActivity {
+public class SearchMainActivity extends AppCompatActivity{
 
     private EditText mSearchField;
     private ImageButton mSearchBtn;
@@ -29,6 +37,7 @@ public class SearchMainActivity extends AppCompatActivity {
     private Button mSouthBtn;
     private Button mCenterBtn;
     private Button mNorthBtn;
+
 
 
     private RecyclerView mResultList;
@@ -87,41 +96,42 @@ public class SearchMainActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
-    //// search by business name
     private void searchByBusinessName(String searchText) {
 
         Toast.makeText(SearchMainActivity.this, "Started Search", Toast.LENGTH_LONG).show();
 
         Query firebaseSearchQuery = mUserDatabase.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
 
-
-        FirebaseRecyclerAdapter<Businesses, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Businesses, UsersViewHolder>(
-
-                Businesses.class,
-                R.layout.list_layout,
-                UsersViewHolder.class,
-                firebaseSearchQuery
-
-        ) {
-            @Override
-            protected void populateViewHolder(UsersViewHolder viewHolder, Businesses model, int position) {
-
-
-                viewHolder.setDetails(getApplicationContext(), model.getName(), model.getAddress(), model.getImage(), model.getRegion());
-
-            }
-        };
-
-        mResultList.setAdapter(firebaseRecyclerAdapter);
+        createRecyclerCall(firebaseSearchQuery);
 
     }
 
+    private void createRecyclerCall(Query firebaseSearchQuery) {
+        FirebaseRecyclerOptions<Businesses> options = new FirebaseRecyclerOptions.Builder<Businesses>()
+                .setQuery(firebaseSearchQuery, Businesses.class).setLifecycleOwner(this).build();
+        FirebaseRecyclerAdapter firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Businesses, UsersViewHolder>(options) {
+            @Override
+            public UsersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.list_layout, parent, false);
 
+                return new UsersViewHolder(view);
+            }
 
+            @Override
+            protected void onBindViewHolder(@NonNull UsersViewHolder holder, int position, @NonNull Businesses model) {
+                holder.setDetails(getApplicationContext(), model.getName(), model.getAddress(), model.getImage(),model.getRegion());
 
-    //////////////////////////////////////////////////
+            }
+        };
+        firebaseRecyclerAdapter.notifyDataSetChanged();
+        mResultList.setAdapter(firebaseRecyclerAdapter);
+    }
+
 
     private void searchByRegion(String reg) {
         Query firebaseSearchQuery;
@@ -136,26 +146,11 @@ public class SearchMainActivity extends AppCompatActivity {
 
         Toast.makeText(SearchMainActivity.this, "Started Search", Toast.LENGTH_LONG).show();
 
-        FirebaseRecyclerAdapter<Businesses, UsersViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Businesses, UsersViewHolder>(
 
-                Businesses.class,
-                R.layout.list_layout,
-                UsersViewHolder.class,
-                firebaseSearchQuery
-
-        ) {
-            @Override
-            protected void populateViewHolder(UsersViewHolder viewHolder, Businesses model, int position) {
-
-
-                viewHolder.setDetails(getApplicationContext(), model.getName(), model.getAddress(), model.getImage(), model.getRegion());
-
-            }
-        };
-
-        mResultList.setAdapter(firebaseRecyclerAdapter);
-
+        createRecyclerCall(firebaseSearchQuery);
     }
+
+
 
 
     //////////////////////////////////////////////////////////
