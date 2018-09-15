@@ -86,7 +86,7 @@ public class EXpandableActivity extends AppCompatActivity implements View.OnClic
         mExpandableListAdapter.getGroupList().getTodoList().add(new GroupItem(insertTodo.getText().toString()));
         mExpandableListAdapter.notifyDataSetChanged();
         mExpandableListAdapter.notifyDataSetInvalidated();
-        insertTodo.setText(null);
+        insertTodo.getText().clear();
 
     }
 

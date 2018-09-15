@@ -96,7 +96,7 @@ public class Anonymous_user_entry extends AppCompatActivity implements View.OnCl
                 // TODO the user is logged in - ask him to insert the favorite information and add
                 // TODO it to the already ready node in the DB
 //                finish();
-//                Sign_in_and_info.start_info_activity(v.getContext(),newuser);
+//                Sign_in_and_info_Activity.start_info_activity(v.getContext(),newuser);
                 break;
             case R.id.gotoSearch:
                 // TODO add Ofir's search activity here
@@ -180,7 +180,7 @@ public class Anonymous_user_entry extends AppCompatActivity implements View.OnCl
                                         mDatabase.child("Users").child(newuser.getAccountId())
                                                                 .setValue(newuser);
                                         Intent i = new Intent(Anonymous_user_entry.this
-                                                ,Sign_in_and_info.class);
+                                                ,Sign_in_and_info_Activity.class);
                                         i.putExtra("newUser",newuser);
                                         startActivity(i);
                                     }

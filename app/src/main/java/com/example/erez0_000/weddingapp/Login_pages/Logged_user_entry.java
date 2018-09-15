@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.example.erez0_000.weddingapp.Personal_window;
+import com.example.erez0_000.weddingapp.Personal_window_Activity;
 import com.example.erez0_000.weddingapp.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class Logged_user_entry extends AppCompatActivity implements View.OnClickListener    {
     private static final String TAG = "Logged_user_entry";
@@ -52,10 +50,10 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
 //            case R.id.startsign_in_button:
-//                Sign_in_and_info.start_info_activity(v.getContext());
+//                Sign_in_and_info_Activity.start_info_activity(v.getContext());
 //                break;
             case R.id.gotoPersonalZone:
-                startActivity(new Intent(this,Personal_window.class));
+                startActivity(new Intent(this,Personal_window_Activity.class));
             case R.id.gotoSearch:
                 // TODO add Ofir's search activity here
                 break;

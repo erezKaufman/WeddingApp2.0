@@ -18,13 +18,13 @@ import com.example.erez0_000.weddingapp.R;
 
 public class CategoriesActivity extends AppCompatActivity
         implements TodoRecyclerViewAdapter.CreateOnClickListner,
-        View.OnClickListener,
-        TextWatcher {
+        View.OnClickListener
+        {
     private RecyclerView gRecyclerView;
     private TodoRecyclerViewAdapter gviewAdapter;
     private Button addTodo;
     private EditText taskText;
-    private String text;
+//    private String text;
 
     private static final String ED_TASK_BACK = "ED_TASK_BACK";
     private static final String ED_TASK_ITEM = "TASK_ITEM";
@@ -39,7 +39,7 @@ public class CategoriesActivity extends AppCompatActivity
         initRecyclerView();
         listOfTodos = new ArrayList<>();
         taskText = findViewById(R.id.ed_main);
-        taskText.addTextChangedListener(this);
+//        taskText.addTextChangedListener(this);
 
         addTodo = findViewById(R.id.bt_main);
         addTodo.setOnClickListener(this);
@@ -74,29 +74,27 @@ public class CategoriesActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        text = s.toString();
-    }
+//    @Override
+//    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//    }
+//
+//    @Override
+//    public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//    }
+//
+//    @Override
+//    public void afterTextChanged(Editable s) {
+//        text = s.toString();
+//    }
 
     @Override
     public void onClick(View v) {
-        System.out.println("test arrived here");
-        if (text.equals("")) {
+        if (taskText.getText().toString().isEmpty()) {
             return;
         }
-        gviewAdapter.addTodo(new TodoTitle(text, this));
-        text = null;
+        gviewAdapter.addTodo(new TodoTitle(taskText.getText().toString(), this));
         taskText.getText().clear();
     }
 
