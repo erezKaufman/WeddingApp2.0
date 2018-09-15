@@ -140,20 +140,23 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
 
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.startsign_in_button:
-//                Sign_in_and_info.start_info_activity(v.getContext());
-//                break;
+            // WHEN USER IS LOGGED: in case where the user chooses to go to 'personal zone' activity
             case R.id.gotoPersonalZone:
                 startActivity(new Intent(this, Personal_window.class));
+                break;
+                // in case user chooses to go to 'search' activity
             case R.id.gotoSearch:
                 // TODO add Ofir's search activity here
                 break;
+            // WHEN USER IS NOT LOGGED:  in case user chooses to go to 'search' activity
             case R.id.gotosignin:
                 signin();
                 break;
+            // WHEN USER IS LOGGED: in case
             case R.id.goto_categories:
                 startCategoryActivity();
                 break;
@@ -165,6 +168,9 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
         startActivity(intent);
     }
 
+    /**
+     * simple
+     */
     private void signin() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);

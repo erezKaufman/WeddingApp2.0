@@ -21,8 +21,6 @@
         <activity android:name=".Login_pages.Anonymous_user_entry" />
         <activity android:name=".Personal_window" />
         <activity android:name=".searches.SearchActivity" />
-        <activity android:name=".todos_section.testActivity" />
-        <activity android:name=".todos_section.todo_Activity" />
         <activity android:name=".todos_section.EXpandableActivity" />
         <activity android:name=".todos_section.CategoriesActivity"></activity>
     </application>
