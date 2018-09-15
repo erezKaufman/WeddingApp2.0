@@ -74,8 +74,8 @@ public class DisplayBusinessList extends AppCompatActivity {
                         businesses.setWinter_price(jsonObject.getInt("winter_price"));
                         businesses.setSummer_price(jsonObject.getInt("summer_price"));
                         businesses.setBusiness_type(jsonObject.getInt("business_type"));
-                        businesses.setKosher(jsonObject.getBoolean("handikaped"));
-                        businesses.setKosher(jsonObject.getBoolean("kosher"));
+                        businesses.setKosher(jsonObject.getString("handikaped"));
+                        businesses.setKosher(jsonObject.getString("kosher"));
 
                         lstBusinesses.add(businesses);
 

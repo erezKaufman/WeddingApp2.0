@@ -12,7 +12,10 @@ import android.widget.ImageView;
 
 import com.example.erez0_000.weddingapp.Personal_window;
 import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.activities.BusinessesActivity;
+import com.example.erez0_000.weddingapp.activities.DisplayBusinessList;
 import com.example.erez0_000.weddingapp.db_classes.User;
+import com.example.erez0_000.weddingapp.searches.SearchActivity;
 import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -52,6 +55,9 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_login);
+        Intent i = new Intent(this, SearchActivity.class);
+        startActivity(i);
+
 
 
     }

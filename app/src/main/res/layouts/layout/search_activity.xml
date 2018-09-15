@@ -56,37 +56,34 @@
         android:layout_alignParentRight="true" />
 
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/result_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_field"
-        android:layout_marginTop="50dp"></android.support.v7.widget.RecyclerView>
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/region_spinner"
+        android:layout_marginTop="94dp"></android.support.v7.widget.RecyclerView>
 
-    <Button
-        android:id="@+id/cat_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/search_field"
-        android:layout_below="@+id/search_field"
-        android:text="south" />
-
-    <Button
-        android:id="@+id/cntBtn"
+    <Spinner
+        android:id="@+id/region_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/heading_label"
         android:layout_below="@+id/search_field"
-        android:text="Center" />
+        android:layout_marginTop="42dp" />
 
-    <Button
-        android:id="@+id/northBtn"
+    <Spinner
+        android:id="@+id/type_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/search_btn"
-        android:layout_below="@+id/search_field"
-        android:layout_marginEnd="12dp"
-        android:text="north" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/region_spinner" />
+
+    <Spinner
+        android:id="@+id/kosher_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/region_spinner" />
 
 </RelativeLayout>

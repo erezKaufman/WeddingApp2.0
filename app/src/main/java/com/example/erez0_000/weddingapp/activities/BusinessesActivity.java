@@ -16,7 +16,7 @@ public class BusinessesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_anime);
+        setContentView(R.layout.activity_business);
 
         // hide the default actionbar
         getSupportActionBar().hide();

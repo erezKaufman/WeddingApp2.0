@@ -70,27 +70,27 @@ public class Businesses {
         this.summer_price = summer_price;
     }
 
-    public boolean isHandikaped() {
+    public String isHandikaped() {
         return handikaped;
     }
 
-    public void setHandikaped(boolean handikaped) {
+    public void setHandikaped(String handikaped) {
         this.handikaped = handikaped;
     }
 
-    public boolean isKosher() {
+    public String isKosher() {
         return kosher;
     }
 
-    public void setKosher(boolean kosher) {
+    public void setKosher(String kosher) {
         this.kosher = kosher;
     }
 
     public String description;
     public String mail;
-    public String region;
+    public String region,kosher, handikaped;
     public Integer bid, business_type, phone, winter_price, summer_price;
-    public boolean handikaped, kosher;
+
 
     public Businesses(){
 
@@ -120,17 +120,12 @@ public class Businesses {
         this.address = address;
     }
 
-//    public Businesses(String name, String image, String address) {
-//        this.name = name;
-//        this.image = image;
-//        this.address = address;
-//    }
 
 
     public Businesses(String name, String image, String address, String description,
                       String mail, String region, Integer bid, Integer business_type,
                       Integer phone, Integer winter_price, Integer summer_price,
-                      boolean handikaped, boolean kosher) {
+                      String handikaped, String kosher) {
         this.name = name;
         this.image = image;
         this.address = address;

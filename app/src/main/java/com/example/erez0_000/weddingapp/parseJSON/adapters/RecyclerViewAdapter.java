@@ -43,7 +43,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         View view ;
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        view = inflater.inflate(R.layout.anime_row_item,parent,false) ;
+        view = inflater.inflate(R.layout.display_list_business_raw,parent,false) ;
         final MyViewHolder viewHolder = new MyViewHolder(view) ;
         viewHolder.view_container.setOnClickListener(new View.OnClickListener() {
             @Override
