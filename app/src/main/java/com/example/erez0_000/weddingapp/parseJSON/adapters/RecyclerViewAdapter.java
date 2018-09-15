@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.erez0_000.weddingapp.activities.BusinessesActivity;
-import com.example.erez0_000.weddingapp.Businesses;
+import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.example.erez0_000.weddingapp.R;
 
 

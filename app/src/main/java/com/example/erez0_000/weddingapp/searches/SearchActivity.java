@@ -3,8 +3,6 @@ package com.example.erez0_000.weddingapp.searches;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.erez0_000.weddingapp.Businesses;
+import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.example.erez0_000.weddingapp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 //import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -29,7 +27,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-public class SearchMainActivity extends AppCompatActivity{
+public class SearchActivity extends AppCompatActivity{
 
     private EditText mSearchField;
     private ImageButton mSearchBtn;
@@ -47,7 +45,7 @@ public class SearchMainActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.search_activity);
 
         mUserDatabase = FirebaseDatabase.getInstance().getReference("Businesses");
         mSearchField = (EditText) findViewById(R.id.search_field);
@@ -102,7 +100,7 @@ public class SearchMainActivity extends AppCompatActivity{
 
     private void searchByBusinessName(String searchText) {
 
-        Toast.makeText(SearchMainActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+        Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
 
         Query firebaseSearchQuery = mUserDatabase.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
 
@@ -144,7 +142,7 @@ public class SearchMainActivity extends AppCompatActivity{
             firebaseSearchQuery = mUserDatabase.orderByChild("region").startAt("north").endAt("north" + "\uf8ff");
         }
 
-        Toast.makeText(SearchMainActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+        Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
 
 
         createRecyclerCall(firebaseSearchQuery);

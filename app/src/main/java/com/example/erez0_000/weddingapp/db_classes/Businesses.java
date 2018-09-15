@@ -1,4 +1,4 @@
-package  com.example.erez0_000.weddingapp;
+package com.example.erez0_000.weddingapp.db_classes;
 
 public class Businesses {
 

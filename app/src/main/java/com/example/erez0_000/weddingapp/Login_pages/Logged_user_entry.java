@@ -1,4 +1,4 @@
-package com.example.erez0_000.weddingapp;
+package com.example.erez0_000.weddingapp.Login_pages;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.erez0_000.weddingapp.Personal_window;
+import com.example.erez0_000.weddingapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 

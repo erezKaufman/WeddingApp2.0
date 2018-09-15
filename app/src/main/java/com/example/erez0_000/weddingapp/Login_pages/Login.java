@@ -1,4 +1,4 @@
-package com.example.erez0_000.weddingapp;
+package com.example.erez0_000.weddingapp.Login_pages;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 
-import com.example.erez0_000.weddingapp.searches.SearchMainActivity;
+import com.example.erez0_000.weddingapp.Personal_window;
+import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.db_classes.User;
 import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -76,7 +78,7 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
 ////            anonymousUserUI();
 ////
 ////        }
-//        startActivity(new Intent(this,SearchMainActivity.class));
+//        startActivity(new Intent(this,SearchActivity.class));
 //    }
 
     /**
@@ -223,7 +225,8 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
                                         // TODO MAKE DIALOG LINE LIKE "WELCOME BACK!"
                                         newuser = dataSnapshot.getValue(User.class);
                                         // TODO create a better query to retrive user information (take query from Ofir)
-                                        Login.this.finish();
+                                        finish();
+                                        startActivity(getIntent());
 
                                     }else{
 

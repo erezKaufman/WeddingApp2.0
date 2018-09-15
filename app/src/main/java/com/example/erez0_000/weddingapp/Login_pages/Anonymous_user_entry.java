@@ -1,5 +1,4 @@
-package com.example.erez0_000.weddingapp;
-import android.app.Activity;
+package com.example.erez0_000.weddingapp.Login_pages;
 import android.app.ProgressDialog;
 //import android.support.design.widget.Snackbar;
 import android.content.Intent;
@@ -10,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.db_classes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -20,7 +21,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

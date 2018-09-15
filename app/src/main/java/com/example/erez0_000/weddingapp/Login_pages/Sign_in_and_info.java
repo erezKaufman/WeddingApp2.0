@@ -1,4 +1,4 @@
-package com.example.erez0_000.weddingapp;
+package com.example.erez0_000.weddingapp.Login_pages;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.db_classes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -127,6 +129,7 @@ public class Sign_in_and_info extends AppCompatActivity implements View.OnClickL
         newUser.setSeason(season_string);
         newUser.setType(type_string);
         mDatabase.child("Users").child(newUser.getAccountId()).setValue(newUser);
+        finish();
     }
 
 //    private void signin() {

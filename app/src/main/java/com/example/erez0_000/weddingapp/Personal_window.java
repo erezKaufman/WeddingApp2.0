@@ -70,6 +70,8 @@ public class Personal_window extends AppCompatActivity implements View.OnClickLi
                     }
                 });
 
+        finish();
+
 
     }
 }
