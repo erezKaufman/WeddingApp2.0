@@ -53,7 +53,7 @@ public class CategoriesActivity extends AppCompatActivity
         gRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         gRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        gviewAdapter = new TodoRecyclerViewAdapter(this, this);
+        gviewAdapter = new TodoRecyclerViewAdapter(this);
 
         gRecyclerView.setAdapter(gviewAdapter);
     }

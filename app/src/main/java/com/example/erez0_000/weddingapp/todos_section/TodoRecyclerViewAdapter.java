@@ -15,7 +15,6 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
     //    private ArrayList<ExpandableListViewAdapter> todoTitleList;
     private ArrayList<TodoTitle> todoTitleList;
     private CreateOnClickListner listner;
-    private Context mContext;
 
     @Override
     public boolean onLongClick(View v) {
@@ -32,10 +31,9 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         }
     }
 
-    public TodoRecyclerViewAdapter(CreateOnClickListner createOnClickListner, Context context){
+    public TodoRecyclerViewAdapter(CreateOnClickListner createOnClickListner){
         todoTitleList = new ArrayList<>();
         listner = createOnClickListner;
-        mContext = context;
     }
 
 

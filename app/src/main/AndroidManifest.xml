@@ -23,6 +23,7 @@
         <activity android:name=".searches.SearchActivity" />
         <activity android:name=".todos_section.EXpandableActivity" />
         <activity android:name=".todos_section.CategoriesActivity" />
+        <activity android:name=".calendar.CalendarTest"></activity>
     </application>
 
 </manifest>
