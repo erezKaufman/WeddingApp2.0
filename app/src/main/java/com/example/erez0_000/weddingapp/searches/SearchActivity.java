@@ -44,7 +44,7 @@ public class SearchActivity extends AppCompatActivity{
     private Spinner mKosherSpinner;
 
 
-
+//hello
     private RecyclerView mResultList;
 
     private DatabaseReference mUserDatabase;
