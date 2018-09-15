@@ -10,12 +10,10 @@ import android.view.View;
 import android.widget.ImageView;
 
 
-import com.example.erez0_000.weddingapp.Personal_window;
+import com.example.erez0_000.weddingapp.Personal_window_Activity;
 import com.example.erez0_000.weddingapp.R;
-import com.example.erez0_000.weddingapp.activities.BusinessesActivity;
-import com.example.erez0_000.weddingapp.activities.DisplayBusinessList;
+import com.example.erez0_000.weddingapp.StaticMethods;
 import com.example.erez0_000.weddingapp.db_classes.User;
-import com.example.erez0_000.weddingapp.searches.SearchActivity;
 import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -36,7 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-public class Login extends AppCompatActivity implements  View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     private FirebaseAuth mAuth;
@@ -51,14 +49,10 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
 
     private String GOOGLETAG = "GoogleActivity";
     private String TAGFDB = "firebaseDB";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_login);
-        Intent i = new Intent(this, SearchActivity.class);
-        startActivity(i);
-
-
 
     }
 
@@ -73,19 +67,7 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
 
         }
     }
-    //    @Override
-//    public void onResume() {
-//        super.onResume();
-//        // Check if user is signed in (non-null) open correct activity for it.
-////        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-////        if (currentUser != null) {
-////            loggeduserUI();
-////        } else {
-////            anonymousUserUI();
-////
-////        }
-//        startActivity(new Intent(this,SearchActivity.class));
-//    }
+
 
     /**
      * start new anonymous-hello-screen activity
@@ -152,30 +134,36 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
         switch (v.getId()) {
             // WHEN USER IS LOGGED: in case where the user chooses to go to 'personal zone' activity
             case R.id.gotoPersonalZone:
-                startActivity(new Intent(this, Personal_window.class));
+                startActivity(new Intent(this, Personal_window_Activity.class));
                 break;
-                // in case user chooses to go to 'search' activity
-            case R.id.gotoSearch:
-                // TODO add Ofir's search activity here
+            // WHEN USER IS LOGGED: in case user chooses to go to 'category list' activity
+            case R.id.goto_categories:
+                startCategoryActivity();
                 break;
-            // WHEN USER IS NOT LOGGED:  in case user chooses to go to 'search' activity
+            // WHEN USER IS ANONYMOUS:  in case user chooses to go to 'search' activity
             case R.id.gotosignin:
                 signin();
                 break;
-            // WHEN USER IS LOGGED: in case
-            case R.id.goto_categories:
-                startCategoryActivity();
+            // FOR LOGGED AND ANONYMOUS USERS: in case user chooses to go to 'search' activity
+            case R.id.gotoSearch:
+                // TODO add Ofir's search activity here
                 break;
         }
     }
 
+    /**
+     *
+     */
     private void startCategoryActivity() {
         Intent intent = new Intent(this, CategoriesActivity.class);
         startActivity(intent);
     }
 
     /**
-     * simple
+     * FROM ANONYMOUS USER LAYOUT:
+     * simple call for sign in by firebase auth. we call the signIn intent of google and receives
+     * information back (after the user chooses a google user).
+     * the rest is managed in 'onActivityResult'
      */
     private void signin() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -185,10 +173,12 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
 
     /**
      * called when signin method calls 'startActivityForResult' - catches the result and handle it.
-            * in here we log in the user
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * in here we log in the user, change UI if needed to,
+     * and call 'firebaseAuthWithGoogle' method to handle the account
+     *
+     * @param requestCode request code from google sign in
+     * @param resultCode  result code from google sign in
+     * @param data        intent data brought from google sign in
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -208,10 +198,18 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
         }
     }
 
+    /**
+     * the method receives the account information that the user entered,
+     * and after log in was successful we create an empty user log in the db, and afterwards
+     * populate it with user information (if he wishes to fill them) in 'Sign_in_and_info_activity'
+     * if it's not the first log of the user, refresh the page with the proper layout
+     *
+     * @param acct GoogleSignInAccount account
+     */
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d(GOOGLETAG, "firebaseAuthWithGoogle:" + acct.getId());
 
-        showProgressDialog();
+        StaticMethods.showProgressDialog("אנא המתן בעת התחברות...",this);
 
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -233,30 +231,30 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     Log.d(TAGFDB, "onCancelled: read succeeded");
-                                    if (dataSnapshot.exists()){
+                                    if (dataSnapshot.exists()) {
                                         // TODO MAKE DIALOG LINE LIKE "WELCOME BACK!"
                                         newuser = dataSnapshot.getValue(User.class);
                                         // TODO create a better query to retrive user information (take query from Ofir)
                                         finish();
                                         startActivity(getIntent());
 
-                                    }else{
+                                    } else {
 
                                         String uEmail = mAuth.getCurrentUser().getEmail();
-                                        if (uEmail == null){
+                                        if (uEmail == null) {
                                             uEmail = "";
                                         }
-                                        newuser = new User(uEmail,mAuth.getCurrentUser()
+                                        newuser = new User(uEmail, mAuth.getCurrentUser()
                                                 .getDisplayName(),
-                                                "","",
-                                                "","",
-                                                "","",acct.getId());
+                                                "", "",
+                                                "", "",
+                                                "", "", acct.getId());
 
                                         mDatabase.child("Users").child(newuser.getAccountId())
                                                 .setValue(newuser);
-                                        Intent i = new Intent(Login.this
-                                                ,Sign_in_and_info.class);
-                                        i.putExtra("newUser",newuser);
+                                        Intent i = new Intent(LoginActivity.this
+                                                , Sign_in_and_info_Activity.class);
+                                        i.putExtra("newUser", newuser);
                                         startActivity(i);
                                     }
                                 }
@@ -268,10 +266,6 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
                             });
 
 
-
-
-
-
 //                            updateUI(user); //TODO change UI here
                         } else {
                             // If sign in fails, display a message to the user.
@@ -281,26 +275,26 @@ public class Login extends AppCompatActivity implements  View.OnClickListener {
                         }
 
                         // [START_EXCLUDE]
-                        hideProgressDialog();
+                        StaticMethods.hideProgressDialog();
                         // [END_EXCLUDE]
                     }
                 });
     }
 
 
-    private void hideProgressDialog() {
-        if (mprogressDialog != null && mprogressDialog.isShowing()){
-
-            mprogressDialog.dismiss();
-        }
-    }
-
-    private void showProgressDialog() {
-        if (mprogressDialog == null){
-            mprogressDialog = new ProgressDialog(this);
-            mprogressDialog.setCancelable(false);
-            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
-        }
-        mprogressDialog.show();
-    }
+//    private void hideProgressDialog() {
+//        if (mprogressDialog != null && mprogressDialog.isShowing()) {
+//
+//            mprogressDialog.dismiss();
+//        }
+//    }
+//
+//    private void showProgressDialog() {
+//        if (mprogressDialog == null) {
+//            mprogressDialog = new ProgressDialog(this);
+//            mprogressDialog.setCancelable(false);
+//            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
+//        }
+//        mprogressDialog.show();
+//    }
 }
