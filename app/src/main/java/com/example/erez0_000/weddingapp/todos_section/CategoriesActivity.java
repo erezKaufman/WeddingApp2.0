@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +40,7 @@ public class CategoriesActivity extends AppCompatActivity
         initRecyclerView();
         listOfTodos = new ArrayList<>();
         taskText = findViewById(R.id.ed_main);
+        taskText.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);
 //        taskText.addTextChangedListener(this);
 
         addTodo = findViewById(R.id.bt_main);
