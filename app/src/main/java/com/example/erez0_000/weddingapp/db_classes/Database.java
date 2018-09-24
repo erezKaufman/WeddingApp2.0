@@ -24,10 +24,6 @@ public class Database {
         service = new Retrofit.Builder().baseUrl(BASE_URL).build().create(MlabService.class);
     }
 
-    public void signin() {
-
-    }
-
     public interface MlabService {
         @GET("Users?q={\"username\": {u}, \"password\": {p}}&apiKey=" + API_KEY)
         Call<User> getUser(@Path("u") String username, @Path("p") String password);

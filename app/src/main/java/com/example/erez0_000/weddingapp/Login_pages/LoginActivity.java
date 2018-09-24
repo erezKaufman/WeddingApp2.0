@@ -61,6 +61,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
 
 
+
+        // TODO add image of app's logo
+//        ImageView weddingImage = (ImageView) findViewById(R.id.weedingHello);
+//        int imgResource = getResources().getIdentifier("@drawble/wedding planner30210",
+//                null,this.getPackageName());
+//        weddingImage.setImageResource(imgResource);
+
+        findViewById(R.id.gotosignup).setOnClickListener(this);
         findViewById(R.id.gotosignin).setOnClickListener(this);
         findViewById(R.id.gotoSearch).setOnClickListener(this);
 
@@ -70,6 +78,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
 
+            case R.id.gotosignup:
+                signup();
+                break;
             // WHEN USER IS ANONYMOUS:  in case user chooses to go to 'search' activity
             case R.id.gotosignin:
                 signin();
@@ -108,6 +119,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        startActivity(intent);
 //    }
 //
+
+    private void signup() {
+
+    }
+
     /**
      * FROM ANONYMOUS USER LAYOUT:
      * simple call for sign in by firebase auth. we call the signIn intent of google and receives
