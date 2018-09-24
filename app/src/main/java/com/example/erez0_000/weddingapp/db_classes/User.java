@@ -3,15 +3,12 @@ package com.example.erez0_000.weddingapp.db_classes;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    public String email, username, age, number, type, cost, area, season, accountId;
+    public String email, username, age, number, type, cost, area, season;
 
-    public User() {
-
-    }
-
+    public User() {}
 
     public User(String email,String username,String age,String number,String type,String cost,
-                String area,String season,String accountId){
+                String area,String season){
         this.age = age;
         this.email = email;
         this.username = username;
@@ -20,11 +17,6 @@ public class User implements Serializable {
         this.cost = cost;
         this.area = area;
         this.season = season;
-        this.accountId = accountId;
-    }
-
-    public String getAccountId(){
-        return accountId;
     }
 
     public void setAge(String age) {

@@ -10,43 +10,21 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.db_classes.Database;
 import com.example.erez0_000.weddingapp.db_classes.User;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.Serializable;
 
 
 public class Anonymous_user_entry extends AppCompatActivity implements View.OnClickListener,
                                                                         Serializable {
-    private FirebaseAuth mAuth;
-    private GoogleSignInClient mGoogleSignInClient;
-    private DatabaseReference mDatabase;
-
+    private Database database;
     private User newuser;
 //    private TextView mStatusTextView;
 //    private TextView mDetailTextView;
 
     private static final String TAG2 = "Anonymous_user_entry";
 
-    private static final int RC_SIGN_IN = 9001;
-    private String GOOGLETAG = "GoogleActivity";
-    private String TAGFDB = "firebaseDB";
     private ProgressDialog mprogressDialog;
 
     @Override
@@ -62,18 +40,7 @@ public class Anonymous_user_entry extends AppCompatActivity implements View.OnCl
                 null,this.getPackageName());
         weddingImage.setImageResource(imgResource);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        // initialize auth
-        mAuth = FirebaseAuth.getInstance();
-
-        // START config 'google sign in option' object
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        // END config 'google sign in option' object
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
-
+        database = Database.getInstance();
 
         findViewById(R.id.gotosignin).setOnClickListener(this);
 //        ############ TO CANCEL ##################
@@ -106,32 +73,7 @@ public class Anonymous_user_entry extends AppCompatActivity implements View.OnCl
     }
 
     private void signin() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent,RC_SIGN_IN);
-    }
-    /**
-     * called when signin method calls 'startActivityForResult' - catches the result and handle it.
-     * in here we log in the user
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RC_SIGN_IN) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                // Google Sign In was successful, authenticate with Firebase
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
-            } catch (ApiException e) {
-                // Google Sign In failed, update UI appropriately
-                Log.w(GOOGLETAG, "Google sign in failed", e);
-//                updateUI(null);//TODO change UI here
-            }
-        }
+        database
     }
 
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
