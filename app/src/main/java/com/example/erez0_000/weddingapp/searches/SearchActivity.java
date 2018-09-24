@@ -24,10 +24,6 @@ import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.example.erez0_000.weddingapp.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 //import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +43,6 @@ public class SearchActivity extends AppCompatActivity{
 //hello
     private RecyclerView mResultList;
 
-    private DatabaseReference mUserDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +51,6 @@ public class SearchActivity extends AppCompatActivity{
 
          // free search buttons and fields
 
-        mUserDatabase = FirebaseDatabase.getInstance().getReference("Businesses");
         mSearchField = findViewById(R.id.search_field);
         mSearchBtn = findViewById(R.id.search_btn);
 
@@ -184,9 +178,7 @@ public class SearchActivity extends AppCompatActivity{
 
         Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
 
-        Query firebaseSearchQuery = mUserDatabase.orderByChild("name").startAt(searchText).endAt(searchText + "\uf8ff");
 
-        createRecyclerCall(firebaseSearchQuery);
 
     }
 
@@ -194,81 +186,37 @@ public class SearchActivity extends AppCompatActivity{
 
 
     private void searchByRegion(String reg) {
-        Query firebaseSearchQuery;
-        if(reg.equals("דרום")){
-            firebaseSearchQuery = mUserDatabase.orderByChild("region").startAt("south").endAt("south" + "\uf8ff");
-        } else if(reg.equals("מרכז")){
-            firebaseSearchQuery = mUserDatabase.orderByChild("region").startAt("center").endAt("center" + "\uf8ff");
-
-        }else{
-            firebaseSearchQuery = mUserDatabase.orderByChild("region").startAt("north").endAt("north" + "\uf8ff");
-        }
-
-        Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
-
-
-        createRecyclerCall(firebaseSearchQuery);
     }
 
 
 
     private void searchByType(String type) {
-        Query firebaseSearchQuery;
-        if(type.equals("גן אירועים")){
-            firebaseSearchQuery = mUserDatabase.orderByChild("type").startAt("garden").endAt("garden" + "\uf8ff");
-
-        }else{
-            firebaseSearchQuery = mUserDatabase.orderByChild("type").startAt("closed hall").endAt("closed hall" + "\uf8ff");
-        }
-
-        Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
-
-        // this funck is a black magic:
-        createRecyclerCall(firebaseSearchQuery);
     }
 
     private void searchByKosher(String kosher) {
-        Query firebaseSearchQuery;
-        if(kosher.equals("לא כשר")){
-            firebaseSearchQuery = mUserDatabase.orderByChild("kosher").startAt("false").endAt("false" + "\uf8ff");
-
-
-        }else{
-            firebaseSearchQuery = mUserDatabase.orderByChild("kosher").startAt("true").endAt("true" + "\uf8ff");
-
-        }
-
-        Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
-
-        createRecyclerCall(firebaseSearchQuery);
     }
 
 
-
-
-    //////////////////////////////////////////////////////////
-
-    private void createRecyclerCall(Query firebaseSearchQuery) {
-        FirebaseRecyclerOptions<Businesses> options = new FirebaseRecyclerOptions.Builder<Businesses>()
-                .setQuery(firebaseSearchQuery, Businesses.class).setLifecycleOwner(this).build();
-        FirebaseRecyclerAdapter firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Businesses, UsersViewHolder>(options) {
-            @Override
-            public UsersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.list_layout, parent, false);
-
-                return new UsersViewHolder(view);
-            }
-
-            @Override
-            protected void onBindViewHolder(@NonNull UsersViewHolder holder, int position, @NonNull Businesses model) {
-                holder.setDetails(getApplicationContext(), model.getName(), model.getAddress(), model.getImage(),model.getRegion());
-
-            }
-        };
-        firebaseRecyclerAdapter.notifyDataSetChanged();
-        mResultList.setAdapter(firebaseRecyclerAdapter);
-    }
+//
+//
+//    //////////////////////////////////////////////////////////
+//
+//    private void createRecyclerCall(Query firebaseSearchQuery) {
+//                View view = LayoutInflater.from(parent.getContext())
+//                        .inflate(R.layout.list_layout, parent, false);
+//
+//                return new UsersViewHolder(view);
+//            }
+//
+//            @Override
+//            protected void onBindViewHolder(@NonNull UsersViewHolder holder, int position, @NonNull Businesses model) {
+//                holder.setDetails(getApplicationContext(), model.getName(), model.getAddress(), model.getImage(),model.getRegion());
+//
+//            }
+//        };
+//        firebaseRecyclerAdapter.notifyDataSetChanged();
+//        mResultList.setAdapter(firebaseRecyclerAdapter);
+//    }
 
 
     // View Holder Class

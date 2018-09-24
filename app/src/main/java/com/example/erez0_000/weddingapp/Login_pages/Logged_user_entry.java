@@ -12,11 +12,10 @@ import com.example.erez0_000.weddingapp.Personal_window_Activity;
 import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.searches.SearchActivity;
 import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class Logged_user_entry extends AppCompatActivity implements View.OnClickListener    {
     private static final String TAG = "Logged_user_entry";
-    private FirebaseAuth mAuth;
+//    private FirebaseAuth mAuth;
 
 
     private ProgressDialog mprogressDialog;
@@ -35,7 +34,7 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
         weddingImage.setImageResource(imgResource);
 
         // initialize auth
-        mAuth = FirebaseAuth.getInstance();
+//        mAuth = FirebaseAuth.getInstance();
 
     }
 

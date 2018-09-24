@@ -11,12 +11,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class Personal_window_Activity extends AppCompatActivity implements View.OnClickListener{
 
-        private FirebaseAuth mAuth;
         private GoogleSignInClient mGoogleSignInClient;
 
 
@@ -26,7 +23,6 @@ public class Personal_window_Activity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_window);
 
-        mAuth = FirebaseAuth.getInstance();
 
 //        // todo START add user image to personal window
 //        FirebaseUser user = mAuth.getCurrentUser();
@@ -37,12 +33,7 @@ public class Personal_window_Activity extends AppCompatActivity implements View.
         // todo END add user image to personal window
 
         // START config 'google sign in option' object
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
         // END config 'google sign in option' object
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
 
         findViewById(R.id.sign_out_button).setOnClickListener(this);
     }
@@ -58,7 +49,6 @@ public class Personal_window_Activity extends AppCompatActivity implements View.
 
     private void signout() {
         // actuall FireBase sign out
-        mAuth.signOut();
 
         // change UI for user
         mGoogleSignInClient.signOut().addOnCompleteListener(this,

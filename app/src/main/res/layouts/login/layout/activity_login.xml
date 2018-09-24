@@ -8,57 +8,5 @@
     android:layout_height="match_parent"
     tools:context="com.example.erez0_000.weddingapp.Login_pages.LoginActivity">
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:orientation="vertical">-->
-        <!--&lt;!&ndash;<TextView&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:text="Hello World!"&ndash;&gt;-->
-        <!--&lt;!&ndash;app:layout_constraintBottom_toBottomOf="parent"&ndash;&gt;-->
-        <!--&lt;!&ndash;app:layout_constraintLeft_toLeftOf="parent"&ndash;&gt;-->
-        <!--&lt;!&ndash;app:layout_constraintRight_toRightOf="parent"&ndash;&gt;-->
-        <!--&lt;!&ndash;app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;-->
 
-        <!--&lt;!&ndash;<com.google.android.gms.common.SignInButton&ndash;&gt;-->
-        <!--&lt;!&ndash;android:id="@+id/sign_in_button"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="wrap_content" />&ndash;&gt;-->
-        <!--<Button-->
-            <!--android:id="@+id/startsign_in_button"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:text="@string/common_signin_button_text"-->
-            <!--/>-->
-
-        <!--<Button-->
-            <!--android:id="@+id/sign_out_button"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/sign_out_string" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/status"-->
-            <!--style="@style/TextAppearance.AppCompat.SearchResult.Title"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/detail"-->
-            <!--style="@style/Theme.AppCompat"-->
-
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--tools:text="Firebase User ID: 123456789abc" />-->
-
-        <!--&lt;!&ndash;<Button&ndash;&gt;-->
-            <!--&lt;!&ndash;android:id="@+id/islogged"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:layout_height="match_parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;android:text="check if logged" />&ndash;&gt;-->
-
-    <!--</LinearLayout>-->
 </RelativeLayout>

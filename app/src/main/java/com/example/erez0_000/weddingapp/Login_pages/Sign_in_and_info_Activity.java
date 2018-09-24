@@ -19,14 +19,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class Sign_in_and_info_Activity extends AppCompatActivity implements View.OnClickListener,
         TextWatcher, AdapterView.OnItemSelectedListener {
-    private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
     private GoogleSignInClient mGoogleSignInClient;
     private boolean bool_age = false, bool_area = false, bool_type = false,
             bool_number = false, bool_season = false, bool_cost = false;
@@ -53,19 +48,12 @@ public class Sign_in_and_info_Activity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_and_info);
         Log.d(TAG2, "onCreate: started Sign_in_and_info_Activity");
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
         Intent i = getIntent();
         newUser = (User) i.getSerializableExtra("newUser");
 
         // START config 'google sign in option' object
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
         // END config 'google sign in option' object
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         // START VIEW ON BUTTONS
         backtomainButton = findViewById(R.id.gobacktomain);
@@ -119,7 +107,6 @@ public class Sign_in_and_info_Activity extends AppCompatActivity implements View
         newUser.setNumber(edit_number.getText().toString());
         newUser.setSeason(edit_season.getSelectedItem().toString());
         newUser.setType(edit_type.getSelectedItem().toString());
-        mDatabase.child("Users").child(newUser.getAccountId()).setValue(newUser);
         finish();
     }
 

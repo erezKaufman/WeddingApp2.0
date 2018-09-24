@@ -73,86 +73,86 @@ public class Anonymous_user_entry extends AppCompatActivity implements View.OnCl
     }
 
     private void signin() {
-        database
+//        database
     }
 
-    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
-        Log.d(GOOGLETAG, "firebaseAuthWithGoogle:" + acct.getId());
-
-        showProgressDialog();
-
-
-        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, create a node with the user id and blank favorite
-                            // information.
-                            Log.d(GOOGLETAG, "signInWithCredential:success");
-//                            FirebaseUser user = mAuth.getCurrentUser();
-
-                            DatabaseReference userRef = FirebaseDatabase.getInstance()
-                                    .getReference("Users");
-                            Query query = mDatabase.child("Users").orderByChild("accountId")
-                                          .equalTo(acct.getId());
-                            query.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    Log.d(TAGFDB, "onCancelled: read succeeded");
-                                    if (dataSnapshot.exists()){
-                                        // TODO MAKE DIALOG LINE LIKE "WELCOME BACK!"
-                                        newuser = dataSnapshot.getValue(User.class);
-                                        // TODO create a better query to retrive user information (take query from Ofir)
-                                        Anonymous_user_entry.this.finish();
-
-                                    }else{
-
-                                        String uEmail = mAuth.getCurrentUser().getEmail();
-                                        if (uEmail == null){
-                                            uEmail = "";
-                                        }
-                                        newuser = new User(uEmail,mAuth.getCurrentUser()
-                                                .getDisplayName(),
-                                                "","",
-                                                "","",
-                                                "","",acct.getId());
-
-                                        mDatabase.child("Users").child(newuser.getAccountId())
-                                                                .setValue(newuser);
-                                        Intent i = new Intent(Anonymous_user_entry.this
-                                                ,Sign_in_and_info_Activity.class);
-                                        i.putExtra("newUser",newuser);
-                                        startActivity(i);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Log.d(TAGFDB, "onCancelled: read failed");
-                                }
-                            });
-
-
-
-
-
-
-//                            updateUI(user); //TODO change UI here
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w(GOOGLETAG, "signInWithCredential:failure", task.getException());
-//                            Snackbar.make(findViewById(R.id.login_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-//                            updateUI(null); //TODO change UI here
-                        }
-
-                        // [START_EXCLUDE]
-                        hideProgressDialog();
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
+//    private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
+//        Log.d(GOOGLETAG, "firebaseAuthWithGoogle:" + acct.getId());
+//
+//        showProgressDialog();
+//
+//
+//        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+//        mAuth.signInWithCredential(credential)
+//                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()) {
+//                            // Sign in success, create a node with the user id and blank favorite
+//                            // information.
+//                            Log.d(GOOGLETAG, "signInWithCredential:success");
+////                            FirebaseUser user = mAuth.getCurrentUser();
+//
+//                            DatabaseReference userRef = FirebaseDatabase.getInstance()
+//                                    .getReference("Users");
+//                            Query query = mDatabase.child("Users").orderByChild("accountId")
+//                                          .equalTo(acct.getId());
+//                            query.addValueEventListener(new ValueEventListener() {
+//                                @Override
+//                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                    Log.d(TAGFDB, "onCancelled: read succeeded");
+//                                    if (dataSnapshot.exists()){
+//                                        // TODO MAKE DIALOG LINE LIKE "WELCOME BACK!"
+//                                        newuser = dataSnapshot.getValue(User.class);
+//                                        // TODO create a better query to retrive user information (take query from Ofir)
+//                                        Anonymous_user_entry.this.finish();
+//
+//                                    }else{
+//
+//                                        String uEmail = mAuth.getCurrentUser().getEmail();
+//                                        if (uEmail == null){
+//                                            uEmail = "";
+//                                        }
+//                                        newuser = new User(uEmail,mAuth.getCurrentUser()
+//                                                .getDisplayName(),
+//                                                "","",
+//                                                "","",
+//                                                "","",acct.getId());
+//
+//                                        mDatabase.child("Users").child(newuser.getAccountId())
+//                                                                .setValue(newuser);
+//                                        Intent i = new Intent(Anonymous_user_entry.this
+//                                                ,Sign_in_and_info_Activity.class);
+//                                        i.putExtra("newUser",newuser);
+//                                        startActivity(i);
+//                                    }
+//                                }
+//
+//                                @Override
+//                                public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                    Log.d(TAGFDB, "onCancelled: read failed");
+//                                }
+//                            });
+//
+//
+//
+//
+//
+//
+////                            updateUI(user); //TODO change UI here
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            Log.w(GOOGLETAG, "signInWithCredential:failure", task.getException());
+////                            Snackbar.make(findViewById(R.id.login_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+////                            updateUI(null); //TODO change UI here
+//                        }
+//
+//                        // [START_EXCLUDE]
+//                        hideProgressDialog();
+//                        // [END_EXCLUDE]
+//                    }
+//                });
+//    }
 
 
 //    /**
