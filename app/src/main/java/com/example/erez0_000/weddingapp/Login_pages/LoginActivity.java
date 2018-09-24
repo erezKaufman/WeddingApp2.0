@@ -2,30 +2,19 @@ package com.example.erez0_000.weddingapp.Login_pages;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 
-import com.example.erez0_000.weddingapp.Login_pages.HorizontalRecyclerBusinesses.SuggestionRecyclerAdapter;
-import com.example.erez0_000.weddingapp.Personal_window_Activity;
 import com.example.erez0_000.weddingapp.R;
-import com.example.erez0_000.weddingapp.StaticMethods;
-import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.example.erez0_000.weddingapp.db_classes.User;
 import com.example.erez0_000.weddingapp.searches.SearchActivity;
-import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
-import com.example.erez0_000.weddingapp.todos_section.TodoRecyclerViewAdapter;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -45,9 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Calendar;
-
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
 
     private FirebaseAuth mAuth;
@@ -69,36 +56,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            loggeduserUI();
-        } else {
-            anonymousUserUI();
-
+            Intent intent = new Intent(this,Logged_user_entry.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
+            finish();
         }
-    }
-
-
-    /**
-     * start new anonymous-hello-screen activity
-     */
-    private void anonymousUserUI() {
-//        startActivity(new Intent(this, Anonymous_user_entry.class));
         setContentView(R.layout.activity_anonymous_user_entry);
-        Log.d(TAG2, "onCreate: started Anonymous_user_entry");
-
+//        else {
+//            Intent intent = new Intent(this,Anonymous_user_entry.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//            startActivity(intent);
+//        }
 
         // TODO add image of app's logo
         ImageView weddingImage = (ImageView) findViewById(R.id.weedingHello);
         int imgResource = getResources().getIdentifier("@drawble/wedding planner30210",
-                null, this.getPackageName());
+                null,this.getPackageName());
         weddingImage.setImageResource(imgResource);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -111,135 +86,58 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .requestEmail()
                 .build();
         // END config 'google sign in option' object
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
 
 
         findViewById(R.id.gotosignin).setOnClickListener(this);
-//        ############ TO CANCEL ##################
-        findViewById(R.id.gotoSearch).setEnabled(false);// TODO CANCEL THIS!!!! AFTER Ofir's changes
-
-    }
-
-    /**
-     * start new LoggedUser-hello-screen activity
-     */
-    private void loggeduserUI() {
-
-//        startActivity(new Intent(this, Logged_user_entry.class));
-        setContentView(R.layout.activity_logged_user_entry);
-        Log.d(TAG, "onCreate: started Logged_user_entry");
-
-        findViewById(R.id.gotoPersonalZone).setOnClickListener(this);
         findViewById(R.id.gotoSearch).setOnClickListener(this);
-        findViewById(R.id.goto_categories).setOnClickListener(this);
-        // TODO add image of app's logo
-        ImageView weddingImage = (ImageView) findViewById(R.id.weedingHello);
-        int imgResource = getResources().getIdentifier("@drawble/wedding planner30210",
-                null, this.getPackageName());
-        weddingImage.setImageResource(imgResource);
-
-        // initialize auth
-        mAuth = FirebaseAuth.getInstance();
-
-//        ############ TO CANCEL ##################
-//        findViewById(R.id.gotoSearch).setEnabled(false);// TODO CANCEL THIS!!!! AFTER Ofir's changes
-
-//        initRecyclerView();
-    }
-
-
-
-    private void initRecyclerView() {
-//        mUserDatabase = FirebaseDatabase.getInstance().getReference("Businesses");
-////        mResultList = (RecyclerView) findViewById(R.id.suggestion_list);
-////        mResultList.setHasFixedSize(true);
-////        mResultList.setLayoutManager(new LinearLayoutManager(
-////                this,LinearLayoutManager.HORIZONTAL,false));
-//        Query firebaseSearchQuery = mUserDatabase.orderByChild("name");
-//        FirebaseRecyclerOptions<Businesses> options = new FirebaseRecyclerOptions.Builder<Businesses>()
-//                .setQuery(firebaseSearchQuery, Businesses.class).setLifecycleOwner(this).build();
-//        FirebaseRecyclerAdapter firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Businesses, SearchActivity.UsersViewHolder>(options) {
-//            @Override
-//            public SearchActivity.UsersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//                View view = LayoutInflater.from(parent.getContext())
-//                        .inflate(R.layout.list_layout, parent, false);
-//
-//                return new SearchActivity.UsersViewHolder(view);
-//            }
-//
-//            @Override
-//            protected void onBindViewHolder(@NonNull SearchActivity.UsersViewHolder holder, int position, @NonNull Businesses model) {
-//                holder.setDetails(getApplicationContext(), model.getName(), model.getAddress(), model.getImage(),model.getRegion());
-//
-//            }
-//        };
-//        firebaseRecyclerAdapter.notifyDataSetChanged();
-//        mResultList.setAdapter(firebaseRecyclerAdapter);
-
-
-
-        mUserDatabase = FirebaseDatabase.getInstance().getReference("Businesses");
-        mResultList = (RecyclerView) findViewById(R.id.suggestion_list);
-        mResultList.setHasFixedSize(true);
-        mResultList.setLayoutManager(new LinearLayoutManager(
-                this));
-
-        Query firebaseSearchQuery = mUserDatabase.orderByChild("name");
-        firebaseRecyclerAdapter = new SuggestionRecyclerAdapter(new FirebaseRecyclerOptions.Builder<Businesses>()
-                .setQuery(firebaseSearchQuery, Businesses.class).setLifecycleOwner(this).build());
-
-        firebaseRecyclerAdapter.notifyDataSetChanged();
-        mResultList.setAdapter(firebaseRecyclerAdapter);
 
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            // WHEN USER IS LOGGED: in case where the user chooses to go to 'personal zone' activity
-            case R.id.gotoPersonalZone:
-                startActivity(new Intent(this, Personal_window_Activity.class));
-                break;
-            // WHEN USER IS LOGGED: in case user chooses to go to 'category list' activity
-            case R.id.goto_categories:
-                startCategoryActivity();
-                break;
+
             // WHEN USER IS ANONYMOUS:  in case user chooses to go to 'search' activity
             case R.id.gotosignin:
                 signin();
                 break;
             // FOR LOGGED AND ANONYMOUS USERS: in case user chooses to go to 'search' activity
             case R.id.gotoSearch:
-                addCalendarEvent();
-                // TODO add Ofir's search activity here
+                openSearchActivity();
                 break;
         }
     }
-
-    private void addCalendarEvent() {
-        Calendar cal = Calendar.getInstance();
-        long startTime = cal.getTimeInMillis();
-        long endTime = cal.getTimeInMillis()  + 60 * 60 * 1000;
-        Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime);
-        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
-        intent.putExtra(CalendarContract.Events.TITLE, "Neel Birthday");
-        intent.putExtra(CalendarContract.Events.DESCRIPTION, "This is a sample description");
-        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, "My Guest House");
-        intent.putExtra(CalendarContract.Events.RRULE, "FREQ=YEARLY");
-        intent.setType("vnd.android.cursor.item/event");
+    //
+    private void openSearchActivity() {
+        Intent intent = new Intent(this,SearchActivity.class);
         startActivity(intent);
     }
-
-    /**
-     *
-     */
-    private void startCategoryActivity() {
-        Intent intent = new Intent(this, CategoriesActivity.class);
-        startActivity(intent);
-    }
-
+//
+//    private void addCalendarEvent() {
+//        Calendar cal = Calendar.getInstance();
+//        long startTime = cal.getTimeInMillis();
+//        long endTime = cal.getTimeInMillis()  + 60 * 60 * 1000;
+//        Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
+//        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
+//        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime);
+//        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
+//        intent.putExtra(CalendarContract.Events.TITLE, "Neel Birthday");
+//        intent.putExtra(CalendarContract.Events.DESCRIPTION, "This is a sample description");
+//        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, "My Guest House");
+//        intent.putExtra(CalendarContract.Events.RRULE, "FREQ=YEARLY");
+//        intent.setType("vnd.android.cursor.item/event");
+//        startActivity(intent);
+//    }
+//
+//    /**
+//     *
+//     */
+//    private void startCategoryActivity() {
+//        Intent intent = new Intent(this, CategoriesActivity.class);
+//        startActivity(intent);
+//    }
+//
     /**
      * FROM ANONYMOUS USER LAYOUT:
      * simple call for sign in by firebase auth. we call the signIn intent of google and receives
@@ -278,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
     }
-
+//
     /**
      * the method receives the account information that the user entered,
      * and after log in was successful we create an empty user log in the db, and afterwards
@@ -290,7 +188,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
         Log.d(GOOGLETAG, "firebaseAuthWithGoogle:" + acct.getId());
 
-        StaticMethods.showProgressDialog("אנא המתן בעת התחברות...",this);
+        showProgressDialog();
 
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
@@ -316,8 +214,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         // TODO MAKE DIALOG LINE LIKE "WELCOME BACK!"
                                         newuser = dataSnapshot.getValue(User.class);
                                         // TODO create a better query to retrive user information (take query from Ofir)
+
+                                        Intent intent = new Intent(LoginActivity.this,Logged_user_entry.class);
+//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        startActivity(intent);
                                         finish();
-                                        startActivity(getIntent());
 
                                     } else {
 
@@ -356,26 +257,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         }
 
                         // [START_EXCLUDE]
-                        StaticMethods.hideProgressDialog();
+                        hideProgressDialog();
                         // [END_EXCLUDE]
                     }
                 });
     }
 
 
-//    private void hideProgressDialog() {
-//        if (mprogressDialog != null && mprogressDialog.isShowing()) {
-//
-//            mprogressDialog.dismiss();
-//        }
-//    }
-//
-//    private void showProgressDialog() {
-//        if (mprogressDialog == null) {
-//            mprogressDialog = new ProgressDialog(this);
-//            mprogressDialog.setCancelable(false);
-//            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
-//        }
-//        mprogressDialog.show();
-//    }
+    private void hideProgressDialog() {
+        if (mprogressDialog != null && mprogressDialog.isShowing()) {
+
+            mprogressDialog.dismiss();
+        }
+    }
+
+    private void showProgressDialog() {
+        if (mprogressDialog == null) {
+            mprogressDialog = new ProgressDialog(this);
+            mprogressDialog.setCancelable(false);
+            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
+        }
+        mprogressDialog.show();
+    }
 }

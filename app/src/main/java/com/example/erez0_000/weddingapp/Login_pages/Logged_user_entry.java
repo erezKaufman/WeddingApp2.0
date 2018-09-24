@@ -10,6 +10,8 @@ import android.widget.ImageView;
 
 import com.example.erez0_000.weddingapp.Personal_window_Activity;
 import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.searches.SearchActivity;
+import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Logged_user_entry extends AppCompatActivity implements View.OnClickListener    {
@@ -25,19 +27,15 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
         Log.d(TAG, "onCreate: started Logged_user_entry");
         findViewById(R.id.gotoPersonalZone).setOnClickListener(this);
         findViewById(R.id.gotoSearch).setOnClickListener(this);
-
+        findViewById(R.id.goto_categories).setOnClickListener(this);
         // TODO add image of app's logo
         ImageView weddingImage = (ImageView) findViewById(R.id.weedingHello);
         int imgResource = getResources().getIdentifier("@drawble/wedding planner30210",
-                                                        null,this.getPackageName());
+                null, this.getPackageName());
         weddingImage.setImageResource(imgResource);
 
         // initialize auth
         mAuth = FirebaseAuth.getInstance();
-
-//        ############ TO CANCEL ##################
-        findViewById(R.id.gotoSearch).setEnabled(false);// TODO CANCEL THIS!!!! AFTER Ofir's changes
-
 
     }
 
@@ -49,17 +47,33 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-//            case R.id.startsign_in_button:
-//                Sign_in_and_info_Activity.start_info_activity(v.getContext());
-//                break;
+
             case R.id.gotoPersonalZone:
-                startActivity(new Intent(this,Personal_window_Activity.class));
+                startActivity(new Intent(this, Personal_window_Activity.class));
+                break;
             case R.id.gotoSearch:
-                // TODO add Ofir's search activity here
+                openSearchActivity();
+                break;
+            case R.id.goto_categories:
+                startCategoryActivity();
                 break;
         }
     }
 
+    /**
+     *
+     */
+    private void openSearchActivity() {
+        Intent intent = new Intent(this,SearchActivity.class);
+        startActivity(intent);
+    }
+    /**
+     *
+     */
+    private void startCategoryActivity() {
+        Intent intent = new Intent(this, CategoriesActivity.class);
+        startActivity(intent);
+    }
 
 //    /**
 //     * simple update to the UI so the user knows what's happening. TODO - change this method
