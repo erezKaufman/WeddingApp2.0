@@ -1,5 +1,4 @@
 package com.example.erez0_000.weddingapp.activities;
-//package com.demotxt.myapp.parseJSON.activities;
 
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
