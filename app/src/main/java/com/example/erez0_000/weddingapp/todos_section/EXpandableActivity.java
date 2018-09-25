@@ -58,6 +58,9 @@ public class EXpandableActivity extends AppCompatActivity implements View.OnClic
         addTodo = findViewById(R.id.bt_expandable);
         addTodo.setOnClickListener(this);
 
+
+        // todo create get serializible of todolist and fill it in the todos here
+
     }
 
 //    @Override

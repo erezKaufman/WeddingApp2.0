@@ -41,6 +41,10 @@ public class Database {
         @POST("Users?apiKey=" + API_KEY)
         Call<User> addUser(@Field("username") String username, @Field("password") String password);
 
-        // filter
+
+
+
     }
+
+
 }

@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 //        if (currentUser != null) {
 //            Intent intent = new Intent(this,Logged_user_entry.class);
 ////            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

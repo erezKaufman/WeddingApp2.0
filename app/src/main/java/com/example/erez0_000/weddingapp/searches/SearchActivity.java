@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.example.erez0_000.weddingapp.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 //import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import java.util.ArrayList;

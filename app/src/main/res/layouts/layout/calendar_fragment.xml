@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/calendar_fragment"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/show_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textAlignment="center"
+        android:paddingTop="20dp"
+        android:textSize="24sp" />
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"/>
+    <Button
+        android:id="@+id/set_date_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="הזמן בתאריך זה"/>
+
+</LinearLayout>

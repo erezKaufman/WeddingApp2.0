@@ -1,10 +1,13 @@
 package com.example.erez0_000.weddingapp.db_classes;
 
+import com.example.erez0_000.weddingapp.todos_section.TodoList;
+
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class User implements Serializable {
-    public String email, username, password, age, number, type, cost, area, season;
-
+    private String email, username, password, age, number, type, cost, area, season;
+    private ArrayList<TodoList> todoArray ;
     public User() {}
 
     public User(String email,String username, String password, String age,String number,String type,String cost,
@@ -18,6 +21,15 @@ public class User implements Serializable {
         this.cost = cost;
         this.area = area;
         this.season = season;
+        todoArray = new ArrayList<>();
+    }
+
+    public ArrayList<TodoList> getTodoArray() {
+        return todoArray;
+    }
+
+    public void updateTodo(int pos, TodoList todoList){
+        todoArray.set(pos,todoList);
     }
 
     public void setAge(String age) {
