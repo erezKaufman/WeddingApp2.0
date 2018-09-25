@@ -59,6 +59,12 @@ public class User implements Serializable {
         this.type = type;
     }
 
+    public String getUsername() {
+        return username;
+    }
 
+    public String getPassword() {
+        return password;
+    }
 }
 
