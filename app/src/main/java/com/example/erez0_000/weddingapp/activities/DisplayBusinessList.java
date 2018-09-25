@@ -1,15 +1,21 @@
 package  com.example.erez0_000.weddingapp.activities;
 
+import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Window;
+import android.widget.Toast;
 
 
 //import com.example.erez0_000.weddingapp.Businesses;
+import com.example.erez0_000.weddingapp.db_classes.Database;
 import com.example.erez0_000.weddingapp.parseJSON.adapters.RecyclerViewAdapter;
 import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
+import com.example.erez0_000.weddingapp.searches.SearchActivity;
 
 
 import org.json.JSONArray;
@@ -17,7 +23,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DisplayBusinessList extends AppCompatActivity {
 
@@ -38,6 +52,25 @@ public class DisplayBusinessList extends AppCompatActivity {
         recyclerView = findViewById(R.id.result_list);
 //        jsonrequest();
 
+        Database db = Database.getInstance();
+        Map<String,String> map = Collections.emptyMap();
+
+        db.getBusinesses(map, new Callback<List<Businesses>>() {
+            @Override
+            public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
+                lstBusinesses = response.body();
+                setuprecyclerview(lstBusinesses);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Businesses>> call, Throwable t) {
+//                Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+                System.out.println(t.getCause());
+                Toast.makeText(DisplayBusinessList.this,
+                        "מתנצלים, יש כרגע בעיות התחברות עם השרת. אנא נסו מאוחר יותר",Toast.LENGTH_LONG).show();
+            }
+        });
 
 
     }

@@ -1,41 +1,66 @@
 package com.example.erez0_000.weddingapp.db_classes;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Map;
+
 public class Businesses {
-
-    public String name;
-    public String image;
-    public String address;
-
+    @SerializedName("Name")
+    private  String Name;
+    @SerializedName("Image")
+    private String Image;
+    @SerializedName("Address")
+    private String Address;
+    @SerializedName("Description")
+    private String Description;
+    @SerializedName("Mail")
+    private String Mail;
+    @SerializedName("Region")
+    private String Region;
+    @SerializedName("Kosher")
+    private Map<String,Boolean> Kosher;
+    @SerializedName("Handikaped")
+    private String Handikaped;
+    @SerializedName("Bid")
+    private Integer Bid;
+    @SerializedName("business_type")
+    private Integer business_type;
+    @SerializedName("Phone")
+    private long[] Phone;
+    @SerializedName("winter_price")
+    private Integer winter_price;
+    @SerializedName("summer_price")
+    private Integer  summer_price;
     public String getDescription() {
-        return description;
+        return Description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescription(String Description) {
+        this.Description = Description;
     }
 
     public String getMail() {
-        return mail;
+        return Mail;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setMail(String Mail) {
+        this.Mail = Mail;
     }
 
     public String getRegion() {
-        return region;
+        return Region;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setRegion(String Region) {
+        this.Region = Region;
     }
 
     public Integer getBid() {
-        return bid;
+        return Bid;
     }
 
-    public void setBid(Integer bid) {
-        this.bid = bid;
+    public void setBid(Integer Bid) {
+        this.Bid = Bid;
     }
 
     public Integer getBusiness_type() {
@@ -46,12 +71,12 @@ public class Businesses {
         this.business_type = business_type;
     }
 
-    public Integer getPhone() {
-        return phone;
+    public long[] getPhone() {
+        return Phone;
     }
 
-    public void setPhone(Integer phone) {
-        this.phone = phone;
+    public void setPhone(long[] Phone) {
+        this.Phone= Phone;
     }
 
     public Integer getWinter_price() {
@@ -71,25 +96,22 @@ public class Businesses {
     }
 
     public String isHandikaped() {
-        return handikaped;
+        return Handikaped;
     }
 
-    public void setHandikaped(String handikaped) {
-        this.handikaped = handikaped;
+    public void setHandikaped(String Handikaped) {
+        this.Handikaped = Handikaped;
     }
 
-    public String isKosher() {
-        return kosher;
+    public Boolean isKosher(String type) {
+        return Kosher.get(type);
     }
 
-    public void setKosher(String kosher) {
-        this.kosher = kosher;
+    public void setKosher(Map<String,Boolean> Kosher) {
+        this.Kosher = Kosher;
     }
 
-    public String description;
-    public String mail;
-    public String region,kosher, handikaped;
-    public Integer bid, business_type, phone, winter_price, summer_price;
+
 
 
     public Businesses(){
@@ -97,48 +119,48 @@ public class Businesses {
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.Name = Name;
     }
 
     public String getImage() {
-        return image;
+        return Image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage(String Image) {
+        this.Image = Image;
     }
 
     public String getAddress() {
-        return address;
+        return Address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAddress(String Address) {
+        this.Address = Address;
     }
 
 
 
-    public Businesses(String name, String image, String address, String description,
-                      String mail, String region, Integer bid, Integer business_type,
-                      Integer phone, Integer winter_price, Integer summer_price,
-                      String handikaped, String kosher) {
-        this.name = name;
-        this.image = image;
-        this.address = address;
-        this.description = description;
-        this.mail = mail;
-        this.region = region;
-        this.bid = bid;
+    public Businesses(String Name, String Image, String Address, String Description,
+                      String Mail, String Region, Integer Bid, Integer business_type,
+                      long[] Phone, Integer winter_price, Integer summer_price,
+                      String Handikaped, Map<String,Boolean> Kosher) {
+        this.Name = Name;
+        this.Image = Image;
+        this.Address = Address;
+        this.Description = Description;
+        this.Mail = Mail;
+        this.Region = Region;
+        this.Bid = Bid;
         this.business_type = business_type;
-        this.phone = phone;
+        this.Phone = Phone;
         this.winter_price = winter_price;
         this.summer_price = summer_price;
-        this.handikaped = handikaped;
-        this.kosher = kosher;
+        this.Handikaped = Handikaped;
+        this.Kosher = Kosher;
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.erez0_000.weddingapp.Login_pages;
 
 import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.activities.DisplayBusinessList;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -30,6 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        startActivity(new Intent(this, DisplayBusinessList.class));
 //        if (currentUser != null) {
 //            Intent intent = new Intent(this,Logged_user_entry.class);
 ////            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

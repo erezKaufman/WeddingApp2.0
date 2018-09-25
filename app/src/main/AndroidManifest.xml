@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
+    <!-- to Gain access with the server -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,6 +31,7 @@
         <activity android:name=".searches.SearchActivity" />
         <activity android:name=".todos_section.EXpandableActivity" />
         <activity android:name=".todos_section.CategoriesActivity" />
+        <activity android:name=".activities.DisplayBusinessList" />
         <activity android:name=".calendar.CalendarTest" />
         <activity
             android:name=".CredentialsActivity"

@@ -1,11 +1,16 @@
 package com.example.erez0_000.weddingapp.db_classes;
 
+import com.example.erez0_000.weddingapp.activities.BusinessList;
+
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
@@ -15,7 +20,7 @@ import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 public class Database {
-    private static final String BASE_URL = "https://api.mlab.com/api/1/databases/wedding_app/collections";
+    private static final String BASE_URL = "https://api.mlab.com/api/1/databases/wedding_app/collections/";
     private static final String API_KEY = "22IUrrMtRgv9WsRc8Nm9Ov72z9orvB1c";
 
     private static Database db;
@@ -28,7 +33,11 @@ public class Database {
     }
 
     private Database() {
-        service = new Retrofit.Builder().baseUrl(BASE_URL).build().create(MlabService.class);
+        service = new Retrofit.Builder().baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
+                .create(MlabService.class);
     }
 
     public void signin(String username, String password, Callback<User> callback) {
@@ -45,7 +54,7 @@ public class Database {
     }
 
     // Pass empty map if you want to fetch all businesses
-    public void getBusinesses(Map<String, String> filters, Callback<Businesses []> callback) {
+    public void getBusinesses(Map<String, String> filters, Callback<List<Businesses>> callback) {
         service.getBusinesses(filters).enqueue(callback);
     }
 
@@ -60,6 +69,6 @@ public class Database {
         Call<String> updateUser(@Path("u") String username, @Path("p") String password, @Body User user);
 
         @GET("Businesses?apiKey=" + API_KEY)
-        Call<Businesses []> getBusinesses(@QueryMap Map<String, String> filters);
+        Call<List<Businesses>> getBusinesses(@QueryMap Map<String, String> filters);
     }
 }
