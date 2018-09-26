@@ -33,6 +33,7 @@
         <activity android:name=".todos_section.CategoriesActivity" />
         <activity android:name=".activities.DisplayBusinessList" />
         <activity android:name=".calendar.CalendarTest" />
+        <activity android:name=".activities.BusinessesActivity" />
         <activity
             android:name=".CredentialsActivity"
             android:label="@string/title_activity_credentials"></activity>
