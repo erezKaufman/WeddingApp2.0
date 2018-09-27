@@ -20,4 +20,5 @@
     <string name="delete_todo_reject">בטל</string>
     <string name="delete_todo_accept">אשר</string>
     <string name="delete_todo_info">האם אתה בטוח\n שברצונך למחוק את הרשימה?</string>
+    <string name="Toast_added_business_to_chart">העסק התווסף לרשימת בעלי העסקים שבחרתם עבור החתונה שלכם.  שקלול המחיר התווסף גם הוא לחישוב הכולל</string>
 </resources>

@@ -115,6 +115,9 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
     }
 
 
+    public void openBusinessChartFragment(View view) {
+
+    }
 }
 
 /**

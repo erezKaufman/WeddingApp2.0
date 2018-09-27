@@ -32,6 +32,18 @@ public class Database {
         return db = new Database();
     }
 
+    public static User getUserInstance() {
+        if (curUser!= null) return curUser;
+        return curUser = new User();
+    }
+
+    public static User setUserInstance(User newUser) {
+        if (curUser!= null) return curUser;
+        return curUser = newUser;
+    }
+
+
+
 //    public static User getUserInstance() {
 //        if (curUser != null) return curUser;
 //        return curUser = new User();

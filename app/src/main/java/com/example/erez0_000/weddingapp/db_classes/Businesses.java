@@ -26,7 +26,7 @@ public class Businesses implements Serializable {
     private Integer Bid;
     @SerializedName("business_type")
     private Integer business_type;
-    private long[] Phones;
+    private String[] Phones;
     @SerializedName("winter_price")
     private Map<String,Integer> Winter;
     @SerializedName("Summer")

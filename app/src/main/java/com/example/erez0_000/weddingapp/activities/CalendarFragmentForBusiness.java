@@ -71,6 +71,7 @@ public class CalendarFragmentForBusiness extends Fragment implements View.OnClic
                 boolean isOccupied = false;
                 Calendar cal1 = Calendar.getInstance();
                 Calendar cal2 = Calendar.getInstance();
+                Date cuTime = Calendar.getInstance().getTime();
                 cal1.setTime(date);
                 for (long curdate : epochDates) {
                     cal2.setTime(run(curdate));
@@ -78,7 +79,7 @@ public class CalendarFragmentForBusiness extends Fragment implements View.OnClic
                             cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
                             cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
 
-                    if (sameDay) {
+                    if (sameDay && cuTime.compareTo(cal2.getTime())<=0) {
                         isOccupied = true;
                         break;
                     }
@@ -119,7 +120,7 @@ public class CalendarFragmentForBusiness extends Fragment implements View.OnClic
         Date cuTime = Calendar.getInstance().getTime();
         for (long date: datelist){
             Date newDate = run(date);
-            if (cuTime.compareTo(newDate)<0){
+            if (cuTime.compareTo(newDate)<=0){
                 caldroidFragment.setBackgroundDrawableForDate(redBackground, newDate);
             }
 

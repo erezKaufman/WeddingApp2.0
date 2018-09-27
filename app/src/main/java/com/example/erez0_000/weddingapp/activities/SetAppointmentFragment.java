@@ -84,7 +84,7 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
             case R.id.accept:
                 // TODO: 27/09/2018 update the user chart
                 getView().findViewById(R.id.add_amount_linealayout).setVisibility(getView().GONE);
-                Toast.makeText(getActivity(), "העסק התווסף לרשימת בעלי העסקים שבחרתם עבור החתונה שלכם.\n שקלול המחיר התווסף גם הוא לחישוב הכולל ", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.Toast_added_business_to_chart, Toast.LENGTH_LONG).show();
                 break;
         }
     }

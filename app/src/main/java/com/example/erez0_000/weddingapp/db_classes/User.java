@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class User implements Serializable {
     private String email, username, password, age, number, type, cost, area, season;
     private ArrayList<TodoList> todoArray ;
-
+    private ArrayList<Businesses> businessInChart;
     public User() {}
 
     public User(String email,String username, String password, String age,String number,String type,String cost,
@@ -23,6 +23,7 @@ public class User implements Serializable {
         this.area = area;
         this.season = season;
         todoArray = new ArrayList<>();
+
     }
 
     public ArrayList<TodoList> getTodoArray() {
