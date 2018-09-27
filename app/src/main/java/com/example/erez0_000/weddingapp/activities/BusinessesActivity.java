@@ -31,6 +31,8 @@ public class BusinessesActivity extends AppCompatActivity
     private CaldroidFragment dialogCaldroidFragment;
     private TabLayout tabLayout;
     private ViewPager feedViewPager;
+    long[] occupieddates;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +51,7 @@ public class BusinessesActivity extends AppCompatActivity
         int nb_phone = getIntent().getExtras().getInt("anime_phone");
         String address = getIntent().getExtras().getString("anime_address");
         String image_url = getIntent().getExtras().getString("anime_img");
-
+        occupieddates = getIntent().getExtras().getLongArray("OccupiedDates");
         // ini views
 
 //        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingtoolbar_id);
@@ -139,8 +141,11 @@ public class BusinessesActivity extends AppCompatActivity
 //        a.addFragment(TodoFragment.newInstance("1","2"),"");
         InfoFragment infoFragment = InfoFragment.newInstance();
         infoFragment.setValues(name,description,region,mail,nb_phone,address,image_url);
+        CalendarFragmentForrBusiness calendarFragment = CalendarFragmentForrBusiness.newInstance();
+        calendarFragment.setListner(this,occupieddates);
+
         a.addFragment(infoFragment,"");
-        a.addFragment(CalendarFragmentForrBusiness.newInstance(),"");
+        a.addFragment(calendarFragment,"");
 
         feedViewPager.setAdapter(a);
 

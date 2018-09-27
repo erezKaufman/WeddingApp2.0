@@ -1,9 +1,12 @@
 package com.example.erez0_000.weddingapp.activities;
 
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,16 +18,19 @@ import com.example.erez0_000.weddingapp.R;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class CalendarFragmentForrBusiness extends Fragment implements View.OnClickListener {
 
     CalendarView calendarView;
-    int[] epochDates;
+    long[] epochDates;
     ClendarDialogFragmentListner listner;
     TextView curDate;
     Button setDateBtn;
+    CaldroidFragment caldroidFragment;
 
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
@@ -40,7 +46,7 @@ public class CalendarFragmentForrBusiness extends Fragment implements View.OnCli
         // END find id of objects in the layout
 
         // START Define the caldroid calendar
-        CaldroidFragment caldroidFragment = new CaldroidFragment();
+        caldroidFragment = new CaldroidFragment();
         Bundle args = new Bundle();
         Calendar cal = Calendar.getInstance();
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1);
@@ -51,15 +57,23 @@ public class CalendarFragmentForrBusiness extends Fragment implements View.OnCli
         t.replace(R.id.calendarView, caldroidFragment);
         t.commit();
         // END Define the caldroid calendar
-
+        updateOcupiedDatesBackground(epochDates);
 
         // set listner for the caldroid when clicked on specific date
         caldroidFragment.setCaldroidListener(new CaldroidListener() {
             @Override
             public void onSelectDate(Date date, View view) {
                 boolean isOccupied = false;
-                for (int curdate : epochDates) {
-                    if (date.getTime() == curdate) {
+                Calendar cal1 = Calendar.getInstance();
+                Calendar cal2 = Calendar.getInstance();
+                cal1.setTime(date);
+                for (long curdate : epochDates) {
+                    cal2.setTime(run(curdate));
+                    boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&
+                            cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                            cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH);
+
+                    if (sameDay) {
                         isOccupied = true;
                         break;
                     }
@@ -68,31 +82,68 @@ public class CalendarFragmentForrBusiness extends Fragment implements View.OnCli
                     setDateBtn.setEnabled(false);
                     curDate.setText("התאריך תפוס, אנא בחר תאריך אחר");
                 } else {
-                    curDate.setText(date.toString());
+                    // show date
+                    String day          = (String) DateFormat.format("dd",   date); // 20
+                    String monthNumber  = (String) DateFormat.format("MM",   date); // 06
+                    String year         = (String) DateFormat.format("yyyy", date); // 2013
+                    curDate.setText(day+"/"+monthNumber+"/"+year);
                     setDateBtn.setEnabled(true);
                 }
             }
         });
 
+
         return view;
 
     }
 
+    public Date run(long time){
+        return  new Date(time * 1000);
+    }
     public void setListner(CalendarFragmentForrBusiness.ClendarDialogFragmentListner dlgFrag,
-                           int[] dateList) {
+                           long[] dateList) {
         epochDates = dateList;
         listner = dlgFrag;
 
     }
 
+    public void updateOcupiedDatesBackground(long[] datelist){
+        ColorDrawable redBackground = new ColorDrawable(0xFFFF6666);
+        Date cuTime = Calendar.getInstance().getTime();
+        for (long date: datelist){
+            Date newDate = run(date);
+            if (cuTime.compareTo(newDate)<0){
+                caldroidFragment.setBackgroundDrawableForDate(redBackground, newDate);
+            }
 
+        }
+        caldroidFragment.refreshView();
+
+    }
 
     @Override
     public void onClick(View v) {
+        SimpleDateFormat curFormater = new SimpleDateFormat("dd/MM/yyyy");
+
         listner.onDateClick(curDate.toString());
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(curFormater.parse(curDate.toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra("beginTime", cal.getTimeInMillis());
+        intent.putExtra("allDay", true);
+        intent.putExtra("rrule", "FREQ=YEARLY");
+        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+        intent.putExtra("title", "A Test Event from android app");
+        startActivity   (intent);
     }
 
-    public static Fragment newInstance() {
+    public static CalendarFragmentForrBusiness newInstance() {
+
         CalendarFragmentForrBusiness calendarFrag = new CalendarFragmentForrBusiness();
         Bundle args = new Bundle();
         calendarFrag.setArguments(args);

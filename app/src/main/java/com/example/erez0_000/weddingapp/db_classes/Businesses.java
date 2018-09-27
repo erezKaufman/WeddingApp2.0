@@ -25,12 +25,21 @@ public class Businesses {
     private Integer Bid;
     @SerializedName("business_type")
     private Integer business_type;
-    @SerializedName("Phone")
-    private long[] Phone;
+    private long[] Phones;
     @SerializedName("winter_price")
     private Integer winter_price;
     @SerializedName("summer_price")
     private Integer  summer_price;
+    private long[] OccupiedDates;
+
+    public void setOccupiedDates(long[] occupiedDates) {
+        OccupiedDates = occupiedDates;
+    }
+
+    public long[] getOccupiedDates() {
+        return OccupiedDates;
+    }
+
     public String getDescription() {
         return Description;
     }
@@ -72,11 +81,11 @@ public class Businesses {
     }
 
     public long[] getPhone() {
-        return Phone;
+        return Phones;
     }
 
     public void setPhone(long[] Phone) {
-        this.Phone= Phone;
+        this.Phones= Phone;
     }
 
     public Integer getWinter_price() {
@@ -156,7 +165,7 @@ public class Businesses {
         this.Region = Region;
         this.Bid = Bid;
         this.business_type = business_type;
-        this.Phone = Phone;
+        this.Phones = Phone;
         this.winter_price = winter_price;
         this.summer_price = summer_price;
         this.Handikaped = Handikaped;
