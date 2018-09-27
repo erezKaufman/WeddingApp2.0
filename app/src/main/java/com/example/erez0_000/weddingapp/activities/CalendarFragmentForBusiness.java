@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CalendarFragmentForrBusiness extends Fragment implements View.OnClickListener {
+public class CalendarFragmentForBusiness extends Fragment implements View.OnClickListener {
 
     CalendarView calendarView;
     long[] epochDates;
@@ -31,12 +31,17 @@ public class CalendarFragmentForrBusiness extends Fragment implements View.OnCli
     TextView curDate;
     Button setDateBtn;
     CaldroidFragment caldroidFragment;
-
+    final int winderBegins = 4;
+    final int winterEnds =9;
+    final int startMonth = 1;
+    final int endMonth = 30;
+    boolean isWinter;
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // fill the view with the fragment layout
         View view = inflater.inflate(R.layout.calendar_fragment, container, false);
+        isWinter = false;
         // START find id of objects in the layout
         curDate = view.findViewById(R.id.show_date);
 
@@ -82,6 +87,8 @@ public class CalendarFragmentForrBusiness extends Fragment implements View.OnCli
                     setDateBtn.setEnabled(false);
                     curDate.setText("התאריך תפוס, אנא בחר תאריך אחר");
                 } else {
+                    isWinter =  (cal1.get(Calendar.MONTH) >= winderBegins)&&
+                            (cal1.get(Calendar.MONTH) <= winterEnds);
                     // show date
                     String day          = (String) DateFormat.format("dd",   date); // 20
                     String monthNumber  = (String) DateFormat.format("MM",   date); // 06
@@ -100,7 +107,7 @@ public class CalendarFragmentForrBusiness extends Fragment implements View.OnCli
     public Date run(long time){
         return  new Date(time * 1000);
     }
-    public void setListner(CalendarFragmentForrBusiness.ClendarDialogFragmentListner dlgFrag,
+    public void setListner(CalendarFragmentForBusiness.ClendarDialogFragmentListner dlgFrag,
                            long[] dateList) {
         epochDates = dateList;
         listner = dlgFrag;
@@ -123,28 +130,14 @@ public class CalendarFragmentForrBusiness extends Fragment implements View.OnCli
 
     @Override
     public void onClick(View v) {
-        SimpleDateFormat curFormater = new SimpleDateFormat("dd/MM/yyyy");
 
-        listner.onDateClick(curDate.toString());
-        Calendar cal = Calendar.getInstance();
-        try {
-            cal.setTime(curFormater.parse(curDate.toString()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Intent intent = new Intent(Intent.ACTION_EDIT);
-        intent.setType("vnd.android.cursor.item/event");
-        intent.putExtra("beginTime", cal.getTimeInMillis());
-        intent.putExtra("allDay", true);
-        intent.putExtra("rrule", "FREQ=YEARLY");
-        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
-        intent.putExtra("title", "A Test Event from android app");
-        startActivity   (intent);
+        listner.onDateClick(curDate.toString(),isWinter);
+
     }
 
-    public static CalendarFragmentForrBusiness newInstance() {
+    public static CalendarFragmentForBusiness newInstance() {
 
-        CalendarFragmentForrBusiness calendarFrag = new CalendarFragmentForrBusiness();
+        CalendarFragmentForBusiness calendarFrag = new CalendarFragmentForBusiness();
         Bundle args = new Bundle();
         calendarFrag.setArguments(args);
         return calendarFrag;
@@ -152,7 +145,7 @@ public class CalendarFragmentForrBusiness extends Fragment implements View.OnCli
 
 
     public interface ClendarDialogFragmentListner {
-        void onDateClick(String message);
+        void onDateClick(String message, boolean isWinter);
     }
 }
 

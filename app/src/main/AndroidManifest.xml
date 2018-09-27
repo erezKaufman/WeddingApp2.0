@@ -39,6 +39,10 @@
         <activity
             android:name=".CredentialsActivity"
             android:label="@string/title_activity_credentials"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

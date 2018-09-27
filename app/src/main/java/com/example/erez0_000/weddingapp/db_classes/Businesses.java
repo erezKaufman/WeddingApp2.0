@@ -2,9 +2,10 @@ package com.example.erez0_000.weddingapp.db_classes;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class Businesses {
+public class Businesses implements Serializable {
     @SerializedName("Name")
     private  String Name;
     @SerializedName("Image")
@@ -27,9 +28,9 @@ public class Businesses {
     private Integer business_type;
     private long[] Phones;
     @SerializedName("winter_price")
-    private Integer winter_price;
-    @SerializedName("summer_price")
-    private Integer  summer_price;
+    private Map<String,Integer> Winter;
+    @SerializedName("Summer")
+    private Map<String,Integer> Summer;
     private long[] OccupiedDates;
 
     public void setOccupiedDates(long[] occupiedDates) {
@@ -88,21 +89,21 @@ public class Businesses {
         this.Phones= Phone;
     }
 
-    public Integer getWinter_price() {
-        return winter_price;
+    public Map<String,Integer>  getWinter_price() {
+        return Winter;
     }
 
-    public void setWinter_price(Integer winter_price) {
-        this.winter_price = winter_price;
+//    public void setWinter_price(Integer winter_price) {
+//        this.Winter= winter_price;
+//    }
+
+    public Map<String,Integer> getSummer_price() {
+        return Summer;
     }
 
-    public Integer getSummer_price() {
-        return summer_price;
-    }
-
-    public void setSummer_price(Integer summer_price) {
-        this.summer_price = summer_price;
-    }
+//    public void setSummer_price(Integer summer_price) {
+//        this.summer_price = summer_price;
+//    }
 
     public String isHandikaped() {
         return Handikaped;
@@ -155,7 +156,7 @@ public class Businesses {
 
     public Businesses(String Name, String Image, String Address, String Description,
                       String Mail, String Region, Integer Bid, Integer business_type,
-                      long[] Phone, Integer winter_price, Integer summer_price,
+                      long[] Phone, Map<String,Integer>  winter_price, Map<String,Integer>  summer_price,
                       String Handikaped, Map<String,Boolean> Kosher) {
         this.Name = Name;
         this.Image = Image;
@@ -166,8 +167,8 @@ public class Businesses {
         this.Bid = Bid;
         this.business_type = business_type;
         this.Phones = Phone;
-        this.winter_price = winter_price;
-        this.summer_price = summer_price;
+        this.Winter = winter_price;
+        this.Summer = summer_price;
         this.Handikaped = Handikaped;
         this.Kosher = Kosher;
     }

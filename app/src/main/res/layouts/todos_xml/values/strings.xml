@@ -11,4 +11,10 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="set_appointment_text">לצערנו כרגע אפשרות הזמנת מקום מול בעל העסק אינה זמינה דרך האפליקציה.\n אם תרצה תוכל לפנות אל בעל העסק דרך אמצעי התקשורת הזמינים לו</string>
+    <string name="createCalendarEvent">צור זימון ביומן</string>
+    <string name="gotoTodos">סמן את הפגישה ברשימת המטלות</string>
+    <string name="addValueToChart">הוסף חישוב לטבלה המרכזית</string>
+    <string name="add_amount_cancel">בטל</string>
+    <string name="add_amount_accept">אשר</string>
 </resources>

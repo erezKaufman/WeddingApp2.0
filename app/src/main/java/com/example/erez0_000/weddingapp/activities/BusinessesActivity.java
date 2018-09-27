@@ -1,57 +1,46 @@
 package com.example.erez0_000.weddingapp.activities;
 //package com.demotxt.myapp.parseJSON.activities;
 
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.example.erez0_000.weddingapp.todos_section.AddSubTaskFragment;
 import com.roomorama.caldroid.CaldroidFragment;
-import com.roomorama.caldroid.CaldroidListener;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class BusinessesActivity extends AppCompatActivity
-        implements CalendarFragmentForrBusiness.ClendarDialogFragmentListner {
+        implements CalendarFragmentForBusiness.ClendarDialogFragmentListner {
     private CaldroidFragment dialogCaldroidFragment;
     private TabLayout tabLayout;
     private ViewPager feedViewPager;
-    long[] occupieddates;
-
+    private long[] occupieddates, phoneNumbers;
+    private String mail;
+    private Businesses curBusiness;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_business);
         final Bundle state = savedInstanceState;
-        final SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 
         getSupportActionBar().hide();
 
         // Receive data
-
-        String name = getIntent().getExtras().getString("anime_name");
-        String description = getIntent().getExtras().getString("anime_description");
-        String region = getIntent().getExtras().getString("anime_region");
-        String mail = getIntent().getExtras().getString("anime_mail");
-        int nb_phone = getIntent().getExtras().getInt("anime_phone");
-        String address = getIntent().getExtras().getString("anime_address");
-        String image_url = getIntent().getExtras().getString("anime_img");
-        occupieddates = getIntent().getExtras().getLongArray("OccupiedDates");
+        curBusiness = (Businesses) getIntent().getSerializableExtra("curBusiness");
+        String name = curBusiness.getName();
+        String description = curBusiness.getDescription();
+        String region = curBusiness.getRegion();
+        mail = curBusiness.getMail();
+        phoneNumbers = curBusiness.getPhone();
+        String address = curBusiness.getAddress();
+        String image_url = curBusiness.getImage();
+        occupieddates = curBusiness.getOccupiedDates();
         // ini views
 
 //        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsingtoolbar_id);
@@ -60,7 +49,7 @@ public class BusinessesActivity extends AppCompatActivity
         feedViewPager = (ViewPager) findViewById(R.id.view_pager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
-        createTabs(feedViewPager,name,description,region,mail,nb_phone,address,image_url);
+        createTabs(feedViewPager,name,description,region,mail,phoneNumbers,address,image_url);
 
 
         // START - WORKING ON CALENDAR
@@ -135,13 +124,13 @@ public class BusinessesActivity extends AppCompatActivity
 
     }
 
-    private void createTabs(ViewPager feedViewPager, String name, String description, String region, String mail, int nb_phone, String address, String image_url) {
+    private void createTabs(ViewPager feedViewPager, String name, String description, String region, String mail, long[] nb_phone, String address, String image_url) {
         TabPagerAdapter a = new TabPagerAdapter(getSupportFragmentManager());
 
 //        a.addFragment(TodoFragment.newInstance("1","2"),"");
         InfoFragment infoFragment = InfoFragment.newInstance();
         infoFragment.setValues(name,description,region,mail,nb_phone,address,image_url);
-        CalendarFragmentForrBusiness calendarFragment = CalendarFragmentForrBusiness.newInstance();
+        CalendarFragmentForBusiness calendarFragment = CalendarFragmentForBusiness.newInstance();
         calendarFragment.setListner(this,occupieddates);
 
         a.addFragment(infoFragment,"");
@@ -158,7 +147,10 @@ public class BusinessesActivity extends AppCompatActivity
     }
 
     @Override
-    public void onDateClick(String message) {
-
+    public void onDateClick(String dateString,boolean isWinter) {
+        FragmentManager ft = getSupportFragmentManager();
+        SetAppointmentFragment appointmentFrag = SetAppointmentFragment.newInstance();
+        appointmentFrag.setBusinessContact(curBusiness,dateString,isWinter);
+        appointmentFrag.show(ft ,null);
     }
 }
