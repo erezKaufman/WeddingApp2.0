@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class User implements Serializable {
     private String email, username, password, age, number, type, cost, area, season;
     private ArrayList<TodoList> todoArray ;
+
     public User() {}
 
     public User(String email,String username, String password, String age,String number,String type,String cost,
@@ -28,6 +29,9 @@ public class User implements Serializable {
         return todoArray;
     }
 
+    public void addTodo(TodoList todoList){
+        todoArray.add(todoList);
+    }
     public void updateTodo(int pos, TodoList todoList){
         todoArray.set(pos,todoList);
     }

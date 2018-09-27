@@ -2,6 +2,7 @@ package com.example.erez0_000.weddingapp.todos_section;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,45 +13,60 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.db_classes.Database;
+import com.example.erez0_000.weddingapp.db_classes.User;
 
 public class CategoriesActivity extends AppCompatActivity
         implements TodoRecyclerViewAdapter.CreateOnClickListner,
-        View.OnClickListener
-        {
+        View.OnClickListener,
+        DeleteTodoFragment.DeletefragmentListener{
     private RecyclerView gRecyclerView;
     private TodoRecyclerViewAdapter gviewAdapter;
     private Button addTodo;
     private EditText taskText;
-//    private String text;
+    private ArrayList<TodoList> listOfTodos;
+
 
     private static final String ED_TASK_BACK = "ED_TASK_BACK";
     private static final String ED_TASK_ITEM = "TASK_ITEM";
     private static final int RC_EXPANDABLE = 9001;
 
-    private ArrayList<TodoList> listOfTodos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
-        initRecyclerView();
-        listOfTodos = new ArrayList<>();
+        // hold the User information
+        User currentUser = Database.curUser;
+        // fill the recyclerView with the todos from the user
+        if (currentUser != null){
+            listOfTodos = currentUser.getTodoArray();
+
+        }else{
+            listOfTodos = new ArrayList<>();
+        }
+        // START editing View
         taskText = findViewById(R.id.ed_main);
         taskText.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);
-//        taskText.addTextChangedListener(this);
-
         addTodo = findViewById(R.id.bt_main);
         addTodo.setOnClickListener(this);
-
+        gRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        // END editing View
+        initRecyclerView();
 
     }
 
+    /**
+     * the method initialize the recyclerView for the categories - which each holds the TodoList
+     */
     private void initRecyclerView() {
-        gRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
         gRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         gviewAdapter = new TodoRecyclerViewAdapter(this);
@@ -58,6 +74,11 @@ public class CategoriesActivity extends AppCompatActivity
         gRecyclerView.setAdapter(gviewAdapter);
     }
 
+    /**
+     * interface method for the TodoRecyclerViewAdapter listener.
+     * the method takes the cell that the user chose and open it in a new activity
+     * @param todoTitle
+     */
     @Override
     public void openTodoListInActivity(TodoTitle todoTitle) {
 
@@ -71,9 +92,29 @@ public class CategoriesActivity extends AppCompatActivity
 
     }
 
+    /**
+     *
+     * @param todoTitle
+     */
     @Override
-    public void deleteTodo(TodoTitle todoTitle) {
-        // TODO: 25/09/2018  COMPLETE THIS
+    public void deleteTodoFromListener(final TodoTitle todoTitle) {
+        FragmentManager ft = getSupportFragmentManager();
+        DeleteTodoFragment appointmentFrag = DeleteTodoFragment.newInstance();
+        appointmentFrag.setListener(new DeleteTodoFragment.DeletefragmentListener() {
+            /**
+             * implementing listener's method - after
+             */
+            @Override
+            public void acceptDelition() {
+                gviewAdapter.deleteTodo(todoTitle);
+                Toast.makeText(CategoriesActivity.this,"הרשימה נמחקה בהצלחה",Toast.LENGTH_LONG).show();
+
+            }
+        });
+        appointmentFrag.show(ft ,null);
+
+
+
     }
 
 
@@ -121,5 +162,10 @@ public class CategoriesActivity extends AppCompatActivity
                 return;
             }
         }
+    }
+
+    @Override
+    public void acceptDelition() {
+
     }
 }

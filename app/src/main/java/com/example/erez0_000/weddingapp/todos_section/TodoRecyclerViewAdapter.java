@@ -7,21 +7,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.example.erez0_000.weddingapp.R;
+
 import java.util.ArrayList;
 
-public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerViewAdapter.GroupViewHolder>
-        implements View.OnClickListener, View.OnLongClickListener{
-    //    private ArrayList<ExpandableListViewAdapter> todoTitleList;
+public class TodoRecyclerViewAdapter
+        extends RecyclerView.Adapter<TodoRecyclerViewAdapter.GroupViewHolder> {
+
     private ArrayList<TodoTitle> todoTitleList;
     private CreateOnClickListner listner;
 
-    @Override
-    public boolean onLongClick(View v) {
-        return true;
-    }
-
-    public class GroupViewHolder extends RecyclerView.ViewHolder{
+    public class GroupViewHolder extends RecyclerView.ViewHolder {
         private TextView groupName;
 
         public GroupViewHolder(View itemView) {
@@ -31,14 +28,16 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         }
     }
 
-    public TodoRecyclerViewAdapter(CreateOnClickListner createOnClickListner){
+    /**
+     * @param createOnClickListner
+     */
+    public TodoRecyclerViewAdapter(CreateOnClickListner createOnClickListner) {
         todoTitleList = new ArrayList<>();
         listner = createOnClickListner;
     }
 
 
-
-    public void addTodo(TodoTitle todoTitle){
+    public void addTodo(TodoTitle todoTitle) {
         todoTitleList.add(todoTitle);
         notifyDataSetChanged();
     }
@@ -47,7 +46,7 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
     @Override
     public GroupViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.group_item,parent,false);
+        View view = inflater.inflate(R.layout.group_item, parent, false);
         return new GroupViewHolder(view);
     }
 
@@ -64,12 +63,24 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                listner.deleteTodo(todoTitle);
+                listner.deleteTodoFromListener(todoTitle);
                 return true;
             }
         });
     }
 
+    /**
+     * interface method for the TodoRecyclerViewAdapter listener.
+     * the method removes the TodoTitle from the arraylist and updates the recyclerView
+     *
+     * @param todoTitle
+     */
+    public void deleteTodo(TodoTitle todoTitle) {
+
+        todoTitleList.remove(todoTitle);
+        notifyDataSetChanged();
+
+    }
 
 
     @Override
@@ -77,13 +88,13 @@ public class TodoRecyclerViewAdapter extends RecyclerView.Adapter<TodoRecyclerVi
         return todoTitleList.size();
     }
 
-    @Override
-    public void onClick(View v) {
 
-    }
-
-    public interface CreateOnClickListner{
+    /**
+     * listener to pass activity request from the CategoriesActivity
+     */
+    public interface CreateOnClickListner {
         void openTodoListInActivity(TodoTitle todoTitle);
-        void deleteTodo(TodoTitle todoTitle);
+
+        void deleteTodoFromListener(TodoTitle todoTitle);
     }
 }

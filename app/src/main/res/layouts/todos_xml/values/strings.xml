@@ -17,4 +17,7 @@
     <string name="addValueToChart">הוסף חישוב לטבלה המרכזית</string>
     <string name="add_amount_cancel">בטל</string>
     <string name="add_amount_accept">אשר</string>
+    <string name="delete_todo_reject">בטל</string>
+    <string name="delete_todo_accept">אשר</string>
+    <string name="delete_todo_info">האם אתה בטוח\n שברצונך למחוק את הרשימה?</string>
 </resources>
