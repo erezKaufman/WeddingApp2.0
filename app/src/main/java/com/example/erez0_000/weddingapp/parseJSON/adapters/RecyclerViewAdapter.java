@@ -53,21 +53,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                 Intent i = new Intent(mContext, BusinessesActivity.class);
                 i.putExtra("curBusiness",(Serializable)mData.get(viewHolder.getAdapterPosition()));
-//                i.putExtra("anime_name",mData.get(viewHolder.getAdapterPosition()).getName());
-//                i.putExtra("anime_description",mData.get(viewHolder.getAdapterPosition()).getDescription());
-//                i.putExtra("anime_region",mData.get(viewHolder.getAdapterPosition()).getRegion());
-//                i.putExtra("anime_mail",mData.get(viewHolder.getAdapterPosition()).getMail());
-//                i.putExtra("anime_phone",mData.get(viewHolder.getAdapterPosition()).getPhone());
-//                i.putExtra("anime_address",mData.get(viewHolder.getAdapterPosition()).getAddress());
-//                i.putExtra("anime_img",mData.get(viewHolder.getAdapterPosition()).getImage());
-//
-//                i.putExtra("anime_bid",mData.get(viewHolder.getAdapterPosition()).getImage());
-//                i.putExtra("anime_winter_price",mData.get(viewHolder.getAdapterPosition()).getWinter_price());
-//                i.putExtra("anime_summer_price",mData.get(viewHolder.getAdapterPosition()).getSummer_price());
-//                i.putExtra("business_type",mData.get(viewHolder.getAdapterPosition()).getBusiness_type());
-//                i.putExtra("handikaped",mData.get(viewHolder.getAdapterPosition()).isHandikaped());
-//                i.putExtra("OccupiedDates",mData.get(viewHolder.getAdapterPosition()).getOccupiedDates());
-//                i.putExtra("kosher",mData.get(viewHolder.getAdapterPosition()).isKosher());
 
 
                 mContext.startActivity(i);
