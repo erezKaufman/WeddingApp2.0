@@ -1,5 +1,7 @@
 package com.example.erez0_000.weddingapp.db_classes;
 
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public class Database {
@@ -55,7 +58,7 @@ public class Database {
 
     // Pass empty map if you want to fetch all businesses
     public void getBusinesses(Map<String, String> filters, Callback<List<Businesses>> callback) {
-        service.getBusinesses(filters).enqueue(callback);
+        service.getBusinesses(new JSONObject(filters).toString()).enqueue(callback);
     }
 
     public interface MlabService {
@@ -69,6 +72,6 @@ public class Database {
         Call<String> updateUser(@Path("u") String username, @Path("p") String password, @Body User user);
 
         @GET("Businesses?apiKey=" + API_KEY)
-        Call<List<Businesses>> getBusinesses(@QueryMap Map<String, String> filters);
+        Call<List<Businesses>> getBusinesses(@Query("q") String filters);
     }
 }
