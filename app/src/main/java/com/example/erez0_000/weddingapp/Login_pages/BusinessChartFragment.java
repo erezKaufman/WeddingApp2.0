@@ -12,7 +12,7 @@ import com.example.erez0_000.weddingapp.todos_section.TodoRecyclerViewAdapter;
 import java.util.List;
 
 public class BusinessChartFragment extends DialogFragment
-        implements {
+         {
     private List<Businesses> lstBusinesses;
     private RecyclerView recyclerView ;
     private BusinessChartRecyclerViewAdapter businessChartRecyclerViewAdapter;
@@ -29,10 +29,10 @@ public class BusinessChartFragment extends DialogFragment
 
     private void initRecyclerView() {
 
-        gRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        gviewAdapter = new TodoRecyclerViewAdapter(this);
-
-        gRecyclerView.setAdapter(gviewAdapter);
+//        gRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//
+//        gviewAdapter = new TodoRecyclerViewAdapter(this);
+//
+//        gRecyclerView.setAdapter(gviewAdapter);
     }
 }
