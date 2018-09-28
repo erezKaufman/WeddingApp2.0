@@ -1,5 +1,6 @@
 package com.example.erez0_000.weddingapp.Login_pages;
 
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,21 +11,20 @@ import android.widget.ImageView;
 
 import com.example.erez0_000.weddingapp.Personal_window_Activity;
 import com.example.erez0_000.weddingapp.R;
-import com.example.erez0_000.weddingapp.activities.DisplayBusinessList;
-import com.example.erez0_000.weddingapp.searches.SearchActivity;
+import com.example.erez0_000.weddingapp.activities.DisplayBusinessListActivity;
+import com.example.erez0_000.weddingapp.db_classes.User;
 import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 
-public class Logged_user_entry extends AppCompatActivity implements View.OnClickListener    {
-    private static final String TAG = "Logged_user_entry";
-//    private FirebaseAuth mAuth;
-
+public class Logged_user_entryActivity extends AppCompatActivity implements View.OnClickListener    {
+    private static final String TAG = "LoggedUsErentryActivity";
+    private User loggedUser;
 
     private ProgressDialog mprogressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_user_entry);
-        Log.d(TAG, "onCreate: started Logged_user_entry");
+        Log.d(TAG, "onCreate: started Logged_user_entryActivity");
         findViewById(R.id.gotoPersonalZone).setOnClickListener(this);
         findViewById(R.id.gotoSearch).setOnClickListener(this);
         findViewById(R.id.goto_categories).setOnClickListener(this);
@@ -67,7 +67,7 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
 //        Intent intent = new Intent(this,SearchActivity.class);
 //        startActivity(intent);
         setContentView(R.layout.activity_login);
-        startActivity(new Intent(this, DisplayBusinessList.class));
+        startActivity(new Intent(this, DisplayBusinessListActivity.class));
     }
     /**
      *
@@ -119,6 +119,11 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
 
 
     public void openBusinessChartFragment(View view) {
+        // TODO: 28/09/2018 open from here new fragment that will hold all the business the user chose to work with.
+        // TODO: 28/09/2018  in turn, the fragment will hold a recycler view of all the businesses. and you can open by clicking on it the business page (without the ability to order new appointment)
+        FragmentManager fm = getFragmentManager();
+        BusinessChartFragment businessChartFragment = BusinessChartFragment.newInstance();
+        businessChartFragment.show(fm,null);
 
     }
 }

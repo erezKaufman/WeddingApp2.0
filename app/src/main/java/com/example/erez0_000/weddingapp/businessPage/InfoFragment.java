@@ -1,4 +1,4 @@
-package com.example.erez0_000.weddingapp.activities;
+package com.example.erez0_000.weddingapp.businessPage;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

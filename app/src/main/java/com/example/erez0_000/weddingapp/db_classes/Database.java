@@ -1,13 +1,10 @@
 package com.example.erez0_000.weddingapp.db_classes;
 
-import com.example.erez0_000.weddingapp.activities.BusinessList;
-
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -34,19 +31,6 @@ public class Database {
 
 
 
-
-//    public static User getUserInstance() {
-//        if (curUser != null) return curUser;
-//        return curUser = new User();
-//    }
-
-//    public User getCurUser() {
-//        return curUser;
-//    }
-
-//    public void setCurUser(User curUser) {
-//        this.curUser = curUser;
-//    }
 
     private Database() {
         service = new Retrofit.Builder().baseUrl(BASE_URL)

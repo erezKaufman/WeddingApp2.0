@@ -1,6 +1,5 @@
-package com.example.erez0_000.weddingapp.activities;
+package com.example.erez0_000.weddingapp.businessPage;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,8 +17,6 @@ import com.example.erez0_000.weddingapp.R;
 import com.roomorama.caldroid.CaldroidFragment;
 import com.roomorama.caldroid.CaldroidListener;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 

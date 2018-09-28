@@ -1,4 +1,4 @@
-package com.example.erez0_000.weddingapp.activities;
+package com.example.erez0_000.weddingapp.Login_pages;
 
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.google.gson.annotations.SerializedName;

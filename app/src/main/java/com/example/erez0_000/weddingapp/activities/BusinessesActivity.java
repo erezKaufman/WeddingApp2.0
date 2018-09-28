@@ -2,18 +2,18 @@ package com.example.erez0_000.weddingapp.activities;
 //package com.demotxt.myapp.parseJSON.activities;
 
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.businessPage.CalendarFragmentForBusiness;
+import com.example.erez0_000.weddingapp.businessPage.InfoFragment;
+import com.example.erez0_000.weddingapp.businessPage.SetAppointmentFragment;
+import com.example.erez0_000.weddingapp.businessPage.TabPagerAdapter;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
-import com.example.erez0_000.weddingapp.todos_section.AddSubTaskFragment;
 import com.roomorama.caldroid.CaldroidFragment;
-
-import java.text.SimpleDateFormat;
 
 public class BusinessesActivity extends AppCompatActivity
         implements CalendarFragmentForBusiness.ClendarDialogFragmentListner {

@@ -1,4 +1,4 @@
-package com.example.erez0_000.weddingapp.activities;
+package com.example.erez0_000.weddingapp.businessPage;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,7 +7,7 @@ import android.support.v4.util.Pair;
 
 import java.util.ArrayList;
 
-class TabPagerAdapter extends FragmentPagerAdapter {
+public class TabPagerAdapter extends FragmentPagerAdapter {
 
     private static final int NUMBER_OF_PAGES_IN_TABS = 2;
 
@@ -16,11 +16,11 @@ class TabPagerAdapter extends FragmentPagerAdapter {
     /**
      * @param fm fragment manager type, manages the fragments
      */
-    TabPagerAdapter(FragmentManager fm) {
+    public TabPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    void addFragment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment, String title) {
         tabbs.add(Pair.create(fragment, title));
     }
 

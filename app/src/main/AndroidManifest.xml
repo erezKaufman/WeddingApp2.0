@@ -27,13 +27,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".Login_pages.Sign_in_and_info_Activity" />
-        <activity android:name=".Login_pages.Logged_user_entry" />
+        <activity android:name=".Login_pages.Logged_user_entryActivity" />
         <activity android:name=".Login_pages.Anonymous_user_entry" />
         <activity android:name=".Personal_window_Activity" />
         <activity android:name=".searches.SearchActivity" />
         <activity android:name=".todos_section.EXpandableActivity" />
         <activity android:name=".todos_section.CategoriesActivity" />
-        <activity android:name=".activities.DisplayBusinessList" />
+        <activity android:name=".activities.DisplayBusinessListActivity" />
         <activity android:name=".calendar.CalendarTest" />
         <activity android:name=".activities.BusinessesActivity" />
         <activity
@@ -44,10 +44,6 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity
-            android:name=".activities.DELETEME"
-            android:label="@string/title_activity_deleteme"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

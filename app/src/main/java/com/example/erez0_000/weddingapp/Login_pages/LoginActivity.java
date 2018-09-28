@@ -1,23 +1,20 @@
 package com.example.erez0_000.weddingapp.Login_pages;
 
 import com.example.erez0_000.weddingapp.R;
-import com.example.erez0_000.weddingapp.activities.DisplayBusinessList;
+import com.example.erez0_000.weddingapp.activities.DisplayBusinessListActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
 
 
-    private static final String TAG = "Logged_user_entry";
+    private static final String TAG = "Logged_user_entryActivity";
     private static final String TAG2 = "Anonymous_user_entry";
     private ProgressDialog mprogressDialog;
 
@@ -32,9 +29,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        startActivity(new Intent(this, DisplayBusinessList.class));
+        startActivity(new Intent(this, DisplayBusinessListActivity.class));
 //        if (currentUser != null) {
-//            Intent intent = new Intent(this,Logged_user_entry.class);
+//            Intent intent = new Intent(this,Logged_user_entryActivity.class);
 ////            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 //            startActivity(intent);
 //            finish();
@@ -98,7 +95,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     //
     private void openSearchActivity() {
         setContentView(R.layout.activity_login);
-        startActivity(new Intent(this, DisplayBusinessList.class));
+        startActivity(new Intent(this, DisplayBusinessListActivity.class));
     }
 //
 //    private void addCalendarEvent() {
@@ -207,7 +204,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                                        newuser = dataSnapshot.getValue(User.class);
 //                                        // TODO create a better query to retrive user information (take query from Ofir)
 //
-//                                        Intent intent = new Intent(LoginActivity.this,Logged_user_entry.class);
+//                                        Intent intent = new Intent(LoginActivity.this,Logged_user_entryActivity.class);
 ////                                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 //                                        startActivity(intent);
 //                                        finish();

@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DisplayBusinessList extends AppCompatActivity
+public class DisplayBusinessListActivity extends AppCompatActivity
     implements View.OnClickListener, FabFilterFragment.FilterListener{
 
     // this url is from my github - a raw json file with the Buisnaess class data members
@@ -113,7 +113,7 @@ public class DisplayBusinessList extends AppCompatActivity
 //        });
 //
 //
-//        requestQueue = Volley.newRequestQueue(DisplayBusinessList.this);
+//        requestQueue = Volley.newRequestQueue(DisplayBusinessListActivity.this);
 //        requestQueue.add(request) ;
 //
 //
@@ -164,7 +164,7 @@ public class DisplayBusinessList extends AppCompatActivity
 
     public void getInfoFromDb() {
         Map<String,String> map  = fillMap();
-
+        // TODO: 28/09/2018  the map filter doesn't work. need to talk with Ben about it
         db.getBusinesses(map, new Callback<List<Businesses>>() {
             @Override
             public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
@@ -177,7 +177,7 @@ public class DisplayBusinessList extends AppCompatActivity
             public void onFailure(Call<List<Businesses>> call, Throwable t) {
 //                Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
                 System.out.println(t.getCause());
-                Toast.makeText(DisplayBusinessList.this,
+                Toast.makeText(DisplayBusinessListActivity.this,
                         "מתנצלים, יש כרגע בעיות התחברות עם השרת. אנא נסו מאוחר יותר",Toast.LENGTH_LONG).show();
             }
         });
