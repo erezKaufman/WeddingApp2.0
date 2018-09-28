@@ -20,7 +20,8 @@ public class BusinessesActivity extends AppCompatActivity
     private CaldroidFragment dialogCaldroidFragment;
     private TabLayout tabLayout;
     private ViewPager feedViewPager;
-    private long[] occupieddates, phoneNumbers;
+    private long[] occupieddates;
+    private String[] phoneNumbers;
     private String mail;
     private Businesses curBusiness;
     @Override
@@ -124,7 +125,7 @@ public class BusinessesActivity extends AppCompatActivity
 
     }
 
-    private void createTabs(ViewPager feedViewPager, String name, String description, String region, String mail, long[] nb_phone, String address, String image_url) {
+    private void createTabs(ViewPager feedViewPager, String name, String description, String region, String mail, String[] nb_phone, String address, String image_url) {
         TabPagerAdapter a = new TabPagerAdapter(getSupportFragmentManager());
 
 //        a.addFragment(TodoFragment.newInstance("1","2"),"");

@@ -16,9 +16,14 @@
     <string name="gotoTodos">סמן את הפגישה ברשימת המטלות</string>
     <string name="addValueToChart">הוסף חישוב לטבלה המרכזית</string>
     <string name="add_amount_cancel">בטל</string>
-    <string name="add_amount_accept">אשר</string>
-    <string name="delete_todo_reject">בטל</string>
+    <string name="accept">אשר</string>
+    <string name="reject">בטל</string>
     <string name="delete_todo_accept">אשר</string>
     <string name="delete_todo_info">האם אתה בטוח\n שברצונך למחוק את הרשימה?</string>
     <string name="Toast_added_business_to_chart">העסק התווסף לרשימת בעלי העסקים שבחרתם עבור החתונה שלכם.  שקלול המחיר התווסף גם הוא לחישוב הכולל</string>
+    <string name="title_activity_deleteme">DELETEME</string>
+    <string name="start_search">התחל חיפוש</string>
+    <string name="kosher_text">בחר סוג כשרות</string>
+    <string name="region_text">בחר איזור בארץ</string>
+    <string name="type_text">בחר סוג עסק</string>
 </resources>

@@ -18,8 +18,10 @@ public class Businesses implements Serializable {
     private String Mail;
     @SerializedName("Region")
     private String Region;
-    @SerializedName("Kosher")
-    private Map<String,Boolean> Kosher;
+    @SerializedName("MeatKosher")
+    private boolean MeatKosher;
+    @SerializedName("MilkKosher")
+    private boolean MilkKosher;
     @SerializedName("Handikaped")
     private String Handikaped;
     @SerializedName("Bid")
@@ -27,7 +29,7 @@ public class Businesses implements Serializable {
     @SerializedName("business_type")
     private Integer business_type;
     private String[] Phones;
-    @SerializedName("winter_price")
+    @SerializedName("Winter")
     private Map<String,Integer> Winter;
     @SerializedName("Summer")
     private Map<String,Integer> Summer;
@@ -81,11 +83,11 @@ public class Businesses implements Serializable {
         this.business_type = business_type;
     }
 
-    public long[] getPhone() {
+    public String[] getPhone() {
         return Phones;
     }
 
-    public void setPhone(long[] Phone) {
+    public void setPhone(String[] Phone) {
         this.Phones= Phone;
     }
 
@@ -113,15 +115,21 @@ public class Businesses implements Serializable {
         this.Handikaped = Handikaped;
     }
 
-    public Boolean isKosher(String type) {
-        return Kosher.get(type);
+    public Boolean isMeatKosher() {
+        return MeatKosher;
     }
 
-    public void setKosher(Map<String,Boolean> Kosher) {
-        this.Kosher = Kosher;
+    public void setMeatKosher(boolean Kosher) {
+        this.MeatKosher = Kosher;
     }
 
+    public Boolean isMilkKosher() {
+        return MilkKosher;
+    }
 
+    public void setMilkKosher(boolean Kosher) {
+        this.MilkKosher= Kosher;
+    }
 
 
     public Businesses(){
@@ -156,8 +164,8 @@ public class Businesses implements Serializable {
 
     public Businesses(String Name, String Image, String Address, String Description,
                       String Mail, String Region, Integer Bid, Integer business_type,
-                      long[] Phone, Map<String,Integer>  winter_price, Map<String,Integer>  summer_price,
-                      String Handikaped, Map<String,Boolean> Kosher) {
+                      String[] Phone, Map<String,Integer>  winter_price, Map<String,Integer>  summer_price,
+                      String Handikaped, boolean MeatKoshe, boolean MilkKosher) {
         this.Name = Name;
         this.Image = Image;
         this.Address = Address;
@@ -170,7 +178,8 @@ public class Businesses implements Serializable {
         this.Winter = winter_price;
         this.Summer = summer_price;
         this.Handikaped = Handikaped;
-        this.Kosher = Kosher;
+        this.MeatKosher= MeatKoshe;
+        this.MilkKosher= MilkKosher;
     }
 
 }

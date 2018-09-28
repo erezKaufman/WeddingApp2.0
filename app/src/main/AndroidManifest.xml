@@ -38,11 +38,16 @@
         <activity android:name=".activities.BusinessesActivity" />
         <activity
             android:name=".CredentialsActivity"
-            android:label="@string/title_activity_credentials"></activity>
+            android:label="@string/title_activity_credentials" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity
+            android:name=".activities.DELETEME"
+            android:label="@string/title_activity_deleteme"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

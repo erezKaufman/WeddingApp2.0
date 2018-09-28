@@ -10,6 +10,7 @@ import android.widget.ImageView;
 
 import com.example.erez0_000.weddingapp.Personal_window_Activity;
 import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.activities.DisplayBusinessList;
 import com.example.erez0_000.weddingapp.searches.SearchActivity;
 import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 
@@ -63,8 +64,10 @@ public class Logged_user_entry extends AppCompatActivity implements View.OnClick
      *
      */
     private void openSearchActivity() {
-        Intent intent = new Intent(this,SearchActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this,SearchActivity.class);
+//        startActivity(intent);
+        setContentView(R.layout.activity_login);
+        startActivity(new Intent(this, DisplayBusinessList.class));
     }
     /**
      *

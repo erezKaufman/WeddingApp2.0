@@ -22,6 +22,40 @@
         <item>חצר פתוחה</item>
         <item>אולם פנימי</item>
     </string-array>
+
+    <string-array name="Business_Type">
+        <item> </item>
+        <item>אולם אירועים</item>
+        <item>חצר אירועים</item>
+        <item>צלם</item>
+        <item>קייטרינג</item>
+        <item>מנפח בלונים</item>
+        <item>תאורה</item>
+        <item>בר</item>
+        <item>תספורות גברים</item>
+        <item>תספורות נשים</item>
+        <item>שמלות</item>
+        <item>חליפותת</item>
+
+    </string-array>
+
+    <string-array name="Kosher">
+        <item> </item>
+        <item>חלבי</item>
+        <item>בשרי</item>
+
+    </string-array>
+    <string-array name="Region">
+        <item> </item>
+        <item>אילת</item>
+        <item>דרום</item>
+        <item>מרכז</item>
+        <item>שרון</item>
+        <item><צפון></צפון></item>
+
+    </string-array>
+
+
     <string-array name="Season">
         <item> </item>
         <item>קיץ</item>

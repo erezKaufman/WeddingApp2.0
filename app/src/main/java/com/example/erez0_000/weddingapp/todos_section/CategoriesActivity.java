@@ -42,15 +42,18 @@ public class CategoriesActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
-        // hold the User information
-        User currentUser = Database.curUser;
-        // fill the recyclerView with the todos from the user
-        if (currentUser != null){
-            listOfTodos = currentUser.getTodoArray();
 
-        }else{
+
+        // hold the User information
+//        User currentUser = Database.curUser;
+
+        // fill the recyclerView with the todos from the user
+//        if (currentUser != null){
+//            listOfTodos = currentUser.getTodoArray();
+//
+//        }else{
             listOfTodos = new ArrayList<>();
-        }
+//        }
         // START editing View
         taskText = findViewById(R.id.ed_main);
         taskText.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/phoneText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="phone number" />
-</LinearLayout>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/phoneText"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:fontFamily="@font/david_libre"
+    android:gravity="right"
+    android:minHeight="?android:attr/listPreferredItemHeight"
+    android:paddingRight="6dip"
+    android:textAppearance="?android:attr/textAppearanceLarge"
+    android:textSize="16sp" />

@@ -19,12 +19,12 @@ public class InfoFragment extends Fragment {
     private TextView tv_name, tv_region, tv_mail, tv_address;
     private ImageView img;
     private String name, description, region, mail,  address,  image_url;
-    private long[] nb_phone;
+    private String[] nb_phone;
     public static InfoFragment newInstance() {
         return new InfoFragment();
     }
 
-    public void setValues(String name, String description, String region, String mail, long[] nb_phone,
+    public void setValues(String name, String description, String region, String mail, String[] nb_phone,
                           String address, String image_url){
         this.name = name;
         this.mail = mail;

@@ -9,6 +9,7 @@ public class User implements Serializable {
     private String email, username, password, age, number, type, cost, area, season;
     private ArrayList<TodoList> todoArray ;
     private ArrayList<Businesses> businessInChart;
+    private ArrayList<Businesses> businessesFavorites;
     public User() {}
 
     public User(String email,String username, String password, String age,String number,String type,String cost,
@@ -24,6 +25,22 @@ public class User implements Serializable {
         this.season = season;
         todoArray = new ArrayList<>();
 
+
+    }
+
+    public ArrayList<Businesses> getBusinessesLiked() {
+        return businessesFavorites;
+    }
+
+    public ArrayList<Businesses> getBusinessInChart() {
+        return businessInChart;
+    }
+
+    public void addBusinessToChart(Businesses business){
+        businessInChart.add(business);
+    }
+    public void addBusinessToFavorites(Businesses business){
+        businessInChart.add(business);
     }
 
     public ArrayList<TodoList> getTodoArray() {

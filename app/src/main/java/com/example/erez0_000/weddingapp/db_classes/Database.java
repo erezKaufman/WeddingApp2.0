@@ -22,7 +22,6 @@ import retrofit2.http.QueryMap;
 public class Database {
     private static final String BASE_URL = "https://api.mlab.com/api/1/databases/wedding_app/collections/";
     private static final String API_KEY = "22IUrrMtRgv9WsRc8Nm9Ov72z9orvB1c";
-    public static User curUser;
     private static Database db;
 
     private MlabService service;
@@ -32,15 +31,7 @@ public class Database {
         return db = new Database();
     }
 
-    public static User getUserInstance() {
-        if (curUser!= null) return curUser;
-        return curUser = new User();
-    }
 
-    public static User setUserInstance(User newUser) {
-        if (curUser!= null) return curUser;
-        return curUser = newUser;
-    }
 
 
 

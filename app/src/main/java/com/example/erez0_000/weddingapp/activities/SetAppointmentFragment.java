@@ -1,12 +1,15 @@
 package com.example.erez0_000.weddingapp.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +28,7 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
     private Button gotoTodos, addEventToCalendar, addToCalcChart;
     private TextView title,mail;
     private ListView phonelist,maillist;
-    long[] phoneNumber;
+    String[] phoneNumber;
     private Businesses curBusiness;
     private String mailStr,chosenDate;
     private boolean isWinter;
@@ -55,8 +58,19 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
         mail.setText(curBusiness.getMail());
         view.findViewById(R.id.accept).setOnClickListener(this);
         view.findViewById(R.id.cancel).setOnClickListener(this);
-//        ArrayAdapter<Integer> arrayAdapter =
-//                new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1, phoneNumber);
+        ArrayAdapter<String> arrayAdapter =
+                new ArrayAdapter<String>(getContext(),R.layout.phone_number_layout, curBusiness.getPhone());
+
+        phonelist.setAdapter(arrayAdapter);
+
+        phonelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:"+curBusiness.getPhone()[position]));
+                SetAppointmentFragment.this.startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -64,6 +78,7 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
 
         curBusiness= currentBusiness ;
         chosenDate = date;
+        this.isWinter = isWinter;
     }
     @Override
     public void onClick(View v) {

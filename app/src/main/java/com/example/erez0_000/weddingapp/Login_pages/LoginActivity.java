@@ -97,6 +97,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
     //
     private void openSearchActivity() {
+        setContentView(R.layout.activity_login);
+        startActivity(new Intent(this, DisplayBusinessList.class));
     }
 //
 //    private void addCalendarEvent() {
