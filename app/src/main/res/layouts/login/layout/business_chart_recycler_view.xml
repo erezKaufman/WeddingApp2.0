@@ -23,7 +23,7 @@
             android:paddingBottom="23dp">
 
             <TextView
-                android:id="@+id/min_price"
+                android:id="@+id/min_price_string"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -33,12 +33,13 @@
                 android:textColor="#fff" />
 
             <TextView
+                android:id="@+id/min_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:gravity="end"
-                android:text="minPrice"
+                android:text="min Price"
                 android:textColor="#fff" />
 
         </LinearLayout>
@@ -50,7 +51,7 @@
             android:paddingBottom="23dp">
 
             <TextView
-                android:id="@+id/max_price"
+                android:id="@+id/max_price_string"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -58,11 +59,11 @@
                 android:textColor="#fff" />
 
             <TextView
-                android:id="@+id/mail"
+                android:id="@+id/max_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="min_price"
+                android:text="max price"
                 android:textColor="#fff" />
         </LinearLayout>
     </LinearLayout>

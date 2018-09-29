@@ -34,6 +34,7 @@ public class BusinessChartRecyclerViewAdapter extends
     public ChartViewHolder onCreateViewHolder(@NonNull final ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.business_chart_recycler_view, parent, false);
+        option = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);
         return new ChartViewHolder(view);
     }
 
@@ -44,9 +45,8 @@ public class BusinessChartRecyclerViewAdapter extends
         holder.tv_name.setText(business.getCurBusiness().getName());
         holder.tv_address.setText(business.getCurBusiness().getAddress());
         holder.tv_region.setText(business.getCurBusiness().getRegion());
-        holder.tv_mail.setText(business.getCurBusiness().getMail());
-        holder.minPrice.setText(business.getMinPrice());
-        holder.maxPrice.setText(business.getMaxPrice());
+        holder.minPrice.setText(String.format("%d",business.getMinPrice()));
+        holder.maxPrice.setText(String.format("%d",business.getMaxPrice()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,7 +56,7 @@ public class BusinessChartRecyclerViewAdapter extends
         });
         // Load Image from the internet and set it into Imageview using Glide
         Glide.with(holder.img_thumbnail.getContext())
-                .load(businessList.get(position).getCurBusiness().getImage()).apply(option).into(holder.img_thumbnail);
+                .load(business.getCurBusiness().getImage()).apply(option).into(holder.img_thumbnail);
 
 
 
@@ -82,10 +82,11 @@ public class BusinessChartRecyclerViewAdapter extends
             super(itemView);
             view_container = itemView.findViewById(R.id.container);
             tv_name = itemView.findViewById(R.id.anime_name);
-            tv_mail = itemView.findViewById(R.id.mail);
             tv_address = itemView.findViewById(R.id.address);
             tv_region = itemView.findViewById(R.id.region);
             img_thumbnail = itemView.findViewById(R.id.thumbnail);
+            maxPrice = itemView.findViewById(R.id.min_price);
+            minPrice = itemView.findViewById(R.id.max_price);
 
         }
     }

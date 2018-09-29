@@ -28,6 +28,7 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         findViewById(R.id.gotoPersonalZone).setOnClickListener(this);
         findViewById(R.id.gotoSearch).setOnClickListener(this);
         findViewById(R.id.goto_categories).setOnClickListener(this);
+        findViewById(R.id.chartLinearLayout).setOnClickListener(this);
         // TODO add image of app's logo
         ImageView weddingImage = (ImageView) findViewById(R.id.weedingHello);
         int imgResource = getResources().getIdentifier("@drawble/wedding planner30210",
@@ -56,6 +57,9 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
                 break;
             case R.id.goto_categories:
                 startCategoryActivity();
+                break;
+            case R.id.chartLinearLayout:
+                openBusinessChartFragment();
                 break;
         }
     }
@@ -118,11 +122,13 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
     }
 
 
-    public void openBusinessChartFragment(View view) {
+    public void openBusinessChartFragment() {
         // TODO: 28/09/2018 open from here new fragment that will hold all the business the user chose to work with.
         // TODO: 28/09/2018  in turn, the fragment will hold a recycler view of all the businesses. and you can open by clicking on it the business page (without the ability to order new appointment)
         FragmentManager fm = getFragmentManager();
         BusinessChartFragment businessChartFragment = BusinessChartFragment.newInstance();
+//        businessChartFragment.insertBusinesses(loggedUser.getBusinessInChart());
+        businessChartFragment.insertBusinesses(null); // TODO: 29/09/2018 delete this
         businessChartFragment.show(fm,null);
 
     }

@@ -93,8 +93,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             // FOR LOGGED AND ANONYMOUS USERS: in case user chooses to go to 'search' activity
             case R.id.gotoSearch:
-                openSearchActivity();
-//                startActivity(new Intent(this,Logged_user_entryActivity.class));
+//                openSearchActivity();
+                startActivity(new Intent(this,Logged_user_entryActivity.class));
                 break;
         }
     }

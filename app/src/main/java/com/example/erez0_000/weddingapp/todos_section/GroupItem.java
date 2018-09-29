@@ -1,6 +1,4 @@
 package com.example.erez0_000.weddingapp.todos_section;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.google.gson.annotations.SerializedName;
 
