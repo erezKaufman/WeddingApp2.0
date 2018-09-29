@@ -2,7 +2,7 @@ package com.example.erez0_000.weddingapp.Login_pages;
 
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
 
-class BusinessesInChart {
+public class BusinessesInChart {
     private Businesses curBusiness;
     private int minPrice, maxPrice;
 

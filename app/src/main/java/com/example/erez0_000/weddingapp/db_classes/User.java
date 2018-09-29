@@ -1,5 +1,6 @@
 package com.example.erez0_000.weddingapp.db_classes;
 
+import com.example.erez0_000.weddingapp.Login_pages.BusinessesInChart;
 import com.example.erez0_000.weddingapp.todos_section.TodoList;
 import com.google.gson.annotations.SerializedName;
 
@@ -40,13 +41,13 @@ public class User implements Serializable {
     private String season;
 
     @SerializedName("todoArray")
-    private transient ArrayList<TodoList> todoArray;
+    private ArrayList<TodoList> todoArray;
 
-//    @SerializedName("businessInChart")
-    private transient ArrayList<Businesses> businessInChart;
+    @SerializedName("businessInChart")
+    private ArrayList<BusinessesInChart> businessInChart;
 
-//    @SerializedName("businessesFavorites")
-    private transient ArrayList<Businesses> businessesFavorites;
+    @SerializedName("businessesFavorites")
+    private ArrayList<Businesses> businessesFavorites;
 
     public User() {}
 
@@ -70,15 +71,16 @@ public class User implements Serializable {
         return businessesFavorites;
     }
 
-    public ArrayList<Businesses> getBusinessInChart() {
+    public ArrayList<BusinessesInChart> getBusinessInChart() {
         return businessInChart;
     }
 
-    public void addBusinessToChart(Businesses business){
-        businessInChart.add(business);
+    public void addBusinessToChart(Businesses business,int minPrice, int maxPrice){
+        BusinessesInChart newBusinessinChart = new BusinessesInChart(business,minPrice,maxPrice);
+        businessInChart.add(newBusinessinChart);
     }
     public void addBusinessToFavorites(Businesses business){
-        businessInChart.add(business);
+        businessesFavorites.add(business);
     }
 
     public ArrayList<TodoList> getTodoArray() {

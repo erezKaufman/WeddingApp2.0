@@ -9,19 +9,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.erez0_000.weddingapp.Login_pages.HorizontalRecyclerBusinesses.BusinessMinimalactivity;
 import com.example.erez0_000.weddingapp.R;
+import com.example.erez0_000.weddingapp.activities.DisplayBusinessListActivity;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
+import com.example.erez0_000.weddingapp.db_classes.Database;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BusinessChartFragment extends DialogFragment
         implements BusinessChartRecyclerViewAdapter.CreateOnClickListener{
-    private List<BusinessesInChart> lstBusinesses;
+    private ArrayList<BusinessesInChart> lstBusinesses;
     private RecyclerView recyclerView ;
-    private BusinessChartRecyclerViewAdapter businessChartRecyclerViewAdapter;
 
     public static BusinessChartFragment newInstance() {
 
@@ -37,7 +47,28 @@ public class BusinessChartFragment extends DialogFragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.business_chart_fragment,container, false);
         recyclerView = view.findViewById(R.id.business_chart);
-        initRecyclerView();
+        Database db = Database.getInstance();
+        Map<String,String> emptyMap  = Collections.emptyMap();
+        db.getBusinesses(emptyMap, new Callback<List<Businesses>>() {
+            List<Businesses> b = null;
+            @Override
+            public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
+                b = response.body();
+                for (Businesses item : b){
+                    lstBusinesses.add(new BusinessesInChart(item,250,450));
+                }
+                initRecyclerView();
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Businesses>> call, Throwable t) {
+//                Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+                System.out.println(t.getCause());
+//            Toast.makeText(DisplayBusinessListActivity.this,
+//                    "מתנצלים, יש כרגע בעיות התחברות עם השרת. אנא נסו מאוחר יותר",Toast.LENGTH_LONG).show();
+            }
+        });
         return view;
     }
 
@@ -45,7 +76,7 @@ public class BusinessChartFragment extends DialogFragment
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 //
-        businessChartRecyclerViewAdapter = new BusinessChartRecyclerViewAdapter(this);
+        BusinessChartRecyclerViewAdapter businessChartRecyclerViewAdapter = new BusinessChartRecyclerViewAdapter(this, lstBusinesses);
 //
         recyclerView.setAdapter(businessChartRecyclerViewAdapter);
     }
@@ -57,5 +88,15 @@ public class BusinessChartFragment extends DialogFragment
 
 
         startActivity(i);
+    }
+
+    public void insertBusinesses(ArrayList<BusinessesInChart> businses) {
+        lstBusinesses = new ArrayList<>();
+
+
+
+
+//        lstBusinesses = businses;
+
     }
 }
