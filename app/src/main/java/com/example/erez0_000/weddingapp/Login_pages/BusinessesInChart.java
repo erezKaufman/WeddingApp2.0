@@ -1,10 +1,17 @@
 package com.example.erez0_000.weddingapp.Login_pages;
 
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
+import com.google.gson.annotations.SerializedName;
 
-public class BusinessesInChart {
+import java.io.Serializable;
+
+public class BusinessesInChart implements Serializable {
+    @SerializedName("curBusiness")
     private Businesses curBusiness;
-    private int minPrice, maxPrice;
+    @SerializedName("minPrice")
+    private int minPrice;
+    @SerializedName("maxPrice")
+    private int maxPrice;
 
     public BusinessesInChart(Businesses business, int minPrice, int maxPrice){
         this.curBusiness = business;

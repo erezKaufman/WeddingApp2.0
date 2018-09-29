@@ -29,9 +29,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class BusinessChartFragment extends DialogFragment
-        implements BusinessChartRecyclerViewAdapter.CreateOnClickListener{
+        implements BusinessChartRecyclerViewAdapter.CreateOnClickListener {
     private ArrayList<BusinessesInChart> lstBusinesses;
-    private RecyclerView recyclerView ;
+    private RecyclerView recyclerView;
 
     public static BusinessChartFragment newInstance() {
 
@@ -45,36 +45,39 @@ public class BusinessChartFragment extends DialogFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.business_chart_fragment,container, false);
+        View view = inflater.inflate(R.layout.business_chart_fragment, container, false);
         recyclerView = view.findViewById(R.id.business_chart);
-        Database db = Database.getInstance();
-        Map<String,String> emptyMap  = Collections.emptyMap();
-        db.getBusinesses(emptyMap, new Callback<List<Businesses>>() {
-            List<Businesses> b = null;
-            @Override
-            public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
-                b = response.body();
-                for (Businesses item : b){
-                    lstBusinesses.add(new BusinessesInChart(item,250,450));
-                }
-                initRecyclerView();
-
-            }
-
-            @Override
-            public void onFailure(Call<List<Businesses>> call, Throwable t) {
-//                Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
-                System.out.println(t.getCause());
-//            Toast.makeText(DisplayBusinessListActivity.this,
-//                    "מתנצלים, יש כרגע בעיות התחברות עם השרת. אנא נסו מאוחר יותר",Toast.LENGTH_LONG).show();
-            }
-        });
+        initRecyclerView();
+        // TODO: 29/09/2018 get user's businessInChart and init the reciclerView
+//        Database db = Database.getInstance();
+//        Map<String,String> emptyMap  = Collections.emptyMap();
+//        db.getBusinesses(emptyMap, new Callback<List<Businesses>>() {
+//            List<Businesses> b = null;
+//            @Override
+//            public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
+//                b = response.body();
+//                for (Businesses item : b){
+//                    lstBusinesses.add(new BusinessesInChart(item,250,450));
+//                }
+//        initRecyclerView();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Businesses>> call, Throwable t) {
+////                Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+//                System.out.println(t.getCause());
+////            Toast.makeText(DisplayBusinessListActivity.this,
+////                    "מתנצלים, יש כרגע בעיות התחברות עם השרת. אנא נסו מאוחר יותר",Toast.LENGTH_LONG).show();
+//            }
+//        });
         return view;
     }
 
     private void initRecyclerView() {
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+//        lin.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(linearLayoutManager);
 //
         BusinessChartRecyclerViewAdapter businessChartRecyclerViewAdapter = new BusinessChartRecyclerViewAdapter(this, lstBusinesses);
 //
@@ -92,8 +95,6 @@ public class BusinessChartFragment extends DialogFragment
 
     public void insertBusinesses(ArrayList<BusinessesInChart> businses) {
         lstBusinesses = new ArrayList<>();
-
-
 
 
 //        lstBusinesses = businses;

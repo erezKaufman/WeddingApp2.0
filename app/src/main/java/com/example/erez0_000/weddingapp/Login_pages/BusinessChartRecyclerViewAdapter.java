@@ -72,7 +72,6 @@ public class BusinessChartRecyclerViewAdapter extends
         TextView tv_name;
         TextView tv_address;
         TextView tv_region;
-        TextView tv_mail;
         TextView minPrice;
         TextView maxPrice;
         ImageView img_thumbnail;

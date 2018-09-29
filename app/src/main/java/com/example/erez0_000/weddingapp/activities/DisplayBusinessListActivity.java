@@ -186,7 +186,7 @@ public class DisplayBusinessListActivity extends AppCompatActivity
 
     private Map<String, String> fillMap() {
         Map<String,String> emptyMap  = Collections.emptyMap();
-        Map<String,String> map  = new HashMap<String, String>();
+        Map<String,String> map  = new HashMap<>();
 
         if (!regionStr.isEmpty()){
             map.put("Region",regionStr);

@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,14 +14,30 @@ import android.widget.ImageView;
 import com.example.erez0_000.weddingapp.Personal_window_Activity;
 import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.activities.DisplayBusinessListActivity;
+import com.example.erez0_000.weddingapp.db_classes.Businesses;
+import com.example.erez0_000.weddingapp.db_classes.Database;
 import com.example.erez0_000.weddingapp.db_classes.User;
+import com.example.erez0_000.weddingapp.parseJSON.adapters.RecyclerViewAdapter;
 import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 
-public class Logged_user_entryActivity extends AppCompatActivity implements View.OnClickListener    {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import java.util.concurrent.ThreadLocalRandom;
+
+public class Logged_user_entryActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LoggedUsErentryActivity";
     private User loggedUser;
-
+    private RecyclerView recyclerView;
     private ProgressDialog mprogressDialog;
+    private List<Businesses> businessHorizontalList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,20 +52,53 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         int imgResource = getResources().getIdentifier("@drawble/wedding planner30210",
                 null, this.getPackageName());
         weddingImage.setImageResource(imgResource);
+        businessHorizontalList = new ArrayList<>();
+        recyclerView = findViewById(R.id.suggestion_list);
+        callForRandomBusinessList();
 
-        // initialize auth
-//        mAuth = FirebaseAuth.getInstance();
+    }
+
+    private void callForRandomBusinessList() {
+        Database db = Database.getInstance();
+        // TODO: 29/09/2018 need to have user with his preferences here
+
+        Map<String,String> map = getRandomPreferencesMap();
+        db.getBusinesses(map, new Callback<List<Businesses>>() {
+            @Override
+            public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
+                businessHorizontalList = response.body();
+                initHorizontalRecyclerView(businessHorizontalList);
+
+            }
+
+            @Override
+            public void onFailure(Call<List<Businesses>> call, Throwable t) {
+//                Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+                System.out.println(t.getCause());
+//            Toast.makeText(DisplayBusinessListActivity.this,
+//                    "מתנצלים, יש כרגע בעיות התחברות עם השרת. אנא נסו מאוחר יותר",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void initHorizontalRecyclerView(List<Businesses> businessList) {
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        RecyclerViewAdapter myadapter = new RecyclerViewAdapter(this, businessList);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(myadapter);
 
     }
 
 
     /**
      * each button arrives here and by switch case goes to each method
+     *
      * @param v view object
      */
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.gotoPersonalZone:
                 startActivity(new Intent(this, Personal_window_Activity.class));
@@ -73,6 +124,7 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         setContentView(R.layout.activity_login);
         startActivity(new Intent(this, DisplayBusinessListActivity.class));
     }
+
     /**
      *
      */
@@ -103,17 +155,15 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
 //    }
 
 
-
-
     private void hideProgressDialog() {
-        if (mprogressDialog != null && mprogressDialog.isShowing()){
+        if (mprogressDialog != null && mprogressDialog.isShowing()) {
 
             mprogressDialog.dismiss();
         }
     }
 
     private void showProgressDialog() {
-        if (mprogressDialog == null){
+        if (mprogressDialog == null) {
             mprogressDialog = new ProgressDialog(this);
             mprogressDialog.setCancelable(false);
             mprogressDialog.setMessage("אנא המתן בעת התחברות...");
@@ -129,7 +179,22 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         BusinessChartFragment businessChartFragment = BusinessChartFragment.newInstance();
 //        businessChartFragment.insertBusinesses(loggedUser.getBusinessInChart());
         businessChartFragment.insertBusinesses(null); // TODO: 29/09/2018 delete this
-        businessChartFragment.show(fm,null);
+        businessChartFragment.show(fm, null);
+
+    }
+
+    public Map<String, String> getRandomPreferencesMap() {
+        Map<String,String> curMap = new HashMap<>();
+//        User curUser = Database.getInstance().getUser(); uncomment this
+        User curUser = new User(); //delete this
+        if (!curUser.getArea().isEmpty()){
+            curMap.put("Region",curUser.getArea());
+        }
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 12);
+        String businessType = getResources().getStringArray(R.array.Business_Type)[randomNum];
+        curMap.put("business_type",businessType);
+
+        return curMap;
 
     }
 }

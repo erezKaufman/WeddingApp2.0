@@ -133,6 +133,43 @@ public class User implements Serializable {
         return username;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public String getSeason() {
+        return season;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public ArrayList<Businesses> getBusinessesFavorites() {
+        return businessesFavorites;
+    }
+
+    public static User getThisUser() {
+        return thisUser;
+    }
+
+    public String getCost() {
+        return cost;
+    }
+
+
     public String getPassword() {
         return password;
     }

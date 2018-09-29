@@ -31,4 +31,5 @@
     <string name="address">כתובת</string>
     <string name="name">שם</string>
     <string name="max_price">מחיר מקסימאלי</string>
+    <string name="chart_text_info">רשימת העסקים שהזמנת מולם</string>
 </resources>
