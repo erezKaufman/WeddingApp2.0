@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -23,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private SharedPreferences sp;
     private Database db;
 
@@ -38,12 +39,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        startActivity(new Intent(this, DisplayBusinessListActivity.class));
 
         sp = getSharedPreferences("pref", MODE_PRIVATE);
-        final String userId = sp.getString("userId", null);
+        final String username = sp.getString("username", null),
+                password = sp.getString("password", null);
         db = Database.getInstance();
 
-        if (userId != null) {
+        if (username != null && password != null) {
             showProgressDialog();
-            db.signin(userId, new Callback<User>() {
+            db.signin(username, password, new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     hideProgressDialog();
@@ -96,6 +98,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
     //
     private void openSearchActivity() {
         setContentView(R.layout.activity_login);
@@ -119,7 +122,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     User.thisUser = response.body();
-                    sp.edit().putString("userId", User.thisUser.get_id()).apply();
+                    sp.edit().putString("username", User.thisUser.getUsername())
+                            .putString("password", User.thisUser.getPassword())
+                            .apply();
                     // TODO: Start new activity here
                 }
 
@@ -134,7 +139,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
 
-
     private void signin() {
         if (!areCredentialsEmpty()) {
             User.thisUser = new User();
@@ -144,7 +148,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     User.thisUser = response.body();
-                    sp.edit().putString("userId", User.thisUser.get_id()).apply();
+                    sp.edit().putString("username", User.thisUser.getUsername())
+                            .putString("password", User.thisUser.getPassword())
+                            .apply();
                     // TODO: Start new activity here
                 }
 
@@ -173,6 +179,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
         mprogressDialog.show();
     }
+
     private ArrayList<TodoList> initTodoArray() {
         ArrayList<TodoList> returnList = new ArrayList<>();
         TodoList eventTodo = new TodoList("אירוע");
@@ -184,42 +191,42 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         TodoList honeyMoonTodo = new TodoList("ירח דבש");
 
         helpingTodo.addTodo("לקבוע תקציב");
-            helpingTodo.addTaskInTodo(0,"אופי האירוע שנרצה");
-            helpingTodo.addTaskInTodo(0,"מה העונה המועדפת שלנו?");
+        helpingTodo.addTaskInTodo(0, "אופי האירוע שנרצה");
+        helpingTodo.addTaskInTodo(0, "מה העונה המועדפת שלנו?");
         helpingTodo.addTodo("לקבוע גודל אולם");
         helpingTodo.addTodo("לקבוע מספר מוזמנים");
-            helpingTodo.addTaskInTodo(2,"מה מספר המוזמנים של החתן?");
-            helpingTodo.addTaskInTodo(2,"מה מספר המוזמנים של הכלה?");
+        helpingTodo.addTaskInTodo(2, "מה מספר המוזמנים של החתן?");
+        helpingTodo.addTaskInTodo(2, "מה מספר המוזמנים של הכלה?");
         helpingTodo.addTodo("לבחור מיקום עבור החתונה");
         helpingTodo.addTodo("לקבוע עם גורם מחתן");
         helpingTodo.addTodo("לכתוב נאום");
 
         eventTodo.addTodo("לבחור אולם");
         eventTodo.addTodo("לבחור קייטרינג");
-            eventTodo.addTaskInTodo(1,"כשר? בשרי או חלבי?");
+        eventTodo.addTaskInTodo(1, "כשר? בשרי או חלבי?");
         eventTodo.addTodo("לבחור להקה");
-            eventTodo.addTaskInTodo(2,"איזה סגנון מוזיקה?");
+        eventTodo.addTaskInTodo(2, "איזה סגנון מוזיקה?");
         eventTodo.addTodo("לבחור DJ");
-            eventTodo.addTaskInTodo(3,"איזה סגנון מוזיקה?");
-            eventTodo.addTaskInTodo(3,"עד איזו שעה?");
+        eventTodo.addTaskInTodo(3, "איזה סגנון מוזיקה?");
+        eventTodo.addTaskInTodo(3, "עד איזו שעה?");
         eventTodo.addTodo("לשכור תאורה");
 
         guestsTodo.addTodo("עיצוב הזמנות");
         guestsTodo.addTodo("בחירת מספר מוזמנים");
-        guestsTodo.addTaskInTodo(1,"מספר מוזמנים מצד החתן");
-        guestsTodo.addTaskInTodo(1,"מספר מוזמנים מצד הכלה");
+        guestsTodo.addTaskInTodo(1, "מספר מוזמנים מצד החתן");
+        guestsTodo.addTaskInTodo(1, "מספר מוזמנים מצד הכלה");
         guestsTodo.addTodo("סידור מקומות ישיבה");
         guestsTodo.addTodo("לשלוח הזמנות לחתונה");
-        guestsTodo.addTaskInTodo(3,"לשלוח במייל או בדואר");
-        guestsTodo.addTaskInTodo(3,"לוודא שכולם קיבלו את ההזמנות");
+        guestsTodo.addTaskInTodo(3, "לשלוח במייל או בדואר");
+        guestsTodo.addTaskInTodo(3, "לוודא שכולם קיבלו את ההזמנות");
 
         photoTodo.addTodo("לבחור צלם");
-        photoTodo.addTaskInTodo(0,"האם נרצה צלם סטילס?");
-        photoTodo.addTaskInTodo(0,"האם נרצה צלם וידאו?");
-        photoTodo.addTaskInTodo(0,"כמה צלמים?");
+        photoTodo.addTaskInTodo(0, "האם נרצה צלם סטילס?");
+        photoTodo.addTaskInTodo(0, "האם נרצה צלם וידאו?");
+        photoTodo.addTaskInTodo(0, "כמה צלמים?");
         photoTodo.addTodo("לעשות סט צילומים לחתונה");
-        photoTodo.addTaskInTodo(1,"לבחור מיקום לצילומים");
-        photoTodo.addTaskInTodo(1,"לבחור שעה לצילומים");
+        photoTodo.addTaskInTodo(1, "לבחור מיקום לצילומים");
+        photoTodo.addTaskInTodo(1, "לבחור שעה לצילומים");
 
         dressingTodo.addTodo("לקנות שמלת כלה");
         dressingTodo.addTodo("לבחור שמלה לריקודים");
@@ -231,17 +238,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         dressingTodo.addTodo("לקבוע לעיצוב שיער לגבר");
         dressingTodo.addTodo("ללכת לעיצוב שיער לגבר");
         dressingTodo.addTodo("לקנות טבעות");
-            dressingTodo.addTaskInTodo(9,"לעשות סבב התרשמות ראשוני");
-            dressingTodo.addTaskInTodo(9,"לבצע מדידות");
-            dressingTodo.addTaskInTodo(9,"איסוף סופי של הטבעות");
-
+        dressingTodo.addTaskInTodo(9, "לעשות סבב התרשמות ראשוני");
+        dressingTodo.addTaskInTodo(9, "לבצע מדידות");
+        dressingTodo.addTaskInTodo(9, "איסוף סופי של הטבעות");
 
 
         extrasTodo.addTodo("לבחור זרים ליום החתונה");
         extrasTodo.addTodo("לשקול אם למצוא הפעלות לצעירים");
-            extrasTodo.addTaskInTodo(1,"האם נרצה מנפח בלונים מקצועי?");
-            extrasTodo.addTaskInTodo(1,"האם נרצה ליצן מקצועי?");
-            extrasTodo.addTaskInTodo(1,"האם נרצה עמדת משחקי קונסולות?");
+        extrasTodo.addTaskInTodo(1, "האם נרצה מנפח בלונים מקצועי?");
+        extrasTodo.addTaskInTodo(1, "האם נרצה ליצן מקצועי?");
+        extrasTodo.addTaskInTodo(1, "האם נרצה עמדת משחקי קונסולות?");
 
         honeyMoonTodo.addTodo("להזמין ירח דבש");
 

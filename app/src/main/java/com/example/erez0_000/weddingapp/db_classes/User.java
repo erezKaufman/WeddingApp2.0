@@ -1,6 +1,5 @@
 package com.example.erez0_000.weddingapp.db_classes;
 
-import com.example.erez0_000.weddingapp.Login_pages.BusinessesInChart;
 import com.example.erez0_000.weddingapp.todos_section.TodoList;
 import com.google.gson.annotations.SerializedName;
 
@@ -9,9 +8,6 @@ import java.util.ArrayList;
 
 public class User implements Serializable {
     public transient static User thisUser;
-
-    @SerializedName("_id")
-    private String _id;
 
     @SerializedName("email")
     private String email;
@@ -40,14 +36,14 @@ public class User implements Serializable {
     @SerializedName("season")
     private String season;
 
-    @SerializedName("todoArray")
-    private ArrayList<TodoList> todoArray;
+//    @SerializedName("todoArray")
+    private transient ArrayList<TodoList> todoArray;
 
-    @SerializedName("businessInChart")
-    private ArrayList<BusinessesInChart> businessInChart;
+//    @SerializedName("businessInChart")
+    private transient ArrayList<Businesses> businessInChart;
 
-    @SerializedName("businessesFavorites")
-    private ArrayList<Businesses> businessesFavorites;
+//    @SerializedName("businessesFavorites")
+    private transient ArrayList<Businesses> businessesFavorites;
 
     public User() {}
 
@@ -71,16 +67,15 @@ public class User implements Serializable {
         return businessesFavorites;
     }
 
-    public ArrayList<BusinessesInChart> getBusinessInChart() {
+    public ArrayList<Businesses> getBusinessInChart() {
         return businessInChart;
     }
 
-    public void addBusinessToChart(Businesses business,int minPrice, int maxPrice){
-        BusinessesInChart newBusinessinChart = new BusinessesInChart(business,minPrice,maxPrice);
-        businessInChart.add(newBusinessinChart);
+    public void addBusinessToChart(Businesses business){
+        businessInChart.add(business);
     }
     public void addBusinessToFavorites(Businesses business){
-        businessesFavorites.add(business);
+        businessInChart.add(business);
     }
 
     public ArrayList<TodoList> getTodoArray() {
@@ -123,10 +118,6 @@ public class User implements Serializable {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String get_id() {
-        return _id;
     }
 
     public String getUsername() {
