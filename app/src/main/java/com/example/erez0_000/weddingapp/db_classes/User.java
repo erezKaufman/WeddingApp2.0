@@ -36,7 +36,19 @@ public class User implements Serializable {
     @SerializedName("season")
     private String season;
 
-//    @SerializedName("todoArray")
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setBusinessInChart(ArrayList<Businesses> businessInChart) {
+        this.businessInChart = businessInChart;
+    }
+
+    public void setBusinessesFavorites(ArrayList<Businesses> businessesFavorites) {
+        this.businessesFavorites = businessesFavorites;
+    }
+
+    //    @SerializedName("todoArray")
     private transient ArrayList<TodoList> todoArray;
 
 //    @SerializedName("businessInChart")

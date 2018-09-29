@@ -82,7 +82,7 @@ public class Database {
     }
 
     public interface MlabService {
-        @GET("Users")
+        @GET("Users?fo=true")
         Call<User> getUserByCredentials(@Query("q") String credentials, @Query("apiKey") String apiKey);
 
         @POST("Users")
