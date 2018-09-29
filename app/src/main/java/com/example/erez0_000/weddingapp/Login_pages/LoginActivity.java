@@ -91,8 +91,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             // FOR LOGGED AND ANONYMOUS USERS: in case user chooses to go to 'search' activity
             case R.id.gotoSearch:
-//                openSearchActivity();
-                startActivity(new Intent(this,Logged_user_entryActivity.class));
+                openSearchActivity();
+//                startActivity(new Intent(this,Logged_user_entryActivity.class));
                 break;
         }
     }
@@ -198,10 +198,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         eventTodo.addTodo("לבחור קייטרינג");
             eventTodo.addTaskInTodo(1,"כשר? בשרי או חלבי?");
         eventTodo.addTodo("לבחור להקה");
-            eventTodo.addTaskInTodo(5,"איזה סגנון מוזיקה?");
+            eventTodo.addTaskInTodo(2,"איזה סגנון מוזיקה?");
         eventTodo.addTodo("לבחור DJ");
-            eventTodo.addTaskInTodo(6,"איזה סגנון מוזיקה?");
-            eventTodo.addTaskInTodo(6,"עד איזו שעה?");
+            eventTodo.addTaskInTodo(3,"איזה סגנון מוזיקה?");
+            eventTodo.addTaskInTodo(3,"עד איזו שעה?");
         eventTodo.addTodo("לשכור תאורה");
 
         guestsTodo.addTodo("עיצוב הזמנות");

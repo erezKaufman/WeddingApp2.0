@@ -24,8 +24,8 @@ public class BusinessChartRecyclerViewAdapter extends
     private RequestOptions option;
     CreateOnClickListener listener;
 
-    public BusinessChartRecyclerViewAdapter(CreateOnClickListener listener){
-        businessList = new ArrayList<>();
+    public BusinessChartRecyclerViewAdapter(CreateOnClickListener listener,ArrayList<BusinessesInChart> buslist){
+        businessList = buslist;
         this.listener = listener;
     }
 
