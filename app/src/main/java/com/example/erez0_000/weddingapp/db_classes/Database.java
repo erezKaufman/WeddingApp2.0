@@ -47,18 +47,14 @@ public class Database {
         }}).toString();
     }
 
-    public void signin(String id, Callback<User> callback) {
-        service.getUserById(id).enqueue(callback);
-    }
-
-    public void signin(final String username, final String password, Callback<User> callback) {
+    public void signin(String username, String password, Callback<User> callback) {
         service.getUserByCredentials(serializeCredentials(username, password)).enqueue(callback);
     }
 
     // The User object here should only have the username & password fields assigned
     public void signup(final User user, final Callback<User> callback) {
         // We can't sign up if username already exists
-        service.getUserByUsername(user.getUsername()).enqueue(new Callback<User>() {
+        service.getUserByCredentials(serializeCredentials(user.getUsername(), null)).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.body() == null) {
@@ -76,8 +72,8 @@ public class Database {
     }
 
     //Use the callback here just to know when the operation's done
-    public void updateUser(String id, User user, Callback<Void> callback) {
-        service.updateUser(id, user).enqueue(callback);
+    public void updateUser(User user, Callback<Void> callback) {
+        service.updateUser(serializeCredentials(user.getUsername(), user.getPassword()), user).enqueue(callback);
     }
 
     // Pass empty map if you want to fetch all businesses
@@ -86,20 +82,14 @@ public class Database {
     }
 
     public interface MlabService {
-        @GET("Users/{_id}?apiKey=" + API_KEY)
-        Call<User> getUserById(@Path("_id") String id);
-
         @GET("Users?apiKey=" + API_KEY)
         Call<User> getUserByCredentials(@Query("q") String credentials);
-
-        @GET("Users?apiKey=" + API_KEY)
-        Call<User> getUserByUsername(@Query("q") String username);
 
         @POST("Users?apiKey=" + API_KEY)
         Call<User> addUser(@Body User user);
 
-        @PUT("Users/{_id}?apiKey=" + API_KEY)
-        Call<Void> updateUser(@Path("_id") String id, @Body User user);
+        @PUT("Users?apiKey=" + API_KEY)
+        Call<Void> updateUser(@Query("q") String credentials, @Body User user);
 
         @GET("Businesses?apiKey=" + API_KEY)
         Call<List<Businesses>> getBusinesses(@Query("q") String filters);

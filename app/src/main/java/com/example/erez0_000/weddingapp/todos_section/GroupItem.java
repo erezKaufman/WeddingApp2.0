@@ -13,10 +13,6 @@ public class GroupItem implements Serializable{
     private String groupName;
     @SerializedName("itemList")
     private ArrayList<ChildItemSample> itemList;
-//    @SerializedName("groupName")
-    private EditText newItemText;
-//    @SerializedName("addItemButton")
-    private Button addItemButton;
     @SerializedName("checked")
     private boolean checked;
     @SerializedName("numberOfItems")

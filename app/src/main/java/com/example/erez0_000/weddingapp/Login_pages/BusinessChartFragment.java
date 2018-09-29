@@ -45,7 +45,7 @@ public class BusinessChartFragment extends DialogFragment
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
 //
-        businessChartRecyclerViewAdapter = new BusinessChartRecyclerViewAdapter(this);
+        businessChartRecyclerViewAdapter = new BusinessChartRecyclerViewAdapter(this, null);
 //
         recyclerView.setAdapter(businessChartRecyclerViewAdapter);
     }

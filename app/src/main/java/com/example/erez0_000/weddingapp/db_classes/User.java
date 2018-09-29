@@ -9,9 +9,6 @@ import java.util.ArrayList;
 public class User implements Serializable {
     public transient static User thisUser;
 
-    @SerializedName("_id")
-    private String _id;
-
     @SerializedName("email")
     private String email;
 
@@ -39,7 +36,7 @@ public class User implements Serializable {
     @SerializedName("season")
     private String season;
 
-    @SerializedName("todoArray")
+//    @SerializedName("todoArray")
     private transient ArrayList<TodoList> todoArray;
 
 //    @SerializedName("businessInChart")
@@ -121,10 +118,6 @@ public class User implements Serializable {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String get_id() {
-        return _id;
     }
 
     public String getUsername() {
