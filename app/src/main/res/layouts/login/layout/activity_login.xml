@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,12 +11,35 @@
         android:id="@+id/weedingHello"
         android:layout_width="258dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="181dp"
         android:layout_marginTop="3dp"
+        android:layout_marginBottom="181dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/weedingHello">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/username_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:hint="שם משתמש" />
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/password_edittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="סיסמה"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -34,14 +56,13 @@
             android:id="@+id/gotosignup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="הירשם"/>
+            android:text="הירשם" />
 
         <Button
             android:id="@+id/gotosignin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="התחבר"/>
-
+            android:text="התחבר" />
 
         <Button
             android:id="@+id/gotoSearch"

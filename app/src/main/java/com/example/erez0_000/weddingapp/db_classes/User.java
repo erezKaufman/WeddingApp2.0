@@ -6,10 +6,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class User implements Serializable {
+    public static User thisUser;
+
+    private String _id;
     private String email, username, password, age, number, type, cost, area, season;
     private ArrayList<TodoList> todoArray ;
     private ArrayList<Businesses> businessInChart;
     private ArrayList<Businesses> businessesFavorites;
+
     public User() {}
 
     public User(String email,String username, String password, String age,String number,String type,String cost,
@@ -81,12 +85,24 @@ public class User implements Serializable {
         this.type = type;
     }
 
+    public String get_id() {
+        return _id;
+    }
+
     public String getUsername() {
         return username;
     }
 
     public String getPassword() {
         return password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
 
