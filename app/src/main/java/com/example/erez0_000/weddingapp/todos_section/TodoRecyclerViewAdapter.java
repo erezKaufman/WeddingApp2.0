@@ -1,6 +1,5 @@
 package com.example.erez0_000.weddingapp.todos_section;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,7 @@ public class TodoRecyclerViewAdapter
         extends RecyclerView.Adapter<TodoRecyclerViewAdapter.GroupViewHolder> {
 
     private ArrayList<TodoTitle> todoTitleList;
-    private CreateOnClickListner listner;
+    private CreateOnClickListner listener;
 
     public class GroupViewHolder extends RecyclerView.ViewHolder {
         private TextView groupName;
@@ -33,7 +32,7 @@ public class TodoRecyclerViewAdapter
      */
     public TodoRecyclerViewAdapter(CreateOnClickListner createOnClickListner) {
         todoTitleList = new ArrayList<>();
-        listner = createOnClickListner;
+        listener = createOnClickListner;
     }
 
 
@@ -57,13 +56,13 @@ public class TodoRecyclerViewAdapter
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listner.openTodoListInActivity(todoTitle);
+                listener.openTodoListInActivity(todoTitle);
             }
         });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                listner.deleteTodoFromListener(todoTitle);
+                listener.deleteTodoFromListener(todoTitle);
                 return true;
             }
         });

@@ -45,14 +45,14 @@ public class InfoFragment extends Fragment {
         tv_name = view.findViewById(R.id.aa_anime_name);
         tv_region = view.findViewById(R.id.aa_region);
         tv_mail = view.findViewById(R.id.aa_mail);
-//        TextView tv_description = findViewById(R.id.aa_description);
+        TextView tv_description = view.findViewById(R.id.business_info);
         tv_address = view.findViewById(R.id.aa_address);
         img = view.findViewById(R.id.aa_thumbnail);
 
 
         tv_name.setText(name);
         tv_mail.setText(mail);
-//        tv_description.setText(description);
+        tv_description.setText(description);
         tv_address.setText(address);
         tv_region.setText(region);
         RequestOptions requestOptions = new RequestOptions().centerCrop().placeholder(R.drawable.loading_shape).error(R.drawable.loading_shape);

@@ -26,4 +26,9 @@
     <string name="kosher_text">בחר סוג כשרות</string>
     <string name="region_text">בחר איזור בארץ</string>
     <string name="type_text">בחר סוג עסק</string>
+    <string name="min_price">מחיר מיינימאלי</string>
+    <string name="region">איזור</string>
+    <string name="address">כתובת</string>
+    <string name="name">שם</string>
+    <string name="max_price">מחיר מקסימאלי</string>
 </resources>
