@@ -5,17 +5,13 @@ import android.widget.CheckBox;
 
 public class TodoTitle {
     private String title;
-    private Context mContext;
-    public TodoTitle(String groupName, Context context){
+
+    public TodoTitle(String groupName){
         title = groupName;
-        mContext = context;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public Context getmContext() {
-        return mContext;
-    }
 }

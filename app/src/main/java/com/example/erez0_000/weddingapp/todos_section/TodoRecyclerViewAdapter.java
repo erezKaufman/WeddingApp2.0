@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class TodoRecyclerViewAdapter
         extends RecyclerView.Adapter<TodoRecyclerViewAdapter.GroupViewHolder> {
 
-    private ArrayList<TodoTitle> todoTitleList;
+    private ArrayList<String> todoTitleList;
     private CreateOnClickListner listener;
 
     public class GroupViewHolder extends RecyclerView.ViewHolder {
@@ -30,13 +30,14 @@ public class TodoRecyclerViewAdapter
     /**
      * @param createOnClickListner
      */
-    public TodoRecyclerViewAdapter(CreateOnClickListner createOnClickListner) {
-        todoTitleList = new ArrayList<>();
+    public TodoRecyclerViewAdapter(CreateOnClickListner createOnClickListner,
+                                   ArrayList<String> todoTitleList) {
+        this.todoTitleList = todoTitleList;
         listener = createOnClickListner;
     }
 
 
-    public void addTodo(TodoTitle todoTitle) {
+    public void addTodo(String todoTitle) {
         todoTitleList.add(todoTitle);
         notifyDataSetChanged();
     }
@@ -51,8 +52,8 @@ public class TodoRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull GroupViewHolder holder, int position) {
-        final TodoTitle todoTitle = todoTitleList.get(position);
-        holder.groupName.setText(todoTitle.getTitle());
+        final String todoTitle = todoTitleList.get(position);
+        holder.groupName.setText(todoTitle);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,7 +75,7 @@ public class TodoRecyclerViewAdapter
      *
      * @param todoTitle
      */
-    public void deleteTodo(TodoTitle todoTitle) {
+    public void deleteTodo(String todoTitle) {
 
         todoTitleList.remove(todoTitle);
         notifyDataSetChanged();
@@ -92,8 +93,8 @@ public class TodoRecyclerViewAdapter
      * listener to pass activity request from the CategoriesActivity
      */
     public interface CreateOnClickListner {
-        void openTodoListInActivity(TodoTitle todoTitle);
+        void openTodoListInActivity(String todoTitle);
 
-        void deleteTodoFromListener(TodoTitle todoTitle);
+        void deleteTodoFromListener(String todoTitle);
     }
 }

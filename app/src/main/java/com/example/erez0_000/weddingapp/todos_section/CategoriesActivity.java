@@ -52,7 +52,7 @@ public class CategoriesActivity extends AppCompatActivity
 //            listOfTodos = currentUser.getTodoArray();
 //
 //        }else{
-            listOfTodos = new ArrayList<>();
+        listOfTodos = new ArrayList<>();
 //        }
         // START editing View
         taskText = findViewById(R.id.ed_main);
@@ -69,10 +69,13 @@ public class CategoriesActivity extends AppCompatActivity
      * the method initialize the recyclerView for the categories - which each holds the TodoList
      */
     private void initRecyclerView() {
-
+        ArrayList<String> titleList = new ArrayList<>();
+        for (TodoList mTodo: listOfTodos){
+            titleList.add(mTodo.getTodoName());
+        }
         gRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        gviewAdapter = new TodoRecyclerViewAdapter(this);
+        gviewAdapter = new TodoRecyclerViewAdapter(this,titleList);
 
         gRecyclerView.setAdapter(gviewAdapter);
     }
@@ -80,12 +83,12 @@ public class CategoriesActivity extends AppCompatActivity
     /**
      * interface method for the TodoRecyclerViewAdapter listener.
      * the method takes the cell that the user chose and open it in a new activity
-     * @param todoTitle
+     * @param todoTitle the title of the todolist
      */
     @Override
-    public void openTodoListInActivity(TodoTitle todoTitle) {
+    public void openTodoListInActivity(String todoTitle) {
 
-        TodoList listToSend = searchAndReturnGroup(todoTitle.getTitle());
+        TodoList listToSend = searchAndReturnGroup(todoTitle);
 
 
         Intent i = new Intent(this, EXpandableActivity.class);
@@ -100,7 +103,7 @@ public class CategoriesActivity extends AppCompatActivity
      * @param todoTitle
      */
     @Override
-    public void deleteTodoFromListener(final TodoTitle todoTitle) {
+    public void deleteTodoFromListener(final String todoTitle) {
         FragmentManager ft = getSupportFragmentManager();
         DeleteTodoFragment appointmentFrag = DeleteTodoFragment.newInstance();
         appointmentFrag.setListener(new DeleteTodoFragment.DeletefragmentListener() {
@@ -126,7 +129,7 @@ public class CategoriesActivity extends AppCompatActivity
         if (taskText.getText().toString().isEmpty()) {
             return;
         }
-        gviewAdapter.addTodo(new TodoTitle(taskText.getText().toString(), this));
+        gviewAdapter.addTodo(taskText.getText().toString());
         taskText.getText().clear();
     }
 
@@ -138,7 +141,7 @@ public class CategoriesActivity extends AppCompatActivity
             if (resultCode == Activity.RESULT_OK) {
                 TodoList result = (TodoList) data.getSerializableExtra(ED_TASK_BACK);
                 searchAndReplaceGroup(result);
-
+                // TODO: 29/09/2018  here add todolist to user, or in searchAndReplace
             } else if (resultCode == Activity.RESULT_CANCELED) {
                 // some stuff that will happen if there's no result
             }

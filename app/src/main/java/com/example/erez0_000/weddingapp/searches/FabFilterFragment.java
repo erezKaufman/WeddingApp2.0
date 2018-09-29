@@ -30,6 +30,9 @@ public class FabFilterFragment extends android.support.v4.app.DialogFragment
         typeSpinner = view.findViewById(R.id.type);
         regionSpinner = view.findViewById(R.id.region);
         kosherSpinner = view.findViewById(R.id.kosher);
+        typeSpinner.setSelection(typeInt);
+        regionSpinner.setSelection(regionInt);
+        kosherSpinner.setSelection(kosherInt);
 
 
         return view;

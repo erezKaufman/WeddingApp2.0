@@ -4,6 +4,7 @@ import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.activities.DisplayBusinessListActivity;
 import com.example.erez0_000.weddingapp.db_classes.Database;
 import com.example.erez0_000.weddingapp.db_classes.User;
+import com.example.erez0_000.weddingapp.todos_section.TodoList;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -15,6 +16,8 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,7 +91,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             // FOR LOGGED AND ANONYMOUS USERS: in case user chooses to go to 'search' activity
             case R.id.gotoSearch:
-                openSearchActivity();
+//                openSearchActivity();
+                startActivity(new Intent(this,Logged_user_entryActivity.class));
                 break;
         }
     }
@@ -97,31 +101,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         startActivity(new Intent(this, DisplayBusinessListActivity.class));
     }
-//
-//    private void addCalendarEvent() {
-//        Calendar cal = Calendar.getInstance();
-//        long startTime = cal.getTimeInMillis();
-//        long endTime = cal.getTimeInMillis()  + 60 * 60 * 1000;
-//        Intent intent = new Intent(Intent.ACTION_INSERT_OR_EDIT);
-//        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime);
-//        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME,endTime);
-//        intent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, false);
-//        intent.putExtra(CalendarContract.Events.TITLE, "Neel Birthday");
-//        intent.putExtra(CalendarContract.Events.DESCRIPTION, "This is a sample description");
-//        intent.putExtra(CalendarContract.Events.EVENT_LOCATION, "My Guest House");
-//        intent.putExtra(CalendarContract.Events.RRULE, "FREQ=YEARLY");
-//        intent.setType("vnd.android.cursor.item/event");
-//        startActivity(intent);
-//    }
-//
-//    /**
-//     *
-//     */
-//    private void startCategoryActivity() {
-//        Intent intent = new Intent(this, CategoriesActivity.class);
-//        startActivity(intent);
-//    }
-//
+
 
     private boolean areCredentialsEmpty() {
         return TextUtils.isEmpty(usernameEditText.getText().toString().trim()) ||
@@ -133,6 +113,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             User.thisUser = new User();
             User.thisUser.setUsername(usernameEditText.getText().toString().trim());
             User.thisUser.setPassword(passwordEditText.getText().toString().trim());
+            User.thisUser.setTodoArray(initTodoArray());
+
             db.signup(User.thisUser, new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
@@ -150,6 +132,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "Please enter username and password", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 
     private void signin() {
         if (!areCredentialsEmpty()) {
@@ -188,5 +172,84 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             mprogressDialog.setMessage("אנא המתן בעת התחברות...");
         }
         mprogressDialog.show();
+    }
+    private ArrayList<TodoList> initTodoArray() {
+        ArrayList<TodoList> returnList = new ArrayList<>();
+        TodoList eventTodo = new TodoList("אירוע");
+        TodoList dressingTodo = new TodoList("הלבשה");
+        TodoList helpingTodo = new TodoList("נקודות לעזור בתכנון החתונה");
+        TodoList guestsTodo = new TodoList("אורחים");
+        TodoList photoTodo = new TodoList("צילומים");
+        TodoList extrasTodo = new TodoList("תוספות");
+        TodoList honeyMoonTodo = new TodoList("ירח דבש");
+
+        helpingTodo.addTodo("לקבוע תקציב");
+            helpingTodo.addTaskInTodo(0,"אופי האירוע שנרצה");
+            helpingTodo.addTaskInTodo(0,"מה העונה המועדפת שלנו?");
+        helpingTodo.addTodo("לקבוע גודל אולם");
+        helpingTodo.addTodo("לקבוע מספר מוזמנים");
+            helpingTodo.addTaskInTodo(2,"מה מספר המוזמנים של החתן?");
+            helpingTodo.addTaskInTodo(2,"מה מספר המוזמנים של הכלה?");
+        helpingTodo.addTodo("לבחור מיקום עבור החתונה");
+        helpingTodo.addTodo("לקבוע עם גורם מחתן");
+        helpingTodo.addTodo("לכתוב נאום");
+
+        eventTodo.addTodo("לבחור אולם");
+        eventTodo.addTodo("לבחור קייטרינג");
+            eventTodo.addTaskInTodo(1,"כשר? בשרי או חלבי?");
+        eventTodo.addTodo("לבחור להקה");
+            eventTodo.addTaskInTodo(5,"איזה סגנון מוזיקה?");
+        eventTodo.addTodo("לבחור DJ");
+            eventTodo.addTaskInTodo(6,"איזה סגנון מוזיקה?");
+            eventTodo.addTaskInTodo(6,"עד איזו שעה?");
+        eventTodo.addTodo("לשכור תאורה");
+
+        guestsTodo.addTodo("עיצוב הזמנות");
+        guestsTodo.addTodo("בחירת מספר מוזמנים");
+        guestsTodo.addTaskInTodo(1,"מספר מוזמנים מצד החתן");
+        guestsTodo.addTaskInTodo(1,"מספר מוזמנים מצד הכלה");
+        guestsTodo.addTodo("סידור מקומות ישיבה");
+        guestsTodo.addTodo("לשלוח הזמנות לחתונה");
+        guestsTodo.addTaskInTodo(3,"לשלוח במייל או בדואר");
+        guestsTodo.addTaskInTodo(3,"לוודא שכולם קיבלו את ההזמנות");
+
+        photoTodo.addTodo("לבחור צלם");
+        photoTodo.addTaskInTodo(0,"האם נרצה צלם סטילס?");
+        photoTodo.addTaskInTodo(0,"האם נרצה צלם וידאו?");
+        photoTodo.addTaskInTodo(0,"כמה צלמים?");
+        photoTodo.addTodo("לעשות סט צילומים לחתונה");
+        photoTodo.addTaskInTodo(1,"לבחור מיקום לצילומים");
+        photoTodo.addTaskInTodo(1,"לבחור שעה לצילומים");
+
+        dressingTodo.addTodo("לקנות שמלת כלה");
+        dressingTodo.addTodo("לבחור שמלה לריקודים");
+        dressingTodo.addTodo("לקנות חליפה לחתן");
+        dressingTodo.addTodo("לבחור מאפרת");
+        dressingTodo.addTodo("ללכת למאפרת");
+        dressingTodo.addTodo("לבחור עיצוב שיער לאישה");
+        dressingTodo.addTodo("ללכת לעיצוב שיער לאישה");
+        dressingTodo.addTodo("לקבוע לעיצוב שיער לגבר");
+        dressingTodo.addTodo("ללכת לעיצוב שיער לגבר");
+        dressingTodo.addTodo("לקנות טבעות");
+            dressingTodo.addTaskInTodo(9,"לעשות סבב התרשמות ראשוני");
+            dressingTodo.addTaskInTodo(9,"לבצע מדידות");
+            dressingTodo.addTaskInTodo(9,"איסוף סופי של הטבעות");
+
+
+
+        extrasTodo.addTodo("לבחור זרים ליום החתונה");
+        extrasTodo.addTodo("לשקול אם למצוא הפעלות לצעירים");
+            extrasTodo.addTaskInTodo(1,"האם נרצה מנפח בלונים מקצועי?");
+            extrasTodo.addTaskInTodo(1,"האם נרצה ליצן מקצועי?");
+            extrasTodo.addTaskInTodo(1,"האם נרצה עמדת משחקי קונסולות?");
+
+        honeyMoonTodo.addTodo("להזמין ירח דבש");
+
+        returnList.add(eventTodo);
+        returnList.add(dressingTodo);
+        returnList.add(helpingTodo);
+        returnList.add(guestsTodo);
+        returnList.add(photoTodo);
+        return returnList;
     }
 }

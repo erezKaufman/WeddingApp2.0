@@ -85,6 +85,10 @@ public class User implements Serializable {
         return todoArray;
     }
 
+    public void setTodoArray(ArrayList<TodoList> todoArray) {
+        this.todoArray = todoArray;
+    }
+
     public void addTodo(TodoList todoList){
         todoArray.add(todoList);
     }
