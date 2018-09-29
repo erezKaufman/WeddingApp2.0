@@ -48,50 +48,50 @@ public class Database {
     }
 
     public void signin(String username, String password, Callback<User> callback) {
-        service.getUserByCredentials(serializeCredentials(username, password)).enqueue(callback);
+        service.getUserByCredentials(serializeCredentials(username, password), API_KEY).enqueue(callback);
     }
 
     // The User object here should only have the username & password fields assigned
     public void signup(final User user, final Callback<User> callback) {
         // We can't sign up if username already exists
-        service.getUserByCredentials(serializeCredentials(user.getUsername(), null)).enqueue(new Callback<User>() {
+        service.getUserByCredentials(serializeCredentials(user.getUsername(), null), API_KEY).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.body() == null) {
-                    service.addUser(user).enqueue(callback);
+                    service.addUser(user, API_KEY).enqueue(callback);
                 } else {
-                    callback.onFailure(null, new Error("Cannot sign-up - username already exists"));
+                    callback.onFailure(call, new Error("Cannot sign-up - username already exists"));
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                callback.onFailure(null, t);
+                callback.onFailure(call, t);
             }
         });
     }
 
     //Use the callback here just to know when the operation's done
     public void updateUser(User user, Callback<Void> callback) {
-        service.updateUser(serializeCredentials(user.getUsername(), user.getPassword()), user).enqueue(callback);
+        service.updateUser(serializeCredentials(user.getUsername(), user.getPassword()), user, API_KEY).enqueue(callback);
     }
 
     // Pass empty map if you want to fetch all businesses
     public void getBusinesses(Map<String, String> filters, Callback<List<Businesses>> callback) {
-        service.getBusinesses(new JSONObject(filters).toString()).enqueue(callback);
+        service.getBusinesses(new JSONObject(filters).toString(), API_KEY).enqueue(callback);
     }
 
     public interface MlabService {
-        @GET("Users?apiKey=" + API_KEY)
-        Call<User> getUserByCredentials(@Query("q") String credentials);
+        @GET("Users")
+        Call<User> getUserByCredentials(@Query("q") String credentials, @Query("apiKey") String apiKey);
 
-        @POST("Users?apiKey=" + API_KEY)
-        Call<User> addUser(@Body User user);
+        @POST("Users")
+        Call<User> addUser(@Body User user, @Query("apiKey") String apiKey);
 
-        @PUT("Users?apiKey=" + API_KEY)
-        Call<Void> updateUser(@Query("q") String credentials, @Body User user);
+        @PUT("Users")
+        Call<Void> updateUser(@Query("q") String credentials, @Body User user, @Query("apiKey") String apiKey);
 
-        @GET("Businesses?apiKey=" + API_KEY)
-        Call<List<Businesses>> getBusinesses(@Query("q") String filters);
+        @GET("Businesses")
+        Call<List<Businesses>> getBusinesses(@Query("q") String filters, @Query("apiKey") String apiKey);
     }
 }
