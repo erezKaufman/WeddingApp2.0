@@ -2,18 +2,26 @@ package com.example.erez0_000.weddingapp.todos_section;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GroupItem implements Serializable{
-
+    @SerializedName("groupName")
     private String groupName;
+    @SerializedName("itemList")
     private ArrayList<ChildItemSample> itemList;
+//    @SerializedName("groupName")
     private EditText newItemText;
+//    @SerializedName("addItemButton")
     private Button addItemButton;
+    @SerializedName("checked")
     private boolean checked;
+    @SerializedName("numberOfItems")
     private int numberOfItems =  0 ;
+
     public GroupItem(){
 
     }

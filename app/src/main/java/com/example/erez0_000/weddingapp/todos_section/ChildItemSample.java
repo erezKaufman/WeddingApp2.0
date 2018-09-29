@@ -1,10 +1,15 @@
 package com.example.erez0_000.weddingapp.todos_section;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class ChildItemSample implements Serializable{
+    @SerializedName("checked")
     private boolean checked;
+    @SerializedName("name")
     private String name;
+
     public boolean isChecked() {
         return checked;
     }
@@ -17,6 +22,7 @@ public class ChildItemSample implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
+
     public ChildItemSample(){
         checked = false;
         name = "";

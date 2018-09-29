@@ -1,11 +1,14 @@
 package com.example.erez0_000.weddingapp.todos_section;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TodoList  implements Serializable{
-
+    @SerializedName("todoList")
     private ArrayList<GroupItem> todoList;
+    @SerializedName("todoName")
     private String todoName;
     public TodoList(){
 

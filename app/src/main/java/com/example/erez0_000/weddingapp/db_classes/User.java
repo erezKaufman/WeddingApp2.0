@@ -39,7 +39,7 @@ public class User implements Serializable {
     @SerializedName("season")
     private String season;
 
-//    @SerializedName("todoArray")
+    @SerializedName("todoArray")
     private transient ArrayList<TodoList> todoArray;
 
 //    @SerializedName("businessInChart")
