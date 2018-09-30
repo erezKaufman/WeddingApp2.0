@@ -22,7 +22,6 @@ import java.util.Date;
 
 public class CalendarFragmentForBusiness extends Fragment implements View.OnClickListener {
 
-    CalendarView calendarView;
     long[] epochDates;
     ClendarDialogFragmentListner listner;
     TextView curDate;
@@ -30,8 +29,6 @@ public class CalendarFragmentForBusiness extends Fragment implements View.OnClic
     CaldroidFragment caldroidFragment;
     final int winderBegins = 4;
     final int winterEnds =9;
-    final int startMonth = 1;
-    final int endMonth = 30;
     boolean isWinter;
     public View onCreateView(LayoutInflater inflater,
                              @Nullable ViewGroup container,
@@ -66,10 +63,16 @@ public class CalendarFragmentForBusiness extends Fragment implements View.OnClic
             @Override
             public void onSelectDate(Date date, View view) {
                 boolean isOccupied = false;
+                boolean isEarlier = false;
                 Calendar cal1 = Calendar.getInstance();
                 Calendar cal2 = Calendar.getInstance();
                 Date cuTime = Calendar.getInstance().getTime();
                 cal1.setTime(date);
+                if (cuTime.compareTo(cal1.getTime())>0){
+                    setDateBtn.setEnabled(false);
+                    curDate.setText("נא לבחור תאריך מאוחר יותר מהתאריך הנוכחי");
+                    return;
+                }
                 for (long curdate : epochDates) {
                     cal2.setTime(run(curdate));
                     boolean sameDay = cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR) &&

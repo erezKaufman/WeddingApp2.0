@@ -164,7 +164,7 @@ public class CategoriesActivity extends AppCompatActivity
             if (item.getTodoName().equals(res.getTodoName())) {
                 listOfTodos.remove(item);
                 listOfTodos.add(res);
-                User.thisUser.getTodoArray().remove(item);
+                User.thisUser.getTodoArray().remove(res);
                 User.thisUser.getTodoArray().add(res);
 
                 Database.getInstance().updateUser(User.thisUser, new Callback<Void>() {

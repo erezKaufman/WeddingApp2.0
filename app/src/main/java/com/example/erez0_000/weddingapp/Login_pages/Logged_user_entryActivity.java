@@ -149,7 +149,6 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
     private void openSearchActivity() {
 //        Intent intent = new Intent(this,SearchActivity.class);
 //        startActivity(intent);
-        setContentView(R.layout.activity_login);
         startActivity(new Intent(this, DisplayBusinessListActivity.class));
     }
 
@@ -213,7 +212,7 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
     public Map<String, String> getRandomPreferencesMap() {
         Map<String,String> curMap = new HashMap<>();
         User curUser = User.thisUser;
-        if (curUser.getArea()!= null && !curUser.getArea().isEmpty()){
+            if (curUser.getArea()!= null && !curUser.getArea().isEmpty()){
             curMap.put("Region",curUser.getArea());
         }
         int randomNum = ThreadLocalRandom.current().nextInt(1, 12);

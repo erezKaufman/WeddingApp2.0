@@ -122,7 +122,7 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
 
     private void openPayChart(View v) {
         User curUser = User.thisUser;
-        // TODO need to know how to get user's chart and add it to the calculations
+
         int min_val = 0;
         int max_val = 0;
         if (isWinter) {
@@ -138,7 +138,7 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
         IntTuple intTuple = intaddToChart(min_val, max_val);
         TextView lastAmmount = getView().findViewById(R.id.lastAmmount);
         lastAmmount.setText(String.format("בין %s לבין%s",
-                curUser.getMinCurrentDestinedAmmount(), curUser.getMaxCurrentDestinedAmmount())); // TODO: 27/09/2018 add user last ammount here
+                curUser.getMinCurrentDestinedAmmount(), curUser.getMaxCurrentDestinedAmmount()));
         TextView newAmmount = getView().findViewById(R.id.curAmmount);
         newMinAmmount = curUser.getMinCurrentDestinedAmmount() + intTuple.min;
         newMaxAmmount = curUser.getMaxCurrentDestinedAmmount() + intTuple.max;

@@ -35,8 +35,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        usernameEditText = findViewById(R.id.username_edittext);
+        passwordEditText = findViewById(R.id.password_edittext);
+        findViewById(R.id.gotosignup).setOnClickListener(this);
+        findViewById(R.id.gotosignin).setOnClickListener(this);
+        findViewById(R.id.gotoSearch).setOnClickListener(this);
 
-//        startActivity(new Intent(this, DisplayBusinessListActivity.class));
 
         sp = getSharedPreferences("pref", MODE_PRIVATE);
         final String username = sp.getString("username", null),
@@ -60,11 +64,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             });
         }
-        usernameEditText = findViewById(R.id.username_edittext);
-        passwordEditText = findViewById(R.id.password_edittext);
-        findViewById(R.id.gotosignup).setOnClickListener(this);
-        findViewById(R.id.gotosignin).setOnClickListener(this);
-        findViewById(R.id.gotoSearch).setOnClickListener(this);
     }
 
 
@@ -93,7 +92,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     //
     private void openSearchActivity() {
-        setContentView(R.layout.activity_login);
         startActivity(new Intent(this, DisplayBusinessListActivity.class));
     }
 
@@ -139,11 +137,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 //        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
-        finish();
+//        finish();
     }
 
 
     private void signin() {
+        // TODO: 30/09/2018 handle unfamiliar user trying to sign in
         if (!areCredentialsEmpty()) {
             User.thisUser = new User();
             User.thisUser.setUsername(usernameEditText.getText().toString().trim());
@@ -261,6 +260,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         returnList.add(helpingTodo);
         returnList.add(guestsTodo);
         returnList.add(photoTodo);
+        returnList.add(extrasTodo);
+        returnList.add(honeyMoonTodo);
         return returnList;
     }
 }

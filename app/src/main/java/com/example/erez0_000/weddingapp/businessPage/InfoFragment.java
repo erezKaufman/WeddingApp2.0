@@ -28,7 +28,6 @@ public class InfoFragment extends Fragment {
                           String address, String image_url){
         this.name = name;
         this.mail = mail;
-//        tv_description.setText(description);
         this.address = address;
         this.region = region;
         this.description = description;

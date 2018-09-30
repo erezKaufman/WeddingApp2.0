@@ -108,7 +108,7 @@ public class Sign_in_and_info_Activity extends AppCompatActivity implements View
         Toast.makeText(Sign_in_and_info_Activity.this,
                 toastMessage,Toast.LENGTH_LONG).show();
         Intent i = new Intent(Sign_in_and_info_Activity.this,Logged_user_entryActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+//        i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(i);
         hideProgressDialog();
         finish();

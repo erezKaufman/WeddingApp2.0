@@ -13,9 +13,11 @@
             android:id="@+id/show_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Date"
-            android:textAlignment="center"
+            android:fontFamily="@font/david_libre"
             android:paddingTop="20dp"
+            android:text="תאריך לבחירה"
+            android:textAlignment="center"
+            android:textColor="@color/caldroid_white"
             android:textSize="24sp" />
         <CalendarView
             android:id="@+id/calendarView"

@@ -25,7 +25,11 @@ public class BusinessChartRecyclerViewAdapter extends
     CreateOnClickListener listener;
 
     public BusinessChartRecyclerViewAdapter(CreateOnClickListener listener,ArrayList<BusinessesInChart> buslist){
-        businessList = buslist;
+        businessList = new ArrayList<>();
+        if (buslist != null){
+            businessList = buslist;
+         }else
+
         this.listener = listener;
     }
 
