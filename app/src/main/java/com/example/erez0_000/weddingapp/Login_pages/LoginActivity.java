@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 public void onResponse(Call<User> call, Response<User> response) {
                     hideProgressDialog();
                     User.thisUser = response.body();
-                    // TODO: Start new activity here
+                    goToNextActivity(Logged_user_entryActivity.class);
                 }
 
                 @Override
@@ -60,41 +60,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             });
         }
-//        if (currentUser != null) {
-//            Intent intent = new Intent(this,Logged_user_entryActivity.class);
-////            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-//            startActivity(intent);
-//            finish();
-//        }
-//        setContentView(R.layout.activity_anonymous_user_entry);
-////        else {
-////            Intent intent = new Intent(this,Anonymous_user_entry.class);
-////            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-////            startActivity(intent);
-////        }
-
         usernameEditText = findViewById(R.id.username_edittext);
         passwordEditText = findViewById(R.id.password_edittext);
         findViewById(R.id.gotosignup).setOnClickListener(this);
         findViewById(R.id.gotosignin).setOnClickListener(this);
         findViewById(R.id.gotoSearch).setOnClickListener(this);
-
     }
+
+
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.gotosignup:
+                showProgressDialog();
                 signup();
+                hideProgressDialog();
                 break;
             // WHEN USER IS ANONYMOUS:  in case user chooses to go to 'search' activity
             case R.id.gotosignin:
+                showProgressDialog();
                 signin();
+                hideProgressDialog();
                 break;
             // FOR LOGGED AND ANONYMOUS USERS: in case user chooses to go to 'search' activity
             case R.id.gotoSearch:
-//                openSearchActivity();
-                startActivity(new Intent(this,Logged_user_entryActivity.class));
+                openSearchActivity();
+//                startActivity(new Intent(this,Logged_user_entryActivity.class));
                 break;
         }
     }
@@ -117,6 +109,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             User.thisUser.setUsername(usernameEditText.getText().toString().trim());
             User.thisUser.setPassword(passwordEditText.getText().toString().trim());
             User.thisUser.setTodoArray(initTodoArray());
+            User.thisUser.setMinCurrentDestinedAmmount(0);
+            User.thisUser.setMaxCurrentDestinedAmmount(0);
+            User.thisUser.setCost("0");
 
             db.signup(User.thisUser, new Callback<User>() {
                 @Override
@@ -125,7 +120,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     sp.edit().putString("username", User.thisUser.getUsername())
                             .putString("password", User.thisUser.getPassword())
                             .apply();
-                    // TODO: Start new activity here
+                    goToNextActivity(Sign_in_and_info_Activity.class);
                 }
 
                 @Override
@@ -136,6 +131,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         } else {
             Toast.makeText(this, "Please enter username and password", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    private void goToNextActivity(Class<?> mClass ) {
+        Intent i = new Intent(LoginActivity.this,mClass);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+        finish();
     }
 
 
@@ -151,7 +155,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     sp.edit().putString("username", User.thisUser.getUsername())
                             .putString("password", User.thisUser.getPassword())
                             .apply();
-                    // TODO: Start new activity here
+
+                    goToNextActivity(Logged_user_entryActivity.class);
                 }
 
                 @Override

@@ -36,7 +36,7 @@
         android:layout_height="0dp"
         android:text="GroupName"
         android:textAlignment="viewEnd"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton"
         app:layout_constraintEnd_toStartOf="@+id/cb_group"
         app:layout_constraintStart_toEndOf="@+id/imageButton"

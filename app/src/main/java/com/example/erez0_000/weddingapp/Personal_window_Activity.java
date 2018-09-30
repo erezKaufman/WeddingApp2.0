@@ -1,11 +1,15 @@
 package com.example.erez0_000.weddingapp;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.erez0_000.weddingapp.Login_pages.LoginActivity;
+import com.example.erez0_000.weddingapp.db_classes.Database;
+import com.example.erez0_000.weddingapp.db_classes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -48,18 +52,16 @@ public class Personal_window_Activity extends AppCompatActivity implements View.
     }
 
     private void signout() {
-        // actuall FireBase sign out
 
         // change UI for user
-        mGoogleSignInClient.signOut().addOnCompleteListener(this,
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-//                        updateUI(null); //TODO add UI change in here
-
-                    }
-                });
-
+        Database db = Database.getInstance();
+        // TODO: 30/09/2018 log the user out
+        getSharedPreferences("pref", MODE_PRIVATE).edit().clear().apply();
+        User.thisUser = null;
+        Intent i = new Intent(this, LoginActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(i);
         finish();
 
 

@@ -67,6 +67,8 @@ public class TodoRecyclerViewAdapter
                 return true;
             }
         });
+
+
     }
 
     /**

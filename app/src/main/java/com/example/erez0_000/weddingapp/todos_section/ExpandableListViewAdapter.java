@@ -30,7 +30,6 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter
     private TodoList groupList;
     //    private TodoList groupList;
     private int checkedBoxesCount;
-    private boolean[] checkedGroup;
 
     public ExpandableListViewAdapter(Activity activity,TodoList groupItems) {
         groupList = groupItems;

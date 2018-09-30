@@ -3,6 +3,7 @@ package com.example.erez0_000.weddingapp.Login_pages;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.erez0_000.weddingapp.Personal_window_Activity;
 import com.example.erez0_000.weddingapp.R;
@@ -37,7 +40,8 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
     private RecyclerView recyclerView;
     private ProgressDialog mprogressDialog;
     private List<Businesses> businessHorizontalList;
-
+    private TextView curBalance;
+    private LinearLayout currentBalanceLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,11 +58,36 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         weddingImage.setImageResource(imgResource);
         businessHorizontalList = new ArrayList<>();
         recyclerView = findViewById(R.id.suggestion_list);
+        curBalance = findViewById(R.id.balance);
+        currentBalanceLayout = findViewById(R.id.chartLinearLayout);
         callForRandomBusinessList();
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User curUser = User.thisUser;
+        curBalance.setText(String.format("בין %s לבין %s",
+                curUser.getMinCurrentDestinedAmmount(),
+                curUser.getMaxCurrentDestinedAmmount()));
+        int currentCost = Integer.parseInt(curUser.getCost());
+        if (currentCost !=0){
+            if (currentCost >= curUser.getMinCurrentDestinedAmmount()){
+                if (currentCost <= curUser.getMaxCurrentDestinedAmmount()){
+                    // TODO: 30/09/2018 change color to yellow add warning text
+                    currentBalanceLayout.setBackgroundColor(Color.YELLOW);
+                    return;
+                }
+                currentBalanceLayout.setBackgroundColor(R.drawable.red_border);
+                // TODO: 30/09/2018 change color to red and add warning text
+            }
+
+        }
+    }
+
     private void callForRandomBusinessList() {
+        showProgressDialog();
         Database db = Database.getInstance();
         // TODO: 29/09/2018 need to have user with his preferences here
 
@@ -66,17 +95,16 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         db.getBusinesses(map, new Callback<List<Businesses>>() {
             @Override
             public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
+                hideProgressDialog();
                 businessHorizontalList = response.body();
-                initHorizontalRecyclerView(businessHorizontalList);
+                initHorizontalRecyclerView(businessHorizontalList); // TODO: 30/09/2018 make sure this works after we populate the DB
 
             }
 
             @Override
             public void onFailure(Call<List<Businesses>> call, Throwable t) {
-//                Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+                hideProgressDialog();
                 System.out.println(t.getCause());
-//            Toast.makeText(DisplayBusinessListActivity.this,
-//                    "מתנצלים, יש כרגע בעיות התחברות עם השרת. אנא נסו מאוחר יותר",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -178,16 +206,14 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         FragmentManager fm = getFragmentManager();
         BusinessChartFragment businessChartFragment = BusinessChartFragment.newInstance();
 //        businessChartFragment.insertBusinesses(loggedUser.getBusinessInChart());
-        businessChartFragment.insertBusinesses(null); // TODO: 29/09/2018 delete this
         businessChartFragment.show(fm, null);
 
     }
 
     public Map<String, String> getRandomPreferencesMap() {
         Map<String,String> curMap = new HashMap<>();
-//        User curUser = Database.getInstance().getUser(); uncomment this
-        User curUser = new User(); //delete this
-        if (!curUser.getArea().isEmpty()){
+        User curUser = User.thisUser;
+        if (curUser.getArea()!= null && !curUser.getArea().isEmpty()){
             curMap.put("Region",curUser.getArea());
         }
         int randomNum = ThreadLocalRandom.current().nextInt(1, 12);

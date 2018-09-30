@@ -1,5 +1,6 @@
 package  com.example.erez0_000.weddingapp.activities;
 
+import android.app.ProgressDialog;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class DisplayBusinessListActivity extends AppCompatActivity
     // this url is from my github - a raw json file with the Buisnaess class data members
     private int regionInt,typeInt,kosherInt;
     private String regionStr,typeStr,kosherStr;
+    private ProgressDialog mprogressDialog;
 
     private List<Businesses> lstBusinesses;
     private RecyclerView recyclerView ;
@@ -58,6 +60,7 @@ public class DisplayBusinessListActivity extends AppCompatActivity
 
         // get DB instance
         db = Database.getInstance();
+
         getInfoFromDb();
 
 
@@ -164,11 +167,13 @@ public class DisplayBusinessListActivity extends AppCompatActivity
     }
 
     public void getInfoFromDb() {
+        showProgressDialog();
         Map<String,String> map  = fillMap();
         // TODO: 28/09/2018  the map filter doesn't work. need to talk with Ben about it
         db.getBusinesses(map, new Callback<List<Businesses>>() {
             @Override
             public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
+                hideProgressDialog();
                 lstBusinesses = response.body();
                 setuprecyclerview(lstBusinesses);
 
@@ -176,7 +181,7 @@ public class DisplayBusinessListActivity extends AppCompatActivity
 
             @Override
             public void onFailure(Call<List<Businesses>> call, Throwable t) {
-//                Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
+                hideProgressDialog();
                 System.out.println(t.getCause());
                 Toast.makeText(DisplayBusinessListActivity.this,
                         "מתנצלים, יש כרגע בעיות התחברות עם השרת. אנא נסו מאוחר יותר",Toast.LENGTH_LONG).show();
@@ -209,5 +214,19 @@ public class DisplayBusinessListActivity extends AppCompatActivity
             return emptyMap;
         }
         return map;
+    }
+    private void hideProgressDialog() {
+        if (mprogressDialog != null && mprogressDialog.isShowing()) {
+            mprogressDialog.dismiss();
+        }
+    }
+
+    private void showProgressDialog() {
+        if (mprogressDialog == null) {
+            mprogressDialog = new ProgressDialog(this);
+            mprogressDialog.setCancelable(false);
+            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
+        }
+        mprogressDialog.show();
     }
 }

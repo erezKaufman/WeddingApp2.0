@@ -49,12 +49,13 @@
         tools:layout_editor_absoluteX="8dp"
         android:gravity="center"
         tools:layout_editor_absoluteY="280dp" />
+
+
     <LinearLayout
         android:id="@+id/add_amount_linealayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
         android:visibility="gone">
         <TextView
             android:id="@+id/textlastAmmount"
@@ -88,8 +89,8 @@
             android:orientation="horizontal">
 
             <Button
-                android:text="@string/add_amount_cancel"
                 android:id="@+id/cancel"
+                android:text="@string/add_amount_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"/>

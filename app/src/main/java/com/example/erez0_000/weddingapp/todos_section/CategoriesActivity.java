@@ -22,10 +22,14 @@ import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.db_classes.Database;
 import com.example.erez0_000.weddingapp.db_classes.User;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CategoriesActivity extends AppCompatActivity
         implements TodoRecyclerViewAdapter.CreateOnClickListner,
         View.OnClickListener,
-        DeleteTodoFragment.DeletefragmentListener{
+        DeleteTodoFragment.DeletefragmentListener {
     private RecyclerView gRecyclerView;
     private TodoRecyclerViewAdapter gviewAdapter;
     private Button addTodo;
@@ -45,15 +49,10 @@ public class CategoriesActivity extends AppCompatActivity
 
 
         // hold the User information
-//        User currentUser = Database.curUser;
+        User currentUser = User.thisUser;
 
         // fill the recyclerView with the todos from the user
-//        if (currentUser != null){
-//            listOfTodos = currentUser.getTodoArray();
-//
-//        }else{
-        listOfTodos = new ArrayList<>();
-//        }
+        listOfTodos = currentUser.getTodoArray();
         // START editing View
         taskText = findViewById(R.id.ed_main);
         taskText.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);
@@ -70,12 +69,12 @@ public class CategoriesActivity extends AppCompatActivity
      */
     private void initRecyclerView() {
         ArrayList<String> titleList = new ArrayList<>();
-        for (TodoList mTodo: listOfTodos){
+        for (TodoList mTodo : listOfTodos) {
             titleList.add(mTodo.getTodoName());
         }
         gRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        gviewAdapter = new TodoRecyclerViewAdapter(this,titleList);
+        gviewAdapter = new TodoRecyclerViewAdapter(this, titleList);
 
         gRecyclerView.setAdapter(gviewAdapter);
     }
@@ -83,6 +82,7 @@ public class CategoriesActivity extends AppCompatActivity
     /**
      * interface method for the TodoRecyclerViewAdapter listener.
      * the method takes the cell that the user chose and open it in a new activity
+     *
      * @param todoTitle the title of the todolist
      */
     @Override
@@ -99,7 +99,6 @@ public class CategoriesActivity extends AppCompatActivity
     }
 
     /**
-     *
      * @param todoTitle
      */
     @Override
@@ -113,12 +112,11 @@ public class CategoriesActivity extends AppCompatActivity
             @Override
             public void acceptDelition() {
                 gviewAdapter.deleteTodo(todoTitle);
-                Toast.makeText(CategoriesActivity.this,"הרשימה נמחקה בהצלחה",Toast.LENGTH_LONG).show();
+                Toast.makeText(CategoriesActivity.this, "הרשימה נמחקה בהצלחה", Toast.LENGTH_LONG).show();
 
             }
         });
-        appointmentFrag.show(ft ,null);
-
+        appointmentFrag.show(ft, null);
 
 
     }
@@ -161,12 +159,28 @@ public class CategoriesActivity extends AppCompatActivity
     }
 
     private void searchAndReplaceGroup(TodoList res) {
+        int pos = 0;
         for (TodoList item : listOfTodos) {
             if (item.getTodoName().equals(res.getTodoName())) {
                 listOfTodos.remove(item);
                 listOfTodos.add(res);
+                User.thisUser.getTodoArray().remove(item);
+                User.thisUser.getTodoArray().add(res);
+
+                Database.getInstance().updateUser(User.thisUser, new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(CategoriesActivity.this, "שינויים עודכנו", Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(CategoriesActivity.this, "קרתה תקלה בעידכון השינויים, אנא נסו שנית", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
                 return;
             }
+            pos += 1;
         }
     }
 

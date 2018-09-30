@@ -16,6 +16,7 @@ import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.activities.DisplayBusinessListActivity;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.example.erez0_000.weddingapp.db_classes.Database;
+import com.example.erez0_000.weddingapp.db_classes.User;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class BusinessChartFragment extends DialogFragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.business_chart_fragment, container, false);
         recyclerView = view.findViewById(R.id.business_chart);
+        lstBusinesses = User.thisUser.getBusinessInChart();
+
         initRecyclerView();
         // TODO: 29/09/2018 get user's businessInChart and init the reciclerView
 //        Database db = Database.getInstance();
@@ -93,11 +96,5 @@ public class BusinessChartFragment extends DialogFragment
         startActivity(i);
     }
 
-    public void insertBusinesses(ArrayList<BusinessesInChart> businses) {
-        lstBusinesses = new ArrayList<>();
 
-
-//        lstBusinesses = businses;
-
-    }
 }

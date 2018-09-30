@@ -1,5 +1,6 @@
 package com.example.erez0_000.weddingapp.businessPage;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
+import com.example.erez0_000.weddingapp.db_classes.Database;
+import com.example.erez0_000.weddingapp.db_classes.User;
 import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 
 import java.text.ParseException;
@@ -24,16 +27,22 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Map;
 
-public class SetAppointmentFragment extends android.support.v4.app.DialogFragment implements View.OnClickListener{
-    private Button gotoTodos, addEventToCalendar, addToCalcChart;
-    private TextView title,mail;
-    private ListView phonelist,maillist;
-    String[] phoneNumber;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class SetAppointmentFragment extends android.support.v4.app.DialogFragment implements View.OnClickListener {
+    private TextView mail;
+    private ListView phonelist;
     private Businesses curBusiness;
-    private String mailStr,chosenDate;
+    private String  chosenDate;
     private boolean isWinter;
     private final String min_price = "Min_Price";
-    private final String max_price= "Max_Price";
+    private final String max_price = "Max_Price";
+    int newMinAmmount,newMaxAmmount;
+    private ProgressDialog mprogressDialog;
+
+
     public static SetAppointmentFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -47,19 +56,25 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.set_appointment_frag,container, false);
+        View view = inflater.inflate(R.layout.set_appointment_frag, container, false);
 
         // set listeners to buttons
-        view.findViewById(R.id.gotoTodos).setOnClickListener(this);
+        Button todoBtn = view.findViewById(R.id.gotoTodos);
+        todoBtn.setOnClickListener(this);
+        Button addToChart = view.findViewById(R.id.addValueToChart);
+        addToChart.setOnClickListener(this);
+        if (User.thisUser == null){
+            todoBtn.setVisibility(View.GONE);
+            addToChart.setVisibility(View.GONE);
+        }
         view.findViewById(R.id.createCalendarEvent).setOnClickListener(this);
-        view.findViewById(R.id.addValueToChart).setOnClickListener(this);
-        phonelist =(ListView)view.findViewById(R.id.listViewPhone);
-        mail =(TextView)view.findViewById(R.id.mailInfo);
+        phonelist = (ListView) view.findViewById(R.id.listViewPhone);
+        mail = (TextView) view.findViewById(R.id.mailInfo);
         mail.setText(curBusiness.getMail());
         view.findViewById(R.id.accept).setOnClickListener(this);
         view.findViewById(R.id.cancel).setOnClickListener(this);
         ArrayAdapter<String> arrayAdapter =
-                new ArrayAdapter<String>(getContext(),R.layout.phone_number_layout, curBusiness.getPhone());
+                new ArrayAdapter<String>(getContext(), R.layout.phone_number_layout, curBusiness.getPhone());
 
         phonelist.setAdapter(arrayAdapter);
 
@@ -67,22 +82,23 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:"+curBusiness.getPhone()[position]));
+                intent.setData(Uri.parse("tel:" + curBusiness.getPhone()[position]));
                 SetAppointmentFragment.this.startActivity(intent);
             }
         });
         return view;
     }
 
-    public void setBusinessContact(Businesses currentBusiness,String date,boolean isWinter){
+    public void setBusinessContact(Businesses currentBusiness, String date, boolean isWinter) {
 
-        curBusiness= currentBusiness ;
+        curBusiness = currentBusiness;
         chosenDate = date;
         this.isWinter = isWinter;
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.gotoTodos:
                 Intent i = new Intent(getActivity(), CategoriesActivity.class);
                 startActivity(i);
@@ -98,42 +114,64 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
                 break;
             case R.id.accept:
                 // TODO: 27/09/2018 update the user chart
+                acceptAndUpdateAmmount();
                 getView().findViewById(R.id.add_amount_linealayout).setVisibility(getView().GONE);
-                Toast.makeText(getActivity(), R.string.Toast_added_business_to_chart, Toast.LENGTH_LONG).show();
                 break;
         }
     }
 
     private void openPayChart(View v) {
+        User curUser = User.thisUser;
         // TODO need to know how to get user's chart and add it to the calculations
         int min_val = 0;
         int max_val = 0;
-        if (isWinter){
-            Map<String,Integer> curprices = curBusiness.getWinter_price();
+        if (isWinter) {
+            Map<String, Integer> curprices = curBusiness.getWinter_price();
             min_val = curprices.get(min_price);
             max_val = curprices.get(max_price);
-        }else{
-            Map<String,Integer> curprices = curBusiness.getSummer_price();
+        } else {
+            Map<String, Integer> curprices = curBusiness.getSummer_price();
             min_val = curprices.get(min_price);
             max_val = curprices.get(max_price);
         }
 
-        IntTuple intTuple = intaddToChart(min_val,max_val);
+        IntTuple intTuple = intaddToChart(min_val, max_val);
         TextView lastAmmount = getView().findViewById(R.id.lastAmmount);
-        lastAmmount.setText("0"); // TODO: 27/09/2018 add user last ammount here
+        lastAmmount.setText(String.format("בין %s לבין%s",
+                curUser.getMinCurrentDestinedAmmount(), curUser.getMaxCurrentDestinedAmmount())); // TODO: 27/09/2018 add user last ammount here
         TextView newAmmount = getView().findViewById(R.id.curAmmount);
-        newAmmount.setText(String.format("בין %s לבין%s",intTuple.min,intTuple.max));
+        newMinAmmount = curUser.getMinCurrentDestinedAmmount() + intTuple.min;
+        newMaxAmmount = curUser.getMaxCurrentDestinedAmmount() + intTuple.max;
+        newAmmount.setText(String.format("בין %s לבין%s", newMinAmmount, newMaxAmmount));
         getView().findViewById(R.id.add_amount_linealayout).setVisibility(getView().VISIBLE);
 //        v.findViewById(R.id.add_amount_linealayout).setVisibility(v.VISIBLE);
     }
 
-    public void acceptAmmount(View v){
+    public void acceptAndUpdateAmmount() {
+        showProgressDialog();
+        User.thisUser.setMaxCurrentDestinedAmmount(newMaxAmmount);
+        User.thisUser.setMaxCurrentDestinedAmmount(newMinAmmount);
+        User.thisUser.addBusinessToChart(curBusiness,newMinAmmount,newMaxAmmount);
+        Database.getInstance().updateUser(User.thisUser, new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                hideProgressDialog();
+                Toast.makeText(getActivity(), R.string.Toast_added_business_to_chart, Toast.LENGTH_LONG).show();
+            }
 
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                hideProgressDialog();
+                Toast.makeText(getContext(), "קרתה תקלה בעידכון השינויים, אנא נסו שנית", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     /**
      * the method should contact the User current prices, add to them the price of the new business
      * and
+     *
      * @param min_val the minimum value of the current business for the season
      * @param max_val the maximum value of the current business for the season
      * @return
@@ -160,14 +198,29 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
         intent.putExtra("beginTime", cal.getTimeInMillis());
         intent.putExtra("allDay", true);
         intent.putExtra(CalendarContract.Events.EVENT_LOCATION, curBusiness.getAddress());
-        intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
-        intent.putExtra("title", "פגישה עם "+curBusiness.getName());
-        startActivity   (intent);
+        intent.putExtra("endTime", cal.getTimeInMillis() + 60 * 60 * 1000);
+        intent.putExtra("title", "פגישה עם " + curBusiness.getName());
+        startActivity(intent);
     }
-    private static class IntTuple{
+
+    private static class IntTuple {
         int min;
         int max;
     }
 
+    private void hideProgressDialog() {
+        if (mprogressDialog != null && mprogressDialog.isShowing()) {
+            mprogressDialog.dismiss();
+        }
+    }
+
+    private void showProgressDialog() {
+        if (mprogressDialog == null) {
+            mprogressDialog = new ProgressDialog(getContext());
+            mprogressDialog.setCancelable(false);
+            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
+        }
+        mprogressDialog.show();
+    }
 }
 

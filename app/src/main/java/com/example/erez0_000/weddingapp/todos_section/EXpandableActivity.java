@@ -63,20 +63,6 @@ public class EXpandableActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-//    @Override
-//    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//    }
-//
-//    @Override
-//    public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//    }
-//
-//    @Override
-//    public void afterTextChanged(Editable s) {
-//        text = s.toString();
-//    }
 
     @Override
     public void onClick(View v) {

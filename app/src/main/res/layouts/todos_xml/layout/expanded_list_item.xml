@@ -20,7 +20,7 @@
         android:layout_weight="3"
         android:text="GroupName"
         android:textAlignment="viewEnd"
-        android:textSize="30sp" />
+        android:textSize="20sp" />
 
     <CheckBox
         android:id="@+id/cb_child"
