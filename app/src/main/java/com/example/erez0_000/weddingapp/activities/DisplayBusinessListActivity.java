@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -136,6 +137,19 @@ public class DisplayBusinessListActivity extends AppCompatActivity
                 openFilter();
                 break;
             case R.id.startSearch_btn:
+                db.getBusinessesByName(businessNameSearch.getText().toString().trim(), new Callback<List<Businesses>>() {
+                    @Override
+                    public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
+                        for (Businesses b : response.body()) {
+                            Log.d("BUSINESS NAME FOUND", b.getName());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Businesses>> call, Throwable t) {
+
+                    }
+                });
                 break;
         }
     }

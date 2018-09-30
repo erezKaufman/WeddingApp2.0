@@ -1,5 +1,6 @@
 package com.example.erez0_000.weddingapp.db_classes;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -13,11 +14,9 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public class Database {
@@ -48,17 +47,17 @@ public class Database {
     }
 
     public void signin(String username, String password, Callback<User> callback) {
-        service.getUserByCredentials(serializeCredentials(username, password), API_KEY).enqueue(callback);
+        service.getUserByCredentials(serializeCredentials(username, password)).enqueue(callback);
     }
 
     // The User object here should only have the username & password fields assigned
     public void signup(final User user, final Callback<User> callback) {
         // We can't sign up if username already exists
-        service.getUserByCredentials(serializeCredentials(user.getUsername(), null), API_KEY).enqueue(new Callback<User>() {
+        service.getUserByCredentials(serializeCredentials(user.getUsername(), null)).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.body() == null) {
-                    service.addUser(user, API_KEY).enqueue(callback);
+                    service.addUser(user).enqueue(callback);
                 } else {
                     callback.onFailure(call, new Error("Cannot sign-up - username already exists"));
                 }
@@ -73,25 +72,38 @@ public class Database {
 
     //Use the callback here just to know when the operation's done
     public void updateUser(User user, Callback<Void> callback) {
-        service.updateUser(serializeCredentials(user.getUsername(), user.getPassword()), user, API_KEY).enqueue(callback);
+        service.updateUser(serializeCredentials(user.getUsername(), user.getPassword()), user).enqueue(callback);
     }
 
     // Pass empty map if you want to fetch all businesses
     public void getBusinesses(Map<String, String> filters, Callback<List<Businesses>> callback) {
-        service.getBusinesses(new JSONObject(filters).toString(), API_KEY).enqueue(callback);
+        service.getBusinesses(new JSONObject(filters).toString()).enqueue(callback);
+    }
+
+    public void getBusinessesByName(String nameSubstring, Callback<List<Businesses>> callback) {
+        try {
+            service.getBusinessesByName(
+                    new JSONObject().put("Name", new JSONObject().put("$regex", nameSubstring)).toString())
+                    .enqueue(callback);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public interface MlabService {
-        @GET("Users?fo=true")
-        Call<User> getUserByCredentials(@Query("q") String credentials, @Query("apiKey") String apiKey);
+        @GET("Users?fo=true&apiKey=" + API_KEY)
+        Call<User> getUserByCredentials(@Query("q") String credentials);
 
-        @POST("Users")
-        Call<User> addUser(@Body User user, @Query("apiKey") String apiKey);
+        @POST("Users?apiKey=" + API_KEY)
+        Call<User> addUser(@Body User user);
 
-        @PUT("Users")
-        Call<Void> updateUser(@Query("q") String credentials, @Body User user, @Query("apiKey") String apiKey);
+        @PUT("Users?apiKey=" + API_KEY)
+        Call<Void> updateUser(@Query("q") String credentials, @Body User user);
 
-        @GET("Businesses")
-        Call<List<Businesses>> getBusinesses(@Query("q") String filters, @Query("apiKey") String apiKey);
+        @GET("Businesses?apiKey=" + API_KEY)
+        Call<List<Businesses>> getBusinesses(@Query("q") String filters);
+
+        @GET("Businesses?apiKey=" + API_KEY)
+        Call<List<Businesses>> getBusinessesByName(@Query("q") String name);
     }
 }
