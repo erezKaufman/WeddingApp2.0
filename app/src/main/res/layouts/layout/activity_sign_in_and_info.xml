@@ -24,11 +24,10 @@
                 <EditText
                     android:layout_width="270dp"
                     android:layout_height="wrap_content"
-
                     android:layout_marginTop="15dp"
                     android:ems="10"
                     android:id="@+id/editTextAge"
-                    android:labelFor="@+id/editTextAge" />
+                    android:labelFor="@+id/editTextNumber" />
 
                 <TextView
                     android:id="@+id/textViewDate"

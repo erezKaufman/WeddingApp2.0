@@ -1,6 +1,7 @@
 package com.example.erez0_000.weddingapp.Login_pages;
 
 import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,8 @@ import com.example.erez0_000.weddingapp.activities.DisplayBusinessListActivity;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.example.erez0_000.weddingapp.db_classes.Database;
 import com.example.erez0_000.weddingapp.db_classes.User;
+import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
+import com.example.erez0_000.weddingapp.todos_section.DeleteTodoFragment;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -92,6 +95,42 @@ public class BusinessChartFragment extends DialogFragment
 
 
         startActivity(i);
+    }
+
+    @Override
+    public void deleteBusinessFromChart(final BusinessesInChart businesses) {
+        FragmentManager ft = getFragmentManager();
+        DeleteTodoFragment appointmentFrag = DeleteTodoFragment.newInstance();
+        appointmentFrag.setListener(new DeleteTodoFragment.DeletefragmentListener() {
+            /**
+             * implementing listener's method - after
+             */
+            @Override
+            public void acceptDelition() {
+                lstBusinesses.remove(businesses);
+                User.thisUser.setBusinessInChart(lstBusinesses);
+                User.thisUser.setMaxCurrentDestinedAmmount(
+                        User.thisUser.getMaxCurrentDestinedAmmount()-businesses.getMaxPrice());
+                User.thisUser.setMinCurrentDestinedAmmount(
+                        User.thisUser.getMinCurrentDestinedAmmount()-businesses.getMinPrice());
+                Database.getInstance().updateUser(User.thisUser, new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        Toast.makeText(getContext(), "הרשימה נמחקה בהצלחה", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(getContext(), "ישנה בעיה בגישה לשרת ", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+
+
+
+            }
+        });
+        appointmentFrag.show(ft, null);
     }
 
 

@@ -44,7 +44,7 @@ public class BusinessChartRecyclerViewAdapter extends
 
 
     @Override
-    public void onBindViewHolder(@NonNull ChartViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ChartViewHolder holder, final int position) {
         final BusinessesInChart business = businessList.get(position);
         holder.tv_name.setText(business.getCurBusiness().getName());
         holder.tv_address.setText(business.getCurBusiness().getAddress());
@@ -56,6 +56,17 @@ public class BusinessChartRecyclerViewAdapter extends
             public void onClick(View v) {
 
                 listener.openBusiness(business.getCurBusiness());
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+//                notifyDataSetInvalidated();
+                listener.deleteBusinessFromChart(business);
+                businessList.remove(business);
+                notifyDataSetChanged();
+                return true;
             }
         });
         // Load Image from the internet and set it into Imageview using Glide
@@ -97,5 +108,7 @@ public class BusinessChartRecyclerViewAdapter extends
 
     public interface CreateOnClickListener {
         public void openBusiness(Businesses businesses);
+        public void deleteBusinessFromChart(BusinessesInChart businesses);
+
     }
 }

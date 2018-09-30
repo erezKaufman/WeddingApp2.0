@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.erez0_000.weddingapp.Login_pages.BusinessesInChart;
 import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
 import com.example.erez0_000.weddingapp.db_classes.Database;
@@ -25,6 +26,7 @@ import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -123,18 +125,21 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
 
     private void openPayChart(View v) {
         User curUser = User.thisUser;
-
+        if (isBusinessAlreadyInChart(curUser.getBusinessInChart(),curBusiness)){
+            Toast.makeText(getContext(), "לא ניתן להזמין את אותו עסק מספר פעמים", Toast.LENGTH_SHORT).show();
+            return;
+        }
         int min_val = 0;
         int max_val = 0;
+        Map<String, Integer> curprices;
         if (isWinter) {
-            Map<String, Integer> curprices = curBusiness.getWinter_price();
-            min_val = curprices.get(min_price);
-            max_val = curprices.get(max_price);
+            curprices = curBusiness.getWinter_price();
         } else {
-            Map<String, Integer> curprices = curBusiness.getSummer_price();
-            min_val = curprices.get(min_price);
-            max_val = curprices.get(max_price);
+            curprices = curBusiness.getSummer_price();
         }
+
+        min_val = curprices.get(min_price);
+        max_val = curprices.get(max_price);
 
         IntTuple intTuple = intaddToChart(min_val, max_val);
         TextView lastAmmount = getView().findViewById(R.id.lastAmmount);
@@ -151,13 +156,14 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
     public void acceptAndUpdateAmmount() {
         showProgressDialog();
         User.thisUser.setMaxCurrentDestinedAmmount(newMaxAmmount);
-        User.thisUser.setMaxCurrentDestinedAmmount(newMinAmmount);
+        User.thisUser.setMinCurrentDestinedAmmount(newMinAmmount);
         User.thisUser.addBusinessToChart(curBusiness,newMinAmmount,newMaxAmmount);
         Database.getInstance().updateUser(User.thisUser, new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 hideProgressDialog();
                 Toast.makeText(getActivity(), R.string.Toast_added_business_to_chart, Toast.LENGTH_LONG).show();
+
             }
 
             @Override
@@ -202,6 +208,15 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         intent.putExtra("endTime", cal.getTimeInMillis() + 60 * 60 * 1000);
         intent.putExtra("title", "פגישה עם " + curBusiness.getName());
         startActivity(intent);
+    }
+
+    public boolean isBusinessAlreadyInChart(ArrayList<BusinessesInChart> chartList, Businesses curBusiness) {
+        for (BusinessesInChart bus : chartList){
+            if (bus.getCurBusiness().getName().equals(curBusiness.getName())){
+                return true;
+            }
+        }
+        return false;
     }
 
     private static class IntTuple {
