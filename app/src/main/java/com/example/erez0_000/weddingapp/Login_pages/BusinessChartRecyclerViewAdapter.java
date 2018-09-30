@@ -28,7 +28,7 @@ public class BusinessChartRecyclerViewAdapter extends
         businessList = new ArrayList<>();
         if (buslist != null){
             businessList = buslist;
-         }else
+         }
 
         this.listener = listener;
     }
@@ -48,7 +48,7 @@ public class BusinessChartRecyclerViewAdapter extends
         final BusinessesInChart business = businessList.get(position);
         holder.tv_name.setText(business.getCurBusiness().getName());
         holder.tv_address.setText(business.getCurBusiness().getAddress());
-        holder.tv_region.setText(business.getCurBusiness().getRegion());
+//        holder.tv_region.setText(business.getCurBusiness().getRegion());
         holder.minPrice.setText(String.format("%d",business.getMinPrice()));
         holder.maxPrice.setText(String.format("%d",business.getMaxPrice()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +86,7 @@ public class BusinessChartRecyclerViewAdapter extends
             view_container = itemView.findViewById(R.id.container);
             tv_name = itemView.findViewById(R.id.anime_name);
             tv_address = itemView.findViewById(R.id.address);
-            tv_region = itemView.findViewById(R.id.region);
+//            tv_region = itemView.findViewById(R.id.region);
             img_thumbnail = itemView.findViewById(R.id.thumbnail);
             maxPrice = itemView.findViewById(R.id.min_price);
             minPrice = itemView.findViewById(R.id.max_price);

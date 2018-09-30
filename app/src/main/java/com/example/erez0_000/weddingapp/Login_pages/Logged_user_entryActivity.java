@@ -1,6 +1,6 @@
 package com.example.erez0_000.weddingapp.Login_pages;
 
-import android.app.FragmentManager;
+import android.support.v4.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -202,7 +202,7 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
     public void openBusinessChartFragment() {
         // TODO: 28/09/2018 open from here new fragment that will hold all the business the user chose to work with.
         // TODO: 28/09/2018  in turn, the fragment will hold a recycler view of all the businesses. and you can open by clicking on it the business page (without the ability to order new appointment)
-        FragmentManager fm = getFragmentManager();
+        android.app.FragmentManager fm = getFragmentManager();
         BusinessChartFragment businessChartFragment = BusinessChartFragment.newInstance();
 //        businessChartFragment.insertBusinesses(loggedUser.getBusinessInChart());
         businessChartFragment.show(fm, null);

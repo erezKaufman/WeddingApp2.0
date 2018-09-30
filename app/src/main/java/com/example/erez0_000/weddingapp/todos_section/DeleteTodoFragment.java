@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.example.erez0_000.weddingapp.R;
 
-public class DeleteTodoFragment extends android.support.v4.app.DialogFragment implements View.OnClickListener{
+public class DeleteTodoFragment extends DialogFragment implements View.OnClickListener{
     private DeletefragmentListener listener;
     @Nullable
     @Override

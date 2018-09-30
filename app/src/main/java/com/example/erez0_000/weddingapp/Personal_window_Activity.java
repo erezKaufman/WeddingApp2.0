@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.erez0_000.weddingapp.Login_pages.LoginActivity;
+import com.example.erez0_000.weddingapp.Login_pages.Sign_in_and_info_Activity;
 import com.example.erez0_000.weddingapp.db_classes.Database;
 import com.example.erez0_000.weddingapp.db_classes.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -26,7 +27,7 @@ public class Personal_window_Activity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_window);
-
+        findViewById(R.id.editPersonalInfo).setOnClickListener(this);
 
 //        // todo START add user image to personal window
 //        FirebaseUser user = mAuth.getCurrentUser();
@@ -48,7 +49,14 @@ public class Personal_window_Activity extends AppCompatActivity implements View.
             case R.id.sign_out_button:
                 signout();
                 break;
+            case R.id.editPersonalInfo:
+                editInfo();
+                break;
         }
+    }
+
+    private void editInfo() {
+        startActivity(new Intent(this, Sign_in_and_info_Activity.class));
     }
 
     private void signout() {

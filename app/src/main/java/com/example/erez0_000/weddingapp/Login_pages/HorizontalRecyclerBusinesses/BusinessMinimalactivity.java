@@ -39,14 +39,14 @@ public class BusinessMinimalactivity extends AppCompatActivity {
 
         tv_name = findViewById(R.id.aa_anime_name);
         tv_region = findViewById(R.id.aa_region);
-        tv_mail = findViewById(R.id.aa_mail);
+//        tv_mail = findViewById(R.id.aa_mail);
         tv_description = findViewById(R.id.business_info);
         tv_address = findViewById(R.id.aa_address);
         img = findViewById(R.id.aa_thumbnail);
 
 
         tv_name.setText(name);
-        tv_mail.setText(mail);
+//        tv_mail.setText(mail);
         tv_address.setText(address);
         tv_region.setText(region);
         tv_description.setText(description);

@@ -46,9 +46,9 @@ public class GroupItem implements Serializable{
         numberOfItems +=1;
         itemList.add(newItem);
     }
-    public void deleteItem(ChildItemSample itemTodelete){
+    public void deleteItem(int index){
         numberOfItems -=1;
-        itemList.remove(itemTodelete);
+        itemList.remove(index);
     }
 
     public boolean isChecked() {

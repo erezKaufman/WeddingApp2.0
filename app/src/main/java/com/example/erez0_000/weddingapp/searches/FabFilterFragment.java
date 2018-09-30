@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.erez0_000.weddingapp.R;
 
-public class FabFilterFragment extends android.support.v4.app.DialogFragment
+public class FabFilterFragment extends DialogFragment
         implements View.OnClickListener {
     private FilterListener listener;
     private String type, region, kosher;

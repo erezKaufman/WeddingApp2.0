@@ -36,6 +36,8 @@ public class TodoList  implements Serializable{
     }
 
 
+
+
     public GroupItem getGroupItem(int groupPosition){
         return todoList.get(groupPosition);
     }

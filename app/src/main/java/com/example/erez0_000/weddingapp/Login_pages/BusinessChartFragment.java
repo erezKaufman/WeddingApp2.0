@@ -79,11 +79,9 @@ public class BusinessChartFragment extends DialogFragment
 
     private void initRecyclerView() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
-//        lin.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-//
+
         BusinessChartRecyclerViewAdapter businessChartRecyclerViewAdapter = new BusinessChartRecyclerViewAdapter(this, lstBusinesses);
-//
         recyclerView.setAdapter(businessChartRecyclerViewAdapter);
     }
 

@@ -2,7 +2,7 @@ package com.example.erez0_000.weddingapp.todos_section;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class CategoriesActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
 
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         // hold the User information
         User currentUser = User.thisUser;
@@ -103,7 +105,7 @@ public class CategoriesActivity extends AppCompatActivity
      */
     @Override
     public void deleteTodoFromListener(final String todoTitle) {
-        FragmentManager ft = getSupportFragmentManager();
+        FragmentManager ft = getFragmentManager();
         DeleteTodoFragment appointmentFrag = DeleteTodoFragment.newInstance();
         appointmentFrag.setListener(new DeleteTodoFragment.DeletefragmentListener() {
             /**

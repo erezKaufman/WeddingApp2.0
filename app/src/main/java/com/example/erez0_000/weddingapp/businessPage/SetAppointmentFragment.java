@@ -1,5 +1,6 @@
 package com.example.erez0_000.weddingapp.businessPage;
 
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -31,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SetAppointmentFragment extends android.support.v4.app.DialogFragment implements View.OnClickListener {
+public class SetAppointmentFragment extends DialogFragment implements View.OnClickListener {
     private TextView mail;
     private ListView phonelist;
     private Businesses curBusiness;
@@ -218,7 +219,7 @@ public class SetAppointmentFragment extends android.support.v4.app.DialogFragmen
         if (mprogressDialog == null) {
             mprogressDialog = new ProgressDialog(getContext());
             mprogressDialog.setCancelable(false);
-            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
+            mprogressDialog.setMessage("מוסיף נתונים לגבי העסק...");
         }
         mprogressDialog.show();
     }

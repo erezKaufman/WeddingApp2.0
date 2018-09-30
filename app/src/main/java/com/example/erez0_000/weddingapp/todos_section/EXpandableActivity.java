@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -33,6 +35,7 @@ public class EXpandableActivity extends AppCompatActivity implements View.OnClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expandable);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         Intent i = getIntent();
         taskList= (TodoList) i.getSerializableExtra(ED_TASK_ITEM);
@@ -40,7 +43,32 @@ public class EXpandableActivity extends AppCompatActivity implements View.OnClic
         mExpandableListView = (ExpandableListView) findViewById(R.id.expandedListView);
         mExpandableListAdapter = new ExpandableListViewAdapter(this,taskList);
         mExpandableListView.setAdapter(mExpandableListAdapter);
+        mExpandableListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                long packedPosition = mExpandableListView.getExpandableListPosition(position);
 
+                int itemType = ExpandableListView.getPackedPositionType(packedPosition);
+                int groupPosition = ExpandableListView.getPackedPositionGroup(packedPosition);
+                int childPosition = ExpandableListView.getPackedPositionChild(packedPosition);
+
+
+                /*  if group item clicked */
+                if (itemType == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+
+                    mExpandableListAdapter.deleteGrouplist(groupPosition);
+                }
+
+                /*  if child item clicked */
+                else if (itemType == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+
+                    mExpandableListAdapter.deleteitem(groupPosition, childPosition);
+                }
+
+
+                return false;
+            }
+        });
         mExpandableListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
             @Override
             public void onGroupExpand(int groupPosition) {

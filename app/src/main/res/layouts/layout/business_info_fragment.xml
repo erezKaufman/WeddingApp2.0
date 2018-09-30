@@ -32,7 +32,7 @@
 
 
                 <TextView
-                    android:id="@+id/anime_name"
+                    android:id="@+id/tv_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/name"
@@ -42,7 +42,7 @@
 
 
                 <TextView
-                    android:id="@+id/address"
+                    android:id="@+id/tv_address"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -55,7 +55,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/region"
+                    android:id="@+id/tv_region"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -70,15 +70,20 @@
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/loading_shape" />
-            <TextView
-                android:id="@+id/business_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+
         </LinearLayout>
         </LinearLayout>
 
-
+        <TextView
+            android:id="@+id/business_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/david_libre"
+            android:gravity="end"
+            android:text="TextView"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/caldroid_white"
+            android:textSize="20sp" />
 
     </LinearLayout>
 </ScrollView>

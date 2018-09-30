@@ -28,21 +28,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Sign_in_and_info_Activity extends AppCompatActivity implements View.OnClickListener {
-    private GoogleSignInClient mGoogleSignInClient;
-    private boolean bool_age = false, bool_area = false, bool_type = false,
-            bool_number = false, bool_season = false, bool_cost = false;
     private EditText edit_age, edit_number, edit_cost;
     private ProgressDialog mprogressDialog;
 
 
     private Spinner edit_season, edit_area, edit_type;
-
-    private String age_string = "", number_string = "", cost_string = "",
-            season_string = "", area_string = "", type_string = "";
-
     private Button backtomainButton, savechangesButton;
-    private static final int RC_SIGN_IN = 9001;
-    private String TAG = "GoogleActivity";
     private String TAG2 = "SignIn";
 
 
@@ -54,8 +45,7 @@ public class Sign_in_and_info_Activity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in_and_info);
         Log.d(TAG2, "onCreate: started Sign_in_and_info_Activity");
-        Intent i = getIntent();
-//        newUser = (User) i.getSerializableExtra("newUser");
+
         newUser = User.thisUser;
 
         // START config 'google sign in option' object
@@ -131,7 +121,7 @@ public class Sign_in_and_info_Activity extends AppCompatActivity implements View
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
 
-                closeAndGoToLogged("שינויים בהצלחה");
+                closeAndGoToLogged("שינויים עודכנו בהצלחה");
             }
 
             @Override
@@ -228,7 +218,7 @@ private void hideProgressDialog() {
         if (mprogressDialog == null) {
             mprogressDialog = new ProgressDialog(this);
             mprogressDialog.setCancelable(false);
-            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
+            mprogressDialog.setMessage("שומר נתונים אנא המתן...");
         }
         mprogressDialog.show();
     }

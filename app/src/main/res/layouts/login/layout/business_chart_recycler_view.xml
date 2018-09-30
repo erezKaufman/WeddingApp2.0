@@ -3,81 +3,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:layout_marginTop="5dp"
     android:background="@drawable/bgg"
-    android:orientation="horizontal"
+    android:orientation="vertical"
+    android:gravity="right"
     android:padding="8dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
 
-        android:orientation="vertical">
-
-        <!--// TODO finish this!!-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="23dp">
-
-            <TextView
-                android:id="@+id/min_price_string"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-
-                android:text="@string/min_price"
-                android:textColor="#fff" />
-
-            <TextView
-                android:id="@+id/min_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="min Price"
-                android:textColor="#fff" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingBottom="23dp">
-
-            <TextView
-                android:id="@+id/max_price_string"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/max_price"
-                android:textColor="#fff" />
-
-            <TextView
-                android:id="@+id/max_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="max price"
-                android:textColor="#fff" />
-        </LinearLayout>
-    </LinearLayout>
 
     <LinearLayout
+        android:gravity="right"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
+        android:layout_height="match_parent"
+        android:paddingRight="6dp"
         android:orientation="horizontal">
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="130dp"
+            android:layout_height="match_parent"
             android:layout_margin="8dp"
             android:gravity="end"
 
@@ -85,7 +30,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 android:orientation="vertical">
 
@@ -113,13 +58,49 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
+
+
                 <TextView
-                    android:id="@+id/region"
+                    android:id="@+id/min_price_string"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/region"
-                    android:textColor="#fff" />
+                    android:layout_marginTop="10dp"
+                    android:paddingRight="5dp"
+                    android:text="@string/min_price"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    />
+
+                <TextView
+                    android:id="@+id/min_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="min Price"
+                    android:gravity="right"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/max_price_string"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/max_price"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                     />
+
+
+                <TextView
+                    android:id="@+id/max_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:paddingRight="5dp"
+                    android:text="max price"
+                    android:textColor="#fff"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
 
             </LinearLayout>
@@ -127,7 +108,7 @@
             <ImageView
                 android:id="@+id/thumbnail"
                 android:layout_width="100dp"
-                android:layout_height="match_parent"
+                android:layout_height="120dp"
                 android:background="@drawable/loading_shape" />
         </LinearLayout>
 

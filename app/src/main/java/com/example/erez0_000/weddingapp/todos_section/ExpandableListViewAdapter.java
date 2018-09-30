@@ -2,33 +2,26 @@ package com.example.erez0_000.weddingapp.todos_section;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.erez0_000.weddingapp.R;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class ExpandableListViewAdapter extends BaseExpandableListAdapter
         implements AddSubTaskFragment.SubTaskDialogFragmentListner {
 
     private Activity activity;
     private TodoList groupList;
-    //    private TodoList groupList;
     private int checkedBoxesCount;
 
     public ExpandableListViewAdapter(Activity activity,TodoList groupItems) {
@@ -87,6 +80,8 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter
         groupViewHolder = new GroupViewHolder();
         groupViewHolder.tvGroup = view.findViewById(R.id.tv_group);
         groupViewHolder.cbGroup = view.findViewById(R.id.cb_group);
+        groupViewHolder.groupConstrainLayout = view.findViewById(R.id.groupConstrainLayout);
+        // set click listener for the checkbox
         groupViewHolder.cbGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,6 +102,20 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter
                 notifyDataSetChanged();
             }
         });
+
+        // set onlongclick listener to the constraintLayout to delete the row
+
+//        groupViewHolder.tvGroup.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                deleteGrouplist(groupPosition);
+//                notifyDataSetChanged();
+//
+//                return true;
+//            }
+//        });
+
+
         groupViewHolder.imbGroup = view.findViewById(R.id.imageButton);
         groupViewHolder.imbGroup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +133,7 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter
         groupViewHolder.cbGroup.setTag(groupPosition);
         return view;
     }
+
 
     public void openCreateSubTaskFrag(View view, int groupPosition) {
         FragmentManager ft = ((FragmentActivity)activity).getSupportFragmentManager();
@@ -146,7 +156,9 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter
         view = inflater.inflate(R.layout.expanded_list_item, null);
         childViewHolder = new ChildViewHolder();
         childViewHolder.tvChild = view.findViewById(R.id.tv_child);
+        childViewHolder.listItemLinearLayout = view.findViewById(R.id.listItemLinearLayout);
         childViewHolder.cbChild = view.findViewById(R.id.cb_child);
+
         childViewHolder.cbChild.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -170,41 +182,62 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter
                 if (cb.isChecked()) {
                     checkedBoxesCount++;
 
-                    Toast.makeText(activity, "Checked value is: " +
-                                    getChild(groupPosition,childPosition),
-                            Toast.LENGTH_SHORT).show();
+
                 } else {
                     checkedBoxesCount--;
-                    if (checkedBoxesCount == 0) {
-                        Toast.makeText(activity, "nothing checked", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(activity, "unchecked", Toast.LENGTH_SHORT).show();
-                    }
+
                 }
                 notifyDataSetChanged();
             }
         });
 
+//        childViewHolder.listItemLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                deleteitem(groupPosition,childPosition);
+//                return true;
+//            }
+//        });
+
         view.setTag(childViewHolder);
         childViewHolder.cbChild.setChecked(expandedListText.isChecked());
         childViewHolder.tvChild.setText(expandedListText.getName());
-//        }
-//        }else {
-//            childViewHolder = (ChildViewHolder)view.getTag();
-//        }
         return view;
     }
 
-//    public void clearChecks() {
-//        for (int i = 0; i < checkedGroup.length; i++) checkedGroup[i] = false;
-//        for (GroupItem item: groupList.getTodoList()) {
-//            for (ChildItemSample sample : item.getItemList()) {
-//                sample.setChecked(false);
-//            }
-//        }
-//        checkedBoxesCount = 0;
-//        notifyDataSetChanged();
-//    }
+    public void deleteGrouplist(final int groupPos) {
+        android.app.FragmentManager ft = activity.getFragmentManager();
+        DeleteTodoFragment appointmentFrag = DeleteTodoFragment.newInstance();
+        appointmentFrag.setListener(new DeleteTodoFragment.DeletefragmentListener() {
+            /**
+             * implementing listener's method - after
+             */
+            @Override
+            public void acceptDelition() {
+                groupList.getTodoList().remove(groupPos);
+                Toast.makeText(activity, "הרשימה נמחקה בהצלחה", Toast.LENGTH_LONG).show();
+                notifyDataSetChanged();
+            }
+        });
+        appointmentFrag.show(ft, null);
+    }
+
+    public void deleteitem(final int groupPos,final int itemPos) {
+        android.app.FragmentManager ft = activity.getFragmentManager();
+        DeleteTodoFragment appointmentFrag = DeleteTodoFragment.newInstance();
+        appointmentFrag.setListener(new DeleteTodoFragment.DeletefragmentListener() {
+            /**
+             * implementing listener's method - after
+             */
+            @Override
+            public void acceptDelition() {
+                groupList.getTodoList().get(groupPos).deleteItem(itemPos);
+                Toast.makeText(activity, "הרשימה נמחקה בהצלחה", Toast.LENGTH_LONG).show();
+                notifyDataSetChanged();
+            }
+        });
+        appointmentFrag.show(ft, null);
+    }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -227,11 +260,13 @@ public class ExpandableListViewAdapter extends BaseExpandableListAdapter
         CheckBox cbGroup;
         TextView tvGroup;
         ImageButton imbGroup;
+        ConstraintLayout groupConstrainLayout;
     }
 
     private class ChildViewHolder {
         CheckBox cbChild;
         TextView tvChild;
+        LinearLayout listItemLinearLayout;
     }
 
 //    private class EditTaskItem{

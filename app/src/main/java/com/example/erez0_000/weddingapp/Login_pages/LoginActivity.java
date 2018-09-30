@@ -78,9 +78,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             // WHEN USER IS ANONYMOUS:  in case user chooses to go to 'search' activity
             case R.id.gotosignin:
-                showProgressDialog();
+//                showProgressDialog();
                 signin();
-                hideProgressDialog();
+//                hideProgressDialog();
                 break;
             // FOR LOGGED AND ANONYMOUS USERS: in case user chooses to go to 'search' activity
             case R.id.gotoSearch:
@@ -144,12 +144,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void signin() {
         // TODO: 30/09/2018 handle unfamiliar user trying to sign in
         if (!areCredentialsEmpty()) {
+            showProgressDialog();
             User.thisUser = new User();
             User.thisUser.setUsername(usernameEditText.getText().toString().trim());
             User.thisUser.setPassword(passwordEditText.getText().toString().trim());
             db.signin(User.thisUser.getUsername(), User.thisUser.getPassword(), new Callback<User>() {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
+                    hideProgressDialog();
+                    if (response.body() == null){
+                        Toast.makeText(LoginActivity.this,
+                                "משתמש לא נמצא", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     User.thisUser = response.body();
                     sp.edit().putString("username", User.thisUser.getUsername())
                             .putString("password", User.thisUser.getPassword())
@@ -161,6 +168,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onFailure(Call<User> call, Throwable t) {
                     Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                    hideProgressDialog();
                 }
             });
         } else {

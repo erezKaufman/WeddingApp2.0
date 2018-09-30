@@ -1,7 +1,7 @@
 package  com.example.erez0_000.weddingapp.activities;
 
 import android.app.ProgressDialog;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -146,7 +146,7 @@ public class DisplayBusinessListActivity extends AppCompatActivity
      * app does a @GET request from the DB and posts the information in the recyclerView
      */
     private void openFilter() {
-        FragmentManager ft = getSupportFragmentManager();
+        FragmentManager ft = getFragmentManager();
         FabFilterFragment fabFragment = FabFilterFragment.newInstance();
         fabFragment.setListener(this);
         fabFragment.setSpinnerVals(typeInt,regionInt,kosherInt);
@@ -225,7 +225,7 @@ public class DisplayBusinessListActivity extends AppCompatActivity
         if (mprogressDialog == null) {
             mprogressDialog = new ProgressDialog(this);
             mprogressDialog.setCancelable(false);
-            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
+            mprogressDialog.setMessage("יוצר רשימת עסקים...");
         }
         mprogressDialog.show();
     }

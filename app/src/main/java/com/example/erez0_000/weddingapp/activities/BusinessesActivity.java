@@ -2,7 +2,7 @@ package com.example.erez0_000.weddingapp.activities;
 //package com.demotxt.myapp.parseJSON.activities;
 
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
+import android.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -79,7 +79,7 @@ public class BusinessesActivity extends AppCompatActivity
 
     @Override
     public void onDateClick(String dateString,boolean isWinter) {
-        FragmentManager ft = getSupportFragmentManager();
+        FragmentManager ft = getFragmentManager();
         SetAppointmentFragment appointmentFrag = SetAppointmentFragment.newInstance();
         appointmentFrag.setBusinessContact(curBusiness,dateString,isWinter);
         appointmentFrag.show(ft ,null);

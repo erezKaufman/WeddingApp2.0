@@ -27,7 +27,7 @@ public class InfoFragment extends Fragment {
     public void setValues(String name, String description, String region, String mail, String[] nb_phone,
                           String address, String image_url){
         this.name = name;
-        this.mail = mail;
+//        this.mail = mail;
         this.address = address;
         this.region = region;
         this.description = description;
@@ -41,16 +41,16 @@ public class InfoFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.business_info_fragment, container, false);
-        tv_name = view.findViewById(R.id.aa_anime_name);
-        tv_region = view.findViewById(R.id.aa_region);
-        tv_mail = view.findViewById(R.id.aa_mail);
+        tv_name = view.findViewById(R.id.tv_name);
+        tv_region = view.findViewById(R.id.tv_region);
+//        tv_mail = view.findViewById(R.id.aa_mail);
         TextView tv_description = view.findViewById(R.id.business_info);
-        tv_address = view.findViewById(R.id.aa_address);
-        img = view.findViewById(R.id.aa_thumbnail);
+        tv_address = view.findViewById(R.id.tv_address);
+        img = view.findViewById(R.id.thumbnail);
 
 
         tv_name.setText(name);
-        tv_mail.setText(mail);
+//        tv_mail.setText(mail);
         tv_description.setText(description);
         tv_address.setText(address);
         tv_region.setText(region);
