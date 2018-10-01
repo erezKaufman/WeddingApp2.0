@@ -125,7 +125,7 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
 
     private void openPayChart(View v) {
         User curUser = User.thisUser;
-        if (isBusinessAlreadyInChart(curUser.getBusinessInChart(),curBusiness)){
+        if ((curUser.getBusinessInChart()!= null) && isBusinessAlreadyInChart(curUser.getBusinessInChart(),curBusiness)){
             Toast.makeText(getContext(), "לא ניתן להזמין את אותו עסק מספר פעמים", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -157,7 +157,15 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         showProgressDialog();
         User.thisUser.setMaxCurrentDestinedAmmount(newMaxAmmount);
         User.thisUser.setMinCurrentDestinedAmmount(newMinAmmount);
-        User.thisUser.addBusinessToChart(curBusiness,newMinAmmount,newMaxAmmount);
+        if (isWinter){
+            User.thisUser.addBusinessToChart(curBusiness,
+                    curBusiness.getWinter_price().get(min_price),
+                    curBusiness.getWinter_price().get(max_price));
+        }else{
+            User.thisUser.addBusinessToChart(curBusiness,
+                    curBusiness.getSummer_price().get(min_price),
+                    curBusiness.getSummer_price().get(max_price));
+        }
         Database.getInstance().updateUser(User.thisUser, new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

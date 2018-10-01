@@ -34,13 +34,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Logged_user_entryActivity extends AppCompatActivity implements View.OnClickListener {
+public class Logged_user_entryActivity extends AppCompatActivity
+        implements View.OnClickListener,
+        BusinessChartFragment.OnUpdateCostsListener{
     private static final String TAG = "LoggedUsErentryActivity";
     private User loggedUser;
     private RecyclerView recyclerView;
     private ProgressDialog mprogressDialog;
     private List<Businesses> businessHorizontalList;
-    private TextView curBalance;
+    private TextView curBalance,welcome_text;
     private LinearLayout currentBalanceLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,9 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         findViewById(R.id.gotoSearch).setOnClickListener(this);
         findViewById(R.id.goto_categories).setOnClickListener(this);
         findViewById(R.id.chartLinearLayout).setOnClickListener(this);
+        welcome_text = findViewById(R.id.welcome_text);
+        welcome_text.setText(String.format("שלום %s! ברוך שובך",User.thisUser.getUsername()));
+
         // TODO add image of app's logo
         ImageView weddingImage = (ImageView) findViewById(R.id.weedingHello);
         int imgResource = getResources().getIdentifier("@drawble/wedding planner30210",
@@ -61,20 +66,22 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         curBalance = findViewById(R.id.balance);
         currentBalanceLayout = findViewById(R.id.chartLinearLayout);
         callForRandomBusinessList();
-
+        updateCurrentBalance();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
+    /**
+     * the method takes information from the user singleton and updates the current balance to show
+     * it to the user
+     */
+    public void updateCurrentBalance() {
         User curUser = User.thisUser;
         curBalance.setText(String.format("בין %s לבין %s",
                 curUser.getMinCurrentDestinedAmmount(),
                 curUser.getMaxCurrentDestinedAmmount()));
         int currentCost = Integer.parseInt(curUser.getCost());
-        if (currentCost !=0){
-            if (currentCost >= curUser.getMinCurrentDestinedAmmount()){
-                if (currentCost <= curUser.getMaxCurrentDestinedAmmount()){
+        if (currentCost != 0) {
+            if (currentCost >= curUser.getMinCurrentDestinedAmmount()) {
+                if (currentCost <= curUser.getMaxCurrentDestinedAmmount()) {
                     // TODO: 30/09/2018 change color to yellow add warning text
                     currentBalanceLayout.setBackgroundColor(Color.YELLOW);
                     return;
@@ -82,8 +89,13 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
                 currentBalanceLayout.setBackgroundColor(R.drawable.red_border);
                 // TODO: 30/09/2018 change color to red and add warning text
             }
-
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateCurrentBalance();
     }
 
     private void callForRandomBusinessList() {
@@ -147,8 +159,6 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
      *
      */
     private void openSearchActivity() {
-//        Intent intent = new Intent(this,SearchActivity.class);
-//        startActivity(intent);
         startActivity(new Intent(this, DisplayBusinessListActivity.class));
     }
 
@@ -159,27 +169,6 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         Intent intent = new Intent(this, CategoriesActivity.class);
         startActivity(intent);
     }
-
-//    /**
-//     * simple update to the UI so the user knows what's happening. TODO - change this method
-//     * @param user
-//     */
-//    private void updateUI(FirebaseUser user) {
-//        hideProgressDialog();
-//        if (user != null) {
-//            mStatusTextView.setText("hello there, "+ user.getEmail());
-//            mDetailTextView.setText("your id is"+ user.getUid());
-//
-//            findViewById(R.id.startsign_in_button).setVisibility(View.GONE);
-//            findViewById(R.id.sign_out_button).setVisibility(View.VISIBLE);
-//        } else {
-//            mStatusTextView.setText("you signed out");
-//            mDetailTextView.setText(null);
-//
-//            findViewById(R.id.startsign_in_button).setVisibility(View.VISIBLE);
-//            findViewById(R.id.sign_out_button).setVisibility(View.GONE);
-//        }
-//    }
 
 
     private void hideProgressDialog() {
@@ -204,6 +193,7 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
         // TODO: 28/09/2018  in turn, the fragment will hold a recycler view of all the businesses. and you can open by clicking on it the business page (without the ability to order new appointment)
         android.app.FragmentManager fm = getFragmentManager();
         BusinessChartFragment businessChartFragment = BusinessChartFragment.newInstance();
+        businessChartFragment.setListener(this);
 //        businessChartFragment.insertBusinesses(loggedUser.getBusinessInChart());
         businessChartFragment.show(fm, null);
 
@@ -221,6 +211,11 @@ public class Logged_user_entryActivity extends AppCompatActivity implements View
 
         return curMap;
 
+    }
+
+    @Override
+    public void updateCost() {
+        updateCurrentBalance();
     }
 }
 

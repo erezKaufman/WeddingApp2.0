@@ -32,7 +32,6 @@ import retrofit2.Response;
 public class DisplayBusinessListActivity extends AppCompatActivity
     implements View.OnClickListener, FabFilterFragment.FilterListener{
 
-    // this url is from my github - a raw json file with the Buisnaess class data members
     private int regionInt,typeInt,kosherInt;
     private String regionStr,typeStr,kosherStr;
     private ProgressDialog mprogressDialog;
@@ -68,61 +67,6 @@ public class DisplayBusinessListActivity extends AppCompatActivity
 
     }
 
-//    private void jsonrequest() {
-//
-//        request = new JsonArrayRequest(JSON_URL, new Response.Listener<JSONArray>() {
-//            @Override
-//            public void onResponse(JSONArray response) {
-//
-//                JSONObject jsonObject  = null ;
-//
-//                for (int i = 0 ; i < response.length(); i++ ) {
-//
-//
-//                    try {
-//                        jsonObject = response.getJSONObject(i) ;
-//                        Businesses businesses = new Businesses() ;
-//
-//                        businesses.setName(jsonObject.getString("name"));
-//                        businesses.setDescription(jsonObject.getString("description"));
-//                        businesses.setAddress(jsonObject.getString("address"));
-//                        businesses.setMail(jsonObject.getString("mail"));
-//                        businesses.setPhone(jsonObject.getInt("phone"));
-//                        businesses.setRegion(jsonObject.getString("region"));
-//                        businesses.setImage(jsonObject.getString("img"));
-//
-//                        businesses.setBid(jsonObject.getInt("bid"));
-//                        businesses.setWinter_price(jsonObject.getInt("winter_price"));
-//                        businesses.setSummer_price(jsonObject.getInt("summer_price"));
-//                        businesses.setBusiness_type(jsonObject.getInt("business_type"));
-//                        businesses.setKosher(jsonObject.getString("handikaped"));
-//                        businesses.setKosher(jsonObject.getString("kosher"));
-//
-//                        lstBusinesses.add(businesses);
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//
-//                }
-//
-//                setuprecyclerview(lstBusinesses);
-//
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//
-//            }
-//        });
-//
-//
-//        requestQueue = Volley.newRequestQueue(DisplayBusinessListActivity.this);
-//        requestQueue.add(request) ;
-//
-//
-//    }
 
     private void setuprecyclerview(List<Businesses> lstBusinesses) {
         RecyclerViewAdapter myadapter = new RecyclerViewAdapter(this, lstBusinesses) ;

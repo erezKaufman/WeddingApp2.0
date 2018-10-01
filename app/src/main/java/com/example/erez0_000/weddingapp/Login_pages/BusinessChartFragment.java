@@ -2,6 +2,7 @@ package com.example.erez0_000.weddingapp.Login_pages;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,8 +37,10 @@ public class BusinessChartFragment extends DialogFragment
         implements BusinessChartRecyclerViewAdapter.CreateOnClickListener {
     private ArrayList<BusinessesInChart> lstBusinesses;
     private RecyclerView recyclerView;
-
+    private OnUpdateCostsListener listener;
+    private ProgressDialog mprogressDialog;
     public static BusinessChartFragment newInstance() {
+
 
         Bundle args = new Bundle();
 
@@ -54,29 +57,6 @@ public class BusinessChartFragment extends DialogFragment
         lstBusinesses = User.thisUser.getBusinessInChart();
 
         initRecyclerView();
-        // TODO: 29/09/2018 get user's businessInChart and init the reciclerView
-//        Database db = Database.getInstance();
-//        Map<String,String> emptyMap  = Collections.emptyMap();
-//        db.getBusinesses(emptyMap, new Callback<List<Businesses>>() {
-//            List<Businesses> b = null;
-//            @Override
-//            public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
-//                b = response.body();
-//                for (Businesses item : b){
-//                    lstBusinesses.add(new BusinessesInChart(item,250,450));
-//                }
-//        initRecyclerView();
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Businesses>> call, Throwable t) {
-////                Toast.makeText(SearchActivity.this, "Started Search", Toast.LENGTH_LONG).show();
-//                System.out.println(t.getCause());
-////            Toast.makeText(DisplayBusinessListActivity.this,
-////                    "מתנצלים, יש כרגע בעיות התחברות עם השרת. אנא נסו מאוחר יותר",Toast.LENGTH_LONG).show();
-//            }
-//        });
         return view;
     }
 
@@ -84,7 +64,7 @@ public class BusinessChartFragment extends DialogFragment
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        BusinessChartRecyclerViewAdapter businessChartRecyclerViewAdapter = new BusinessChartRecyclerViewAdapter(this, lstBusinesses);
+        BusinessChartRecyclerViewAdapter businessChartRecyclerViewAdapter = new BusinessChartRecyclerViewAdapter(this, lstBusinesses, getActivity());
         recyclerView.setAdapter(businessChartRecyclerViewAdapter);
     }
 
@@ -107,25 +87,27 @@ public class BusinessChartFragment extends DialogFragment
              */
             @Override
             public void acceptDelition() {
+                showProgressDialog();
                 lstBusinesses.remove(businesses);
                 User.thisUser.setBusinessInChart(lstBusinesses);
                 User.thisUser.setMaxCurrentDestinedAmmount(
-                        User.thisUser.getMaxCurrentDestinedAmmount()-businesses.getMaxPrice());
+                        User.thisUser.getMaxCurrentDestinedAmmount() - businesses.getMaxPrice());
                 User.thisUser.setMinCurrentDestinedAmmount(
-                        User.thisUser.getMinCurrentDestinedAmmount()-businesses.getMinPrice());
+                        User.thisUser.getMinCurrentDestinedAmmount() - businesses.getMinPrice());
                 Database.getInstance().updateUser(User.thisUser, new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
+                        listener.updateCost();
+                        hideProgressDialog();
                         Toast.makeText(getContext(), "הרשימה נמחקה בהצלחה", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
+                        hideProgressDialog();
                         Toast.makeText(getContext(), "ישנה בעיה בגישה לשרת ", Toast.LENGTH_LONG).show();
                     }
                 });
-
-
 
 
             }
@@ -133,5 +115,26 @@ public class BusinessChartFragment extends DialogFragment
         appointmentFrag.show(ft, null);
     }
 
+    public void setListener(OnUpdateCostsListener listener){
+        this.listener = listener;
+    }
+
+    public interface OnUpdateCostsListener {
+        public void updateCost();
+    }
+    private void hideProgressDialog() {
+        if (mprogressDialog != null && mprogressDialog.isShowing()) {
+            mprogressDialog.dismiss();
+        }
+    }
+
+    private void showProgressDialog() {
+        if (mprogressDialog == null) {
+            mprogressDialog = new ProgressDialog(getActivity());
+            mprogressDialog.setCancelable(false);
+            mprogressDialog.setMessage("המתן בעת מחיקת עסק...");
+        }
+        mprogressDialog.show();
+    }
 
 }

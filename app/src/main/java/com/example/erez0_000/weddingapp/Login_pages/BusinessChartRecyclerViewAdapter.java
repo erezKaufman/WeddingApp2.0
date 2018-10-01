@@ -1,5 +1,7 @@
 package com.example.erez0_000.weddingapp.Login_pages;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,14 +10,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
+import com.example.erez0_000.weddingapp.db_classes.Database;
+import com.example.erez0_000.weddingapp.db_classes.User;
+import com.example.erez0_000.weddingapp.todos_section.DeleteTodoFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class BusinessChartRecyclerViewAdapter extends
@@ -23,14 +33,15 @@ public class BusinessChartRecyclerViewAdapter extends
     private ArrayList<BusinessesInChart> businessList;
     private RequestOptions option;
     CreateOnClickListener listener;
-
-    public BusinessChartRecyclerViewAdapter(CreateOnClickListener listener,ArrayList<BusinessesInChart> buslist){
+    private Activity baseactivity;
+    public BusinessChartRecyclerViewAdapter(CreateOnClickListener listener, ArrayList<BusinessesInChart> buslist,Activity activity) {
         businessList = new ArrayList<>();
-        if (buslist != null){
+        if (buslist != null) {
             businessList = buslist;
-         }
+        }
 
         this.listener = listener;
+        baseactivity = activity;
     }
 
     @NonNull
@@ -49,8 +60,8 @@ public class BusinessChartRecyclerViewAdapter extends
         holder.tv_name.setText(business.getCurBusiness().getName());
         holder.tv_address.setText(business.getCurBusiness().getAddress());
 //        holder.tv_region.setText(business.getCurBusiness().getRegion());
-        holder.minPrice.setText(String.format("%d",business.getMinPrice()));
-        holder.maxPrice.setText(String.format("%d",business.getMaxPrice()));
+        holder.minPrice.setText(String.format("%d", business.getMinPrice()));
+        holder.maxPrice.setText(String.format("%d", business.getMaxPrice()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,17 +73,47 @@ public class BusinessChartRecyclerViewAdapter extends
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-//                notifyDataSetInvalidated();
-                listener.deleteBusinessFromChart(business);
-                businessList.remove(business);
-                notifyDataSetChanged();
+                FragmentManager ft = baseactivity.getFragmentManager();
+                DeleteTodoFragment appointmentFrag = DeleteTodoFragment.newInstance();
+                appointmentFrag.setListener(new DeleteTodoFragment.DeletefragmentListener() {
+                    /**
+                     * implementing listener's method - after
+                     */
+                    @Override
+                    public void acceptDelition() {
+                        businessList.remove(business);
+                        User.thisUser.setBusinessInChart(businessList);
+                        User.thisUser.setMaxCurrentDestinedAmmount(
+                                User.thisUser.getMaxCurrentDestinedAmmount()-business.getMaxPrice());
+                        User.thisUser.setMinCurrentDestinedAmmount(
+                                User.thisUser.getMinCurrentDestinedAmmount()-business.getMinPrice());
+                        Database.getInstance().updateUser(User.thisUser, new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                Toast.makeText(baseactivity, "הרשימה נמחקה בהצלחה", Toast.LENGTH_LONG).show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+                                Toast.makeText(baseactivity, "ישנה בעיה בגישה לשרת ", Toast.LENGTH_LONG).show();
+                            }
+                        });
+
+
+
+                        notifyDataSetChanged();
+                    }
+                });
+                appointmentFrag.show(ft, null);
+//                businessList.remove(business);
+//                listener.deleteBusinessFromChart(business);
+//                notifyDataSetChanged();
                 return true;
             }
         });
         // Load Image from the internet and set it into Imageview using Glide
         Glide.with(holder.img_thumbnail.getContext())
                 .load(business.getCurBusiness().getImage()).apply(option).into(holder.img_thumbnail);
-
 
 
     }
@@ -86,7 +127,6 @@ public class BusinessChartRecyclerViewAdapter extends
     public class ChartViewHolder extends RecyclerView.ViewHolder {
         TextView tv_name;
         TextView tv_address;
-        TextView tv_region;
         TextView minPrice;
         TextView maxPrice;
         ImageView img_thumbnail;
@@ -97,7 +137,6 @@ public class BusinessChartRecyclerViewAdapter extends
             view_container = itemView.findViewById(R.id.container);
             tv_name = itemView.findViewById(R.id.anime_name);
             tv_address = itemView.findViewById(R.id.address);
-//            tv_region = itemView.findViewById(R.id.region);
             img_thumbnail = itemView.findViewById(R.id.thumbnail);
             maxPrice = itemView.findViewById(R.id.min_price);
             minPrice = itemView.findViewById(R.id.max_price);
@@ -108,6 +147,7 @@ public class BusinessChartRecyclerViewAdapter extends
 
     public interface CreateOnClickListener {
         public void openBusiness(Businesses businesses);
+
         public void deleteBusinessFromChart(BusinessesInChart businesses);
 
     }

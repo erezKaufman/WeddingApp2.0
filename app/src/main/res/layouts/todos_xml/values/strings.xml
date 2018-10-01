@@ -26,10 +26,11 @@
     <string name="kosher_text">בחר סוג כשרות</string>
     <string name="region_text">בחר איזור בארץ</string>
     <string name="type_text">בחר סוג עסק</string>
-    <string name="min_price">מחיר מיינימאלי</string>
+    <string name="min_price">מחיר מינימאלי</string>
     <string name="region">איזור</string>
     <string name="address">כתובת</string>
     <string name="name">שם</string>
     <string name="max_price">מחיר מקסימאלי</string>
     <string name="chart_text_info">רשימת העסקים שהזמנת מולם</string>
+    <string name="welcome_text">שלום משתמש! ברוך שובך</string>
 </resources>

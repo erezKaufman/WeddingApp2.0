@@ -1,14 +1,15 @@
 package com.example.erez0_000.weddingapp.parseJSON.adapters;
 //package com.example.erez0_000.weddingapp.todos_section;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +31,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     RequestOptions option;
 
 
+
     public RecyclerViewAdapter(Context mContext, List<Businesses> mData) {
         this.mContext = mContext;
         this.mData = mData;
@@ -44,7 +46,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         View view ;
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        view = inflater.inflate(R.layout.display_list_business_raw,parent,false) ;
+//        view = inflater.inflate(R.layout.display_list_business_raw,parent,false) ;
+        view = LayoutInflater.from(mContext).inflate(R.layout.display_list_business_raw,parent,false);
         final MyViewHolder viewHolder = new MyViewHolder(view) ;
         viewHolder.view_container.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +65,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
 
-
+        viewHolder.itemView.setBackgroundResource(R.color.transp);
         return viewHolder;
     }
 
@@ -72,7 +75,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.tv_name.setText(mData.get(position).getName());
         holder.tv_address.setText(mData.get(position).getAddress());
         holder.tv_region.setText(mData.get(position).getRegion());
-        holder.tv_mail.setText(mData.get(position).getMail());
+        holder.tv_type.setText(mData.get(position).getBusiness_type());
 
         // Load Image from the internet and set it into Imageview using Glide
 
@@ -91,16 +94,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             TextView tv_name ;
             TextView tv_address;
             TextView tv_region;
-            TextView tv_mail;
+            TextView tv_type;
             ImageView img_thumbnail;
-            LinearLayout view_container;
+            CardView view_container;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
             view_container = itemView.findViewById(R.id.container);
             tv_name = itemView.findViewById(R.id.anime_name);
-            tv_mail = itemView.findViewById(R.id.mail);
+            tv_type = itemView.findViewById(R.id.type);
             tv_address = itemView.findViewById(R.id.address);
             tv_region = itemView.findViewById(R.id.region);
             img_thumbnail = itemView.findViewById(R.id.thumbnail);

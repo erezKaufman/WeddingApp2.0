@@ -27,7 +27,7 @@ public class Businesses implements Serializable {
     @SerializedName("Bid")
     private Integer Bid;
     @SerializedName("business_type")
-    private Integer business_type;
+    private String business_type;
     @SerializedName("Phones")
     private String[] Phones;
     @SerializedName("Winter")
@@ -76,11 +76,11 @@ public class Businesses implements Serializable {
         this.Bid = Bid;
     }
 
-    public Integer getBusiness_type() {
+    public String getBusiness_type() {
         return business_type;
     }
 
-    public void setBusiness_type(Integer business_type) {
+    public void setBusiness_type(String business_type) {
         this.business_type = business_type;
     }
 
@@ -164,7 +164,7 @@ public class Businesses implements Serializable {
 
 
     public Businesses(String Name, String Image, String Address, String Description,
-                      String Mail, String Region, Integer Bid, Integer business_type,
+                      String Mail, String Region, Integer Bid, String business_type,
                       String[] Phone, Map<String,Integer>  winter_price, Map<String,Integer>  summer_price,
                       String Handikaped, boolean MeatKoshe, boolean MilkKosher) {
         this.Name = Name;
