@@ -81,19 +81,7 @@ public class DisplayBusinessListActivity extends AppCompatActivity
                 openFilter();
                 break;
             case R.id.startSearch_btn:
-                db.getBusinessesByName(businessNameSearch.getText().toString().trim(), new Callback<List<Businesses>>() {
-                    @Override
-                    public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
-                        for (Businesses b : response.body()) {
-                            Log.d("BUSINESS NAME FOUND", b.getName());
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Businesses>> call, Throwable t) {
-
-                    }
-                });
+                getInfoFromDb();
                 break;
         }
     }

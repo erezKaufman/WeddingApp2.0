@@ -1,5 +1,7 @@
 package com.example.erez0_000.weddingapp.db_classes;
 
+import android.text.TextUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,17 +79,16 @@ public class Database {
 
     // Pass empty map if you want to fetch all businesses
     public void getBusinesses(Map<String, String> filters, Callback<List<Businesses>> callback) {
-        service.getBusinesses(new JSONObject(filters).toString()).enqueue(callback);
-    }
+        final JSONObject json = new JSONObject(filters);
 
-    public void getBusinessesByName(String nameSubstring, Callback<List<Businesses>> callback) {
         try {
-            service.getBusinessesByName(
-                    new JSONObject().put("Name", new JSONObject().put("$regex", nameSubstring)).toString())
-                    .enqueue(callback);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            String name = json.getString("Name");
+            if (name != null && !(name = name.trim()).isEmpty()) {
+                json.put("Name", new JSONObject().put("$regex", name));
+            }
+        } catch (JSONException ignored) {}
+
+        service.getBusinesses(json.toString()).enqueue(callback);
     }
 
     public interface MlabService {
@@ -102,8 +103,5 @@ public class Database {
 
         @GET("Businesses?apiKey=" + API_KEY)
         Call<List<Businesses>> getBusinesses(@Query("q") String filters);
-
-        @GET("Businesses?apiKey=" + API_KEY)
-        Call<List<Businesses>> getBusinessesByName(@Query("q") String name);
     }
 }
