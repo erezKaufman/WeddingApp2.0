@@ -68,7 +68,7 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         // set listeners to buttons
         gotoTodos = view.findViewById(R.id.gotoTodos);
         gotoTodos.setOnClickListener(this);
-        Button addValueToChart = view.findViewById(R.id.addValueToChart);
+        addValueToChart = view.findViewById(R.id.addValueToChart);
         addValueToChart.setOnClickListener(this);
         if (User.thisUser == null) {
             gotoTodos.setVisibility(View.GONE);
@@ -95,6 +95,8 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
                 SetAppointmentFragment.this.startActivity(intent);
             }
         });
+
+        showManuel();
         return view;
     }
 
@@ -261,7 +263,7 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); // half second between each showcase view
 
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), User.thisUser.getUsername());
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), User.thisUser.getUsername()+"SETAPPOINTEMNT");
 
 
         sequence.setConfig(config);

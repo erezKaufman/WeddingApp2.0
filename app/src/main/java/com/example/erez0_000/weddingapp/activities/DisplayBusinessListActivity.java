@@ -86,7 +86,7 @@ public class DisplayBusinessListActivity extends AppCompatActivity
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); // half second between each showcase view
 
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername());
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername()+"DISPLAY");
 
         sequence.setConfig(config);
 

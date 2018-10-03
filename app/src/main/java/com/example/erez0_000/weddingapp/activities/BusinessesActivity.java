@@ -103,7 +103,7 @@ public class BusinessesActivity extends AppCompatActivity
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); // half second between each showcase view
 
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername());
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, "1");
 
 
         sequence.setConfig(config);
@@ -120,6 +120,6 @@ public class BusinessesActivity extends AppCompatActivity
 
     private View getImageViewFromTabLayout(int position) {
 
-        return ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
+        return ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(position);
     }
 }

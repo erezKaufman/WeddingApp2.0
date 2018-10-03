@@ -1,11 +1,10 @@
 package com.example.erez0_000.weddingapp.Login_pages;
 
-import android.support.v4.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -25,19 +24,16 @@ import com.example.erez0_000.weddingapp.parseJSON.adapters.RecyclerViewAdapter;
 import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
-
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Logged_user_entryActivity extends AppCompatActivity
         implements View.OnClickListener,
@@ -98,7 +94,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); // half second between each showcase view
 
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername());
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername()+"LOGGED");
 
         sequence.setConfig(config);
 
