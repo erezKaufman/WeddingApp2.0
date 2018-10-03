@@ -1,28 +1,29 @@
 package com.example.erez0_000.weddingapp.Login_pages;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.Toast;
+
 import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.activities.DisplayBusinessListActivity;
 import com.example.erez0_000.weddingapp.db_classes.Database;
 import com.example.erez0_000.weddingapp.db_classes.User;
 import com.example.erez0_000.weddingapp.todos_section.TodoList;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private SharedPreferences sp;
@@ -64,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             });
         }
+
     }
 
 
@@ -198,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         TodoList dressingTodo = new TodoList("הלבשה");
         TodoList helpingTodo = new TodoList("נקודות לעזור בתכנון החתונה");
         TodoList guestsTodo = new TodoList("אורחים");
-        TodoList photoTodo = new TodoList("צילומים");
+        TodoList photoTodo = new TodoList("צילום");
         TodoList extrasTodo = new TodoList("תוספות");
         TodoList honeyMoonTodo = new TodoList("ירח דבש");
 
@@ -270,6 +272,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         returnList.add(photoTodo);
         returnList.add(extrasTodo);
         returnList.add(honeyMoonTodo);
+        returnList.add(new TodoList("המטלות שלי"));
         return returnList;
     }
+//    private static MaterialShowcaseView create(Activity activity, View view, int content, String id, Integer radius)
+//    {
+//        MaterialShowcaseView.Builder builder = new MaterialShowcaseView.Builder(activity)
+//                .setTarget(view)
+//                //.setDismissText(button)
+//                //.setDismissTextColor(Tools.getThemeColor(activity, R.attr.colorPrimary))
+//                .setMaskColour(Color.argb(150, 0, 0, 0))
+//                .setContentText(content)
+//                .setDismissOnTouch(true)
+//                .setDelay(0); // optional but starting animations immediately in onCreate can make them choppy
+//
+//        if (radius != null)
+//        {
+//            builder.setUseAutoRadius(false);
+//            builder.setRadius(radius);
+//        }
+//        else
+//            builder.setUseAutoRadius(true);
+//
+//        if (id != null)
+//            builder.singleUse(id); // provide a unique ID used to ensure it is only shown once
+//
+//        MaterialShowcaseView showcaseView = builder.build();
+//        return showcaseView;
+//    }
 }

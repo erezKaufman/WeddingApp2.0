@@ -36,7 +36,7 @@ public class CategoriesActivity extends AppCompatActivity
     private Button addTodo;
     private EditText taskText;
     private ArrayList<TodoList> listOfTodos;
-
+    private String businessTypeFromSetAppointment, taskBusinessText;
 
     private static final String ED_TASK_BACK = "ED_TASK_BACK";
     private static final String ED_TASK_ITEM = "TASK_ITEM";
@@ -47,7 +47,6 @@ public class CategoriesActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
-
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         // hold the User information
@@ -55,15 +54,35 @@ public class CategoriesActivity extends AppCompatActivity
 
         // fill the recyclerView with the todos from the user
         listOfTodos = currentUser.getTodoArray();
+
         // START editing View
         taskText = findViewById(R.id.ed_main);
         taskText.setImeActionLabel("Custom text", KeyEvent.KEYCODE_ENTER);
         addTodo = findViewById(R.id.bt_main);
         addTodo.setOnClickListener(this);
         gRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        Intent i = getIntent();
+
+        CreateTaskFromBusinessActivity(i);
+
+
         // END editing View
         initRecyclerView();
 
+    }
+
+    private void CreateTaskFromBusinessActivity(Intent i) {
+//        businessTypeFromSetAppointment = i.getExtras().getString("business type");
+        taskBusinessText= i.getExtras().getString("task name");
+        if (taskBusinessText != null){
+            TodoList listToSend = searchAndReturnGroup("המטלות שלי");
+            Intent newIntent = new Intent(this, EXpandableActivity.class);
+            newIntent.putExtra(ED_TASK_ITEM, (Serializable) listToSend);
+            newIntent.putExtra("task to write",taskBusinessText);
+            startActivityForResult(newIntent, RC_EXPANDABLE);
+            overridePendingTransition(R.anim.right_slide_in, R.anim.right_slide_out);
+        }
     }
 
     /**

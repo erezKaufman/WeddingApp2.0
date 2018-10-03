@@ -27,15 +27,20 @@
         <item> </item>
         <item>אולם אירועים</item>
         <item>חצר אירועים</item>
-        <item>צלם</item>
-        <item>קייטרינג</item>
-        <item>מנפח בלונים</item>
-        <item>תאורה</item>
-        <item>בר</item>
-        <item>תספורות גברים</item>
-        <item>תספורות נשים</item>
-        <item>שמלות</item>
-        <item>חליפותת</item>
+        <item>צילום</item>
+        <item>איפור ושיער</item>
+        <item>מוזיקה</item>
+        <!--<item>עיצוב הזמנות</item>-->
+        <!--<item>אישורי הגעה והושבה</item>-->
+        <!--<item>שמלות כלה</item>-->
+        <!--<item>חליפות</item>-->
+        <!--<item>שירותי בר</item>-->
+        <!--<item>עיצוב שיער לגבר</item>-->
+        <!--<item>ירח דבש</item>-->
+        <!--<item>אטרקציות</item>-->
+
+        <!--<item>תאורה</item>-->
+        <!--<item>קייטרינג</item>-->
 
     </string-array>
 

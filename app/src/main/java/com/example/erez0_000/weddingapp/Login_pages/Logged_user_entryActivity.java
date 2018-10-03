@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +33,10 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Logged_user_entryActivity extends AppCompatActivity
@@ -44,12 +49,16 @@ public class Logged_user_entryActivity extends AppCompatActivity
     private List<Businesses> businessHorizontalList;
     private TextView curBalance,welcome_text;
     private LinearLayout currentBalanceLayout;
+    private Button gotopZone;
+    private static final String WELCOMETEXT = "ברוכים הבאים לאפליקציית תכנון החתונות! האפליקציה נועדה לעזור לכם למצוא בעלי מקצוע העוסקים בארגון," +
+            " תכנון והכנה לאירוע המרגש שלכם, ולעשות סדר בכל הנוגע למטלות והכנות שצריך לעשות לקראת האירוע. המדריך נועד להראות לכם את האפשרויות ";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_user_entry);
         Log.d(TAG, "onCreate: started Logged_user_entryActivity");
-        findViewById(R.id.gotoPersonalZone).setOnClickListener(this);
+        gotopZone = findViewById(R.id.gotoPersonalZone);
+        gotopZone.setOnClickListener(this);
         findViewById(R.id.gotoSearch).setOnClickListener(this);
         findViewById(R.id.goto_categories).setOnClickListener(this);
         findViewById(R.id.chartLinearLayout).setOnClickListener(this);
@@ -65,8 +74,39 @@ public class Logged_user_entryActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.suggestion_list);
         curBalance = findViewById(R.id.balance);
         currentBalanceLayout = findViewById(R.id.chartLinearLayout);
-        callForRandomBusinessList();
-        updateCurrentBalance();
+
+
+       showManuel();
+    }
+
+    private void showManuel() {
+//        new MaterialShowcaseView.Builder(this)
+////                .setTarget(gotopZone)
+//                .setDismissText("בואו נתחיל!")
+//                .setContentText("This is some amazing feature you should know about")
+//                .setDelay(10) // optional but starting animations immediately in onCreate can make them choppy
+//
+//                .show();
+        // TODO: 02/10/2018 add and expand this
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername());
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(null,
+                WELCOMETEXT, "בואו נתחיל!");
+//
+//        sequence.addSequenceItem(startSearch_btn,
+//                "כשתלחץ על הכפתור הזה, יתחיל החיפוש", "קיבלתי");
+
+//        sequence.addSequenceItem(mButtonThree,
+//                "This is button three", "GOT IT");
+
+        sequence.start();
+
+
     }
 
     /**
@@ -96,6 +136,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         updateCurrentBalance();
+        callForRandomBusinessList();
     }
 
     private void callForRandomBusinessList() {
@@ -182,7 +223,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
         if (mprogressDialog == null) {
             mprogressDialog = new ProgressDialog(this);
             mprogressDialog.setCancelable(false);
-            mprogressDialog.setMessage("אנא המתן בעת התחברות...");
+            mprogressDialog.setMessage("אנא המתן בעת טעינת הנתונים");
         }
         mprogressDialog.show();
     }
@@ -205,9 +246,9 @@ public class Logged_user_entryActivity extends AppCompatActivity
             if (curUser.getArea()!= null && !curUser.getArea().isEmpty()){
             curMap.put("Region",curUser.getArea());
         }
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 12);
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 6);
         String businessType = getResources().getStringArray(R.array.Business_Type)[randomNum];
-        curMap.put("business_type",businessType);
+        curMap.put("Business_Type",businessType);
 
         return curMap;
 

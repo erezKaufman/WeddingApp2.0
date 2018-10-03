@@ -26,9 +26,8 @@ public class EXpandableActivity extends AppCompatActivity implements View.OnClic
     int mLastExpandedPosition = -1;
     private EditText insertTodo;
     private Button addTodo;
-    private String text;
+    private String text,taskBusinessText;
 
-    private static final int RC_EXPANDABLE = 9001;
     private static final String ED_TASK_ITEM = "TASK_ITEM";
     private static final String ED_TASK_BACK = "ED_TASK_BACK";
     @Override
@@ -39,6 +38,8 @@ public class EXpandableActivity extends AppCompatActivity implements View.OnClic
 
         Intent i = getIntent();
         taskList= (TodoList) i.getSerializableExtra(ED_TASK_ITEM);
+
+
 
         mExpandableListView = (ExpandableListView) findViewById(R.id.expandedListView);
         mExpandableListAdapter = new ExpandableListViewAdapter(this,taskList);
@@ -81,14 +82,14 @@ public class EXpandableActivity extends AppCompatActivity implements View.OnClic
 
 
         insertTodo = findViewById(R.id.et_expandable);
-//        insertTodo.addTextChangedListener(this);
 
         addTodo = findViewById(R.id.bt_expandable);
         addTodo.setOnClickListener(this);
 
-
-        // todo create get serializible of todolist and fill it in the todos here
-
+        taskBusinessText= i.getExtras().getString("task to write");
+        if (taskBusinessText != null){
+            insertTodo.setText(taskBusinessText);
+        }
     }
 
 

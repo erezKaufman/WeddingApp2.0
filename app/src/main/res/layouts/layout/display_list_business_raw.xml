@@ -5,9 +5,11 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="6dp"
-    app:cardElevation="6dp"
+    app:cardElevation="10dp"
     android:background="@color/caldroid_transparent"
     android:id="@+id/container">
+
+
 
 
     <ImageView
@@ -16,35 +18,38 @@
         android:background="@drawable/loading_shape"
         android:id="@+id/thumbnail"/>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:orientation="vertical"
+        android:layout_margin="8dp"
         android:gravity="right"
-        android:layout_margin="8dp">
+        android:orientation="vertical">
 
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
-    <TextView
-        android:textColor="#fff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/anime_name"
-        android:text="Name"
-        android:textStyle="bold"
-        android:paddingRight="10dp"
-        android:textSize="18sp"/>
-    <TextView
-        android:textColor="#fff"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/display_name_text"
-        android:text="שם העסק:"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:textColor="#fff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/anime_name"
+                android:text="Name"
+
+                android:textStyle="bold"
+                android:paddingRight="10dp"
+                android:textSize="18sp"/>
+            <!--31-->
+            <TextView
+                android:textColor="#fff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/display_name_text"
+                android:text="שם העסק:"
+                android:textStyle="bold"
+                android:textSize="18sp"/>
+        </LinearLayout>
 
 
         <LinearLayout
@@ -58,14 +63,14 @@
                 android:layout_height="wrap_content"
                 android:paddingRight="10dp"
                 android:text="סוג עסק"
-                android:id="@+id/display_type_text"/>
+                android:id="@+id/type"/>
             <TextView
                 android:textColor="#fff"
                 android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="סוג עסק:"
-                android:id="@+id/type"/>
+                android:id="@+id/display_type_text"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"

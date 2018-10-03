@@ -2,6 +2,7 @@ package  com.example.erez0_000.weddingapp.activities;
 
 import android.app.ProgressDialog;
 import android.app.FragmentManager;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +10,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -28,6 +31,9 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class DisplayBusinessListActivity extends AppCompatActivity
     implements View.OnClickListener, FabFilterFragment.FilterListener{
@@ -35,7 +41,8 @@ public class DisplayBusinessListActivity extends AppCompatActivity
     private int regionInt,typeInt,kosherInt;
     private String regionStr,typeStr,kosherStr;
     private ProgressDialog mprogressDialog;
-
+    private Button startSearch_btn;
+    private FloatingActionButton fab ;
     private List<Businesses> lstBusinesses;
     private RecyclerView recyclerView ;
     private EditText businessNameSearch;
@@ -48,8 +55,12 @@ public class DisplayBusinessListActivity extends AppCompatActivity
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         lstBusinesses = new ArrayList<>() ;
         recyclerView = findViewById(R.id.result_list);
-        findViewById(R.id.filter_fab).setOnClickListener(this);
-        findViewById(R.id.startSearch_btn).setOnClickListener(this);
+
+        fab = findViewById(R.id.filter_fab);
+        fab.setOnClickListener(this);
+
+        startSearch_btn = findViewById(R.id.startSearch_btn);
+        startSearch_btn.setOnClickListener(this);
         businessNameSearch = findViewById(R.id.insertBusinessName);
         regionInt = 0;
         typeInt = 0;
@@ -66,7 +77,41 @@ public class DisplayBusinessListActivity extends AppCompatActivity
 
 
     }
+    private void showManuel() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
 
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, "USEONCE");
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(fab,
+                "בלחיצה על הכפתור הבא, יפתח עמוד הסינון", "קיבלתי");
+
+        sequence.addSequenceItem(startSearch_btn,
+                "כשתלחץ על הכפתור הזה, יתחיל החיפוש", "קיבלתי");
+
+//        sequence.addSequenceItem(mButtonThree,
+//                "This is button three", "GOT IT");
+
+        sequence.start();
+
+        //        new MaterialShowcaseView.Builder(this)
+//                .setTarget(startSearch_btn)
+//                .setDismissText("הבנתי")
+//                .setContentText("כשתלחץ על הכפתור הזה, יתחיל החיפוש")
+//                .setDelay(10) // optional but starting animations immediately in onCreate can make them choppy
+//                .singleUse("SINGLEUSE") // provide a unique ID used to ensure it is only shown once
+//                .show();
+//        new MaterialShowcaseView.Builder(this)
+//                .setTarget(startSearch_btn)
+//                .setDismissText("הבנתי")
+//                .setContentText("כשתלחץ על הכפתור הזה, יתחיל החיפוש")
+//                .setDelay(10) // optional but starting animations immediately in onCreate can make them choppy
+//                .singleUse("SINGLEUSE") // provide a unique ID used to ensure it is only shown once
+//                .show();
+        // TODO: 02/10/2018 add and expand this
+    }
 
     private void setuprecyclerview(List<Businesses> lstBusinesses) {
         RecyclerViewAdapter myadapter = new RecyclerViewAdapter(this, lstBusinesses) ;
@@ -116,12 +161,17 @@ public class DisplayBusinessListActivity extends AppCompatActivity
         showProgressDialog();
         Map<String,String> map  = fillMap();
         // TODO: 28/09/2018  the map filter doesn't work. need to talk with Ben about it
+        updateBusinessList(map);
+    }
+
+    private void updateBusinessList(Map<String, String> map) {
         db.getBusinesses(map, new Callback<List<Businesses>>() {
             @Override
             public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
                 hideProgressDialog();
                 lstBusinesses = response.body();
                 setuprecyclerview(lstBusinesses);
+                showManuel();
 
             }
 
@@ -154,7 +204,7 @@ public class DisplayBusinessListActivity extends AppCompatActivity
         }
         if (!businessNameSearch.getText().toString().isEmpty()){
             map.put("Name",businessNameSearch.getText().toString());
-            businessNameSearch.getText().clear();
+//            businessNameSearch.getText().clear();
         }
         if (map.size() ==0){
             return emptyMap;

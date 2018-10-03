@@ -27,6 +27,7 @@ import com.example.erez0_000.weddingapp.todos_section.CategoriesActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Map;
 
@@ -38,13 +39,14 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
     private TextView mail;
     private ListView phonelist;
     private Businesses curBusiness;
-    private String  chosenDate;
+    private String chosenDate;
     private boolean isWinter;
     private final String min_price = "Min_Price";
     private final String max_price = "Max_Price";
-    int newMinAmmount,newMaxAmmount;
+    int newMinAmmount, newMaxAmmount;
     private ProgressDialog mprogressDialog;
-
+//    private final ArrayList<String> eventNames = new ArrayList<String>(
+//            Arrays.asList("אולם אירועים", "חצר אירועים", "","","מוזיקה"));
 
     public static SetAppointmentFragment newInstance() {
 
@@ -66,7 +68,7 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         todoBtn.setOnClickListener(this);
         Button addToChart = view.findViewById(R.id.addValueToChart);
         addToChart.setOnClickListener(this);
-        if (User.thisUser == null){
+        if (User.thisUser == null) {
             todoBtn.setVisibility(View.GONE);
             addToChart.setVisibility(View.GONE);
         }
@@ -104,6 +106,10 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         switch (v.getId()) {
             case R.id.gotoTodos:
                 Intent i = new Intent(getActivity(), CategoriesActivity.class);
+
+//                i.putExtra("business type", curBusiness.getBusiness_type());
+                i.putExtra("task name", String.format("לדבר עם %s לגבי %s",
+                        curBusiness.getName(),curBusiness.getBusiness_type()));
                 startActivity(i);
                 break;
             case R.id.createCalendarEvent:
@@ -125,7 +131,7 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
 
     private void openPayChart(View v) {
         User curUser = User.thisUser;
-        if ((curUser.getBusinessInChart()!= null) && isBusinessAlreadyInChart(curUser.getBusinessInChart(),curBusiness)){
+        if ((curUser.getBusinessInChart() != null) && isBusinessAlreadyInChart(curUser.getBusinessInChart(), curBusiness)) {
             Toast.makeText(getContext(), "לא ניתן להזמין את אותו עסק מספר פעמים", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -157,11 +163,11 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         showProgressDialog();
         User.thisUser.setMaxCurrentDestinedAmmount(newMaxAmmount);
         User.thisUser.setMinCurrentDestinedAmmount(newMinAmmount);
-        if (isWinter){
+        if (isWinter) {
             User.thisUser.addBusinessToChart(curBusiness,
                     curBusiness.getWinter_price().get(min_price),
                     curBusiness.getWinter_price().get(max_price));
-        }else{
+        } else {
             User.thisUser.addBusinessToChart(curBusiness,
                     curBusiness.getSummer_price().get(min_price),
                     curBusiness.getSummer_price().get(max_price));
@@ -219,8 +225,8 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
     }
 
     public boolean isBusinessAlreadyInChart(ArrayList<BusinessesInChart> chartList, Businesses curBusiness) {
-        for (BusinessesInChart bus : chartList){
-            if (bus.getCurBusiness().getName().equals(curBusiness.getName())){
+        for (BusinessesInChart bus : chartList) {
+            if (bus.getCurBusiness().getName().equals(curBusiness.getName())) {
                 return true;
             }
         }

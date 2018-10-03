@@ -63,7 +63,6 @@ public class CalendarFragmentForBusiness extends Fragment implements View.OnClic
             @Override
             public void onSelectDate(Date date, View view) {
                 boolean isOccupied = false;
-                boolean isEarlier = false;
                 Calendar cal1 = Calendar.getInstance();
                 Calendar cal2 = Calendar.getInstance();
                 Date cuTime = Calendar.getInstance().getTime();
@@ -71,6 +70,7 @@ public class CalendarFragmentForBusiness extends Fragment implements View.OnClic
                 if (cuTime.compareTo(cal1.getTime())>0){
                     setDateBtn.setEnabled(false);
                     curDate.setText("נא לבחור תאריך מאוחר יותר מהתאריך הנוכחי");
+                    curDate.setVisibility(View.VISIBLE);
                     return;
                 }
                 for (long curdate : epochDates) {
@@ -87,14 +87,17 @@ public class CalendarFragmentForBusiness extends Fragment implements View.OnClic
                 if (isOccupied) {
                     setDateBtn.setEnabled(false);
                     curDate.setText("התאריך תפוס, אנא בחר תאריך אחר");
+                    curDate.setVisibility(View.VISIBLE);
                 } else {
+                    curDate.setVisibility(View.GONE);
                     isWinter =  (cal1.get(Calendar.MONTH) >= winderBegins)&&
                             (cal1.get(Calendar.MONTH) <= winterEnds);
                     // show date
                     String day          = (String) DateFormat.format("dd",   date); // 20
                     String monthNumber  = (String) DateFormat.format("MM",   date); // 06
                     String year         = (String) DateFormat.format("yyyy", date); // 2013
-                    curDate.setText(day+"/"+monthNumber+"/"+year);
+                    setDateBtn.setText(String.format("התאריך שנבחר הוא %s",day+"/"+monthNumber+"/"+year));
+//                    curDate.setText(day+"/"+monthNumber+"/"+year);
                     setDateBtn.setEnabled(true);
                 }
             }

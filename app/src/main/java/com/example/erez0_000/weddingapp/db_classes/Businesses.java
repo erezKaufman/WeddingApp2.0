@@ -26,7 +26,7 @@ public class Businesses implements Serializable {
     private String Handikaped;
     @SerializedName("Bid")
     private Integer Bid;
-    @SerializedName("business_type")
+    @SerializedName("Business_Type")
     private String business_type;
     @SerializedName("Phones")
     private String[] Phones;

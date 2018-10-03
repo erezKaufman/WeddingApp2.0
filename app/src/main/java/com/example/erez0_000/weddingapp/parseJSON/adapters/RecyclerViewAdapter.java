@@ -72,16 +72,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-        holder.tv_name.setText(mData.get(position).getName());
+
+        holder.tv_name.setText(takeFirstnChars(mData.get(position).getName()));
         holder.tv_address.setText(mData.get(position).getAddress());
         holder.tv_region.setText(mData.get(position).getRegion());
         holder.tv_type.setText(mData.get(position).getBusiness_type());
-
+        holder.img_thumbnail.setImageAlpha(200);
         // Load Image from the internet and set it into Imageview using Glide
 
         Glide.with(mContext).load(mData.get(position).getImage()).apply(option).into(holder.img_thumbnail);
 
 
+    }
+
+    private String takeFirstnChars(String name) {
+        return name.substring(0, Math.min(name.length(), 31));
     }
 
     @Override

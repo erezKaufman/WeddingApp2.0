@@ -2,6 +2,7 @@ package com.example.erez0_000.weddingapp.Login_pages;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +22,6 @@ import com.example.erez0_000.weddingapp.db_classes.User;
 import com.example.erez0_000.weddingapp.todos_section.DeleteTodoFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,9 +32,11 @@ public class BusinessChartRecyclerViewAdapter extends
         RecyclerView.Adapter<BusinessChartRecyclerViewAdapter.ChartViewHolder> {
     private ArrayList<BusinessesInChart> businessList;
     private RequestOptions option;
-    CreateOnClickListener listener;
+    private ProgressDialog mprogressDialog;
+    private CreateOnClickListener listener;
     private Activity baseactivity;
-    public BusinessChartRecyclerViewAdapter(CreateOnClickListener listener, ArrayList<BusinessesInChart> buslist,Activity activity) {
+
+    public BusinessChartRecyclerViewAdapter(CreateOnClickListener listener, ArrayList<BusinessesInChart> buslist, Activity activity) {
         businessList = new ArrayList<>();
         if (buslist != null) {
             businessList = buslist;
@@ -62,6 +64,8 @@ public class BusinessChartRecyclerViewAdapter extends
 //        holder.tv_region.setText(business.getCurBusiness().getRegion());
         holder.minPrice.setText(String.format("%d", business.getMinPrice()));
         holder.maxPrice.setText(String.format("%d", business.getMaxPrice()));
+        holder.img_thumbnail.setImageAlpha(200);
+        holder.type.setText(business.getCurBusiness().getBusiness_type());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,24 +85,27 @@ public class BusinessChartRecyclerViewAdapter extends
                      */
                     @Override
                     public void acceptDelition() {
+                        showProgressDialog();
                         businessList.remove(business);
                         User.thisUser.setBusinessInChart(businessList);
                         User.thisUser.setMaxCurrentDestinedAmmount(
-                                User.thisUser.getMaxCurrentDestinedAmmount()-business.getMaxPrice());
+                                User.thisUser.getMaxCurrentDestinedAmmount() - business.getMaxPrice());
                         User.thisUser.setMinCurrentDestinedAmmount(
-                                User.thisUser.getMinCurrentDestinedAmmount()-business.getMinPrice());
+                                User.thisUser.getMinCurrentDestinedAmmount() - business.getMinPrice());
                         Database.getInstance().updateUser(User.thisUser, new Callback<Void>() {
                             @Override
                             public void onResponse(Call<Void> call, Response<Void> response) {
+                                hideProgressDialog();
+                                listener.updateBalance();
                                 Toast.makeText(baseactivity, "הרשימה נמחקה בהצלחה", Toast.LENGTH_LONG).show();
                             }
 
                             @Override
                             public void onFailure(Call<Void> call, Throwable t) {
+                                hideProgressDialog();
                                 Toast.makeText(baseactivity, "ישנה בעיה בגישה לשרת ", Toast.LENGTH_LONG).show();
                             }
                         });
-
 
 
                         notifyDataSetChanged();
@@ -106,7 +113,7 @@ public class BusinessChartRecyclerViewAdapter extends
                 });
                 appointmentFrag.show(ft, null);
 //                businessList.remove(business);
-//                listener.deleteBusinessFromChart(business);
+//                listener.updateBalance(business);
 //                notifyDataSetChanged();
                 return true;
             }
@@ -129,12 +136,12 @@ public class BusinessChartRecyclerViewAdapter extends
         TextView tv_address;
         TextView minPrice;
         TextView maxPrice;
+        TextView type;
         ImageView img_thumbnail;
-        LinearLayout view_container;
 
         public ChartViewHolder(View itemView) {
             super(itemView);
-            view_container = itemView.findViewById(R.id.container);
+            type = itemView.findViewById(R.id.type);
             tv_name = itemView.findViewById(R.id.anime_name);
             tv_address = itemView.findViewById(R.id.address);
             img_thumbnail = itemView.findViewById(R.id.thumbnail);
@@ -148,7 +155,22 @@ public class BusinessChartRecyclerViewAdapter extends
     public interface CreateOnClickListener {
         public void openBusiness(Businesses businesses);
 
-        public void deleteBusinessFromChart(BusinessesInChart businesses);
+        public void updateBalance();
 
+    }
+
+    private void hideProgressDialog() {
+        if (mprogressDialog != null && mprogressDialog.isShowing()) {
+            mprogressDialog.dismiss();
+        }
+    }
+
+    private void showProgressDialog() {
+        if (mprogressDialog == null) {
+            mprogressDialog = new ProgressDialog(baseactivity);
+            mprogressDialog.setCancelable(false);
+            mprogressDialog.setMessage("המתן בעת מחיקת עסק...");
+        }
+        mprogressDialog.show();
     }
 }
