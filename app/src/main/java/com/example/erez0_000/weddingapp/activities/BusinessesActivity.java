@@ -1,11 +1,17 @@
 package com.example.erez0_000.weddingapp.activities;
 //package com.demotxt.myapp.parseJSON.activities;
 
+import android.graphics.Point;
+import android.graphics.Rect;
+import android.support.annotation.IdRes;
 import android.support.design.widget.TabLayout;
 import android.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Toolbar;
 
 import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.businessPage.CalendarFragmentForBusiness;
@@ -13,11 +19,16 @@ import com.example.erez0_000.weddingapp.businessPage.InfoFragment;
 import com.example.erez0_000.weddingapp.businessPage.SetAppointmentFragment;
 import com.example.erez0_000.weddingapp.businessPage.TabPagerAdapter;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
+import com.example.erez0_000.weddingapp.db_classes.User;
 import com.roomorama.caldroid.CaldroidFragment;
+
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
+import uk.co.deanwild.materialshowcaseview.target.Target;
+import uk.co.deanwild.materialshowcaseview.target.ViewTarget;
 
 public class BusinessesActivity extends AppCompatActivity
         implements CalendarFragmentForBusiness.ClendarDialogFragmentListner {
-    private CaldroidFragment dialogCaldroidFragment;
     private TabLayout tabLayout;
     private ViewPager feedViewPager;
     private long[] occupieddates;
@@ -50,7 +61,7 @@ public class BusinessesActivity extends AppCompatActivity
 
         createTabs(feedViewPager,name,description,region,mail,phoneNumbers,address,image_url);
 
-
+        showManuel();
 
 
 
@@ -67,7 +78,6 @@ public class BusinessesActivity extends AppCompatActivity
 
         a.addFragment(infoFragment,"");
         a.addFragment(calendarFragment,"");
-
         feedViewPager.setAdapter(a);
 
         tabLayout.setupWithViewPager(feedViewPager);
@@ -75,6 +85,7 @@ public class BusinessesActivity extends AppCompatActivity
         //add the icons to the tabs
         tabLayout.getTabAt(0).setIcon(R.drawable.info_icon);
         tabLayout.getTabAt(1).setIcon(R.drawable.calendar_icon);
+        View mainTab = ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
     }
 
     @Override
@@ -83,5 +94,32 @@ public class BusinessesActivity extends AppCompatActivity
         SetAppointmentFragment appointmentFrag = SetAppointmentFragment.newInstance();
         appointmentFrag.setBusinessContact(curBusiness,dateString,isWinter);
         appointmentFrag.show(ft ,null);
+    }
+
+    /**
+     * the method opens the guide animation in the user's first run in the page
+     */
+    private void showManuel() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername());
+
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(getImageViewFromTabLayout(0),
+                "זהו כפתור גישה למידע על העסק", "קיבלתי");
+        sequence.addSequenceItem(getImageViewFromTabLayout(1),
+                "בכפתור זה תוכל לגשת ללוח השנה של בעל העסק ולראות תאריכים זמינים, ליצור קשר, ולקבוע פגישה", "קיבלתי");
+
+        sequence.start();
+
+    }
+
+
+    private View getImageViewFromTabLayout(int position) {
+
+        return ((ViewGroup) tabLayout.getChildAt(0)).getChildAt(0);
     }
 }

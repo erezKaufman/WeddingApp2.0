@@ -43,24 +43,33 @@ public class Logged_user_entryActivity extends AppCompatActivity
         implements View.OnClickListener,
         BusinessChartFragment.OnUpdateCostsListener{
     private static final String TAG = "LoggedUsErentryActivity";
-    private User loggedUser;
     private RecyclerView recyclerView;
     private ProgressDialog mprogressDialog;
     private List<Businesses> businessHorizontalList;
     private TextView curBalance,welcome_text;
-    private LinearLayout currentBalanceLayout;
-    private Button gotopZone;
+    private LinearLayout currentBalanceLayout,horizontalBusLayout;
+    private Button gotopZone, gotoSearch,goto_categories;
+
     private static final String WELCOMETEXT = "ברוכים הבאים לאפליקציית תכנון החתונות! האפליקציה נועדה לעזור לכם למצוא בעלי מקצוע העוסקים בארגון," +
             " תכנון והכנה לאירוע המרגש שלכם, ולעשות סדר בכל הנוגע למטלות והכנות שצריך לעשות לקראת האירוע. המדריך נועד להראות לכם את האפשרויות ";
+    private static final String BTNINFOGUIDE = "במסך זה תוכל לחפש עסקים שיתאימו לחתונה המושלמת בשבילך," +
+            " להציץ ברשימת מטלות שהכנו בראש בשבילך כדי שלך יהיה ראש שקט, או להוסיף מטלות בעצמך";
+    private static final String BALANCEINFOTEXT = "כאן יהיה רשום סך ההוצאות המשוער עד כה לכל עסק, ובלחיצה על שורה זו תפתח רשימת העסקים שבחרת לקחת חלק באירוע שלך";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logged_user_entry);
         Log.d(TAG, "onCreate: started Logged_user_entryActivity");
+
         gotopZone = findViewById(R.id.gotoPersonalZone);
         gotopZone.setOnClickListener(this);
-        findViewById(R.id.gotoSearch).setOnClickListener(this);
-        findViewById(R.id.goto_categories).setOnClickListener(this);
+        gotoSearch = findViewById(R.id.gotoSearch);
+        gotoSearch.setOnClickListener(this);
+        goto_categories = findViewById(R.id.goto_categories);
+        goto_categories.setOnClickListener(this);
+
+        horizontalBusLayout = findViewById(R.id.horizontalBusLayout);
         findViewById(R.id.chartLinearLayout).setOnClickListener(this);
         welcome_text = findViewById(R.id.welcome_text);
         welcome_text.setText(String.format("שלום %s! ברוך שובך",User.thisUser.getUsername()));
@@ -79,14 +88,12 @@ public class Logged_user_entryActivity extends AppCompatActivity
        showManuel();
     }
 
+
+    /**
+     * the method opens the guide animation in the user's first run in the page
+     */
     private void showManuel() {
-//        new MaterialShowcaseView.Builder(this)
-////                .setTarget(gotopZone)
-//                .setDismissText("בואו נתחיל!")
-//                .setContentText("This is some amazing feature you should know about")
-//                .setDelay(10) // optional but starting animations immediately in onCreate can make them choppy
-//
-//                .show();
+
         // TODO: 02/10/2018 add and expand this
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); // half second between each showcase view
@@ -95,15 +102,14 @@ public class Logged_user_entryActivity extends AppCompatActivity
 
         sequence.setConfig(config);
 
-        sequence.addSequenceItem(null,
+        sequence.addSequenceItem(new View(this),
                 WELCOMETEXT, "בואו נתחיל!");
-//
-//        sequence.addSequenceItem(startSearch_btn,
-//                "כשתלחץ על הכפתור הזה, יתחיל החיפוש", "קיבלתי");
 
-//        sequence.addSequenceItem(mButtonThree,
-//                "This is button three", "GOT IT");
-//
+        sequence.addSequenceItem(gotopZone,
+                BTNINFOGUIDE, "קיבלתי");
+        sequence.addSequenceItem(currentBalanceLayout,
+                BALANCEINFOTEXT, "קיבלתי");
+
         sequence.start();
 
 
@@ -235,7 +241,6 @@ public class Logged_user_entryActivity extends AppCompatActivity
         android.app.FragmentManager fm = getFragmentManager();
         BusinessChartFragment businessChartFragment = BusinessChartFragment.newInstance();
         businessChartFragment.setListener(this);
-//        businessChartFragment.insertBusinesses(loggedUser.getBusinessInChart());
         businessChartFragment.show(fm, null);
 
     }
@@ -260,15 +265,3 @@ public class Logged_user_entryActivity extends AppCompatActivity
     }
 }
 
-/**
- * how to really delete the user from db
- */
-//FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-//            @Override
-//            public void onComplete(@NonNull Task<Void> task) {
-//                if (task.isSuccessful()) {
-//                    Log.d(TAG, "User account deleted.");
-//                }
-//            }
-//        });

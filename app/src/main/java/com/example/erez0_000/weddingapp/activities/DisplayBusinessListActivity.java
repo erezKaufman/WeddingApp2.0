@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 
 import com.example.erez0_000.weddingapp.db_classes.Database;
+import com.example.erez0_000.weddingapp.db_classes.User;
 import com.example.erez0_000.weddingapp.parseJSON.adapters.RecyclerViewAdapter;
 import com.example.erez0_000.weddingapp.R;
 import com.example.erez0_000.weddingapp.db_classes.Businesses;
@@ -77,19 +78,23 @@ public class DisplayBusinessListActivity extends AppCompatActivity
 
 
     }
+
+    /**
+     * the method opens the guide animation in the user's first run in the page
+     */
     private void showManuel() {
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); // half second between each showcase view
 
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, "USEONCE");
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername());
 
         sequence.setConfig(config);
 
         sequence.addSequenceItem(fab,
-                "בלחיצה על הכפתור הבא, יפתח עמוד הסינון", "קיבלתי");
+                "בלחיצה על הכפתור הבא, יפתח עמוד סינון התוצאות", "קיבלתי");
 
         sequence.addSequenceItem(startSearch_btn,
-                "כשתלחץ על הכפתור הזה, יתחיל החיפוש", "קיבלתי");
+                "וכאן אפשר להתחיל את החיפוש", "קיבלתי");
 
 //        sequence.addSequenceItem(mButtonThree,
 //                "This is button three", "GOT IT");
@@ -204,7 +209,6 @@ public class DisplayBusinessListActivity extends AppCompatActivity
         }
         if (!businessNameSearch.getText().toString().isEmpty()){
             map.put("Name",businessNameSearch.getText().toString());
-//            businessNameSearch.getText().clear();
         }
         if (map.size() ==0){
             return emptyMap;

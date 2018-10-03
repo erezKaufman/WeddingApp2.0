@@ -34,6 +34,8 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class SetAppointmentFragment extends DialogFragment implements View.OnClickListener {
     private TextView mail;
@@ -45,8 +47,8 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
     private final String max_price = "Max_Price";
     int newMinAmmount, newMaxAmmount;
     private ProgressDialog mprogressDialog;
-//    private final ArrayList<String> eventNames = new ArrayList<String>(
-//            Arrays.asList("אולם אירועים", "חצר אירועים", "","","מוזיקה"));
+    private  Button gotoTodos, addValueToChart, createCalendarEvent;
+
 
     public static SetAppointmentFragment newInstance() {
 
@@ -64,15 +66,17 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         View view = inflater.inflate(R.layout.set_appointment_frag, container, false);
 
         // set listeners to buttons
-        Button todoBtn = view.findViewById(R.id.gotoTodos);
-        todoBtn.setOnClickListener(this);
-        Button addToChart = view.findViewById(R.id.addValueToChart);
-        addToChart.setOnClickListener(this);
+        gotoTodos = view.findViewById(R.id.gotoTodos);
+        gotoTodos.setOnClickListener(this);
+        Button addValueToChart = view.findViewById(R.id.addValueToChart);
+        addValueToChart.setOnClickListener(this);
         if (User.thisUser == null) {
-            todoBtn.setVisibility(View.GONE);
-            addToChart.setVisibility(View.GONE);
+            gotoTodos.setVisibility(View.GONE);
+            addValueToChart.setVisibility(View.GONE);
         }
-        view.findViewById(R.id.createCalendarEvent).setOnClickListener(this);
+        createCalendarEvent = view.findViewById(R.id.createCalendarEvent);
+        createCalendarEvent.setOnClickListener(this);
+
         phonelist = (ListView) view.findViewById(R.id.listViewPhone);
         mail = (TextView) view.findViewById(R.id.mailInfo);
         mail.setText(curBusiness.getMail());
@@ -107,7 +111,6 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
             case R.id.gotoTodos:
                 Intent i = new Intent(getActivity(), CategoriesActivity.class);
 
-//                i.putExtra("business type", curBusiness.getBusiness_type());
                 i.putExtra("task name", String.format("לדבר עם %s לגבי %s",
                         curBusiness.getName(),curBusiness.getBusiness_type()));
                 startActivity(i);
@@ -252,5 +255,27 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         }
         mprogressDialog.show();
     }
+
+
+    private void showManuel() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), User.thisUser.getUsername());
+
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(addValueToChart,
+                "זהו כפתור גישה למידע על העסק", "קיבלתי");
+        sequence.addSequenceItem(gotoTodos,
+                "בכפתור זה תוכל לגשת ללוח השנה של בעל העסק ולראות תאריכים זמינים, ליצור קשר, ולקבוע פגישה", "קיבלתי");
+        sequence.addSequenceItem(createCalendarEvent,
+                "זהו כפתור גישה למידע על העסק", "קיבלתי");
+
+        sequence.start();
+
+    }
+
 }
 
