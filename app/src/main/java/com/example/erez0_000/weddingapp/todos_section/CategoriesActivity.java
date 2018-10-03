@@ -26,6 +26,8 @@ import com.example.erez0_000.weddingapp.db_classes.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class CategoriesActivity extends AppCompatActivity
         implements TodoRecyclerViewAdapter.CreateOnClickListner,
@@ -38,6 +40,7 @@ public class CategoriesActivity extends AppCompatActivity
     private ArrayList<TodoList> listOfTodos;
     private String businessTypeFromSetAppointment, taskBusinessText;
 
+    private final static String CATEGORYTEXTINFO = "זהו עמוד המטלות שלך, הוא מכיל רשימה בנויה מראש של הצעות שלנו לקראת תכנון החתונה שלך! המטלות יעזרו לך החל מלחשוב על מספר מוזמנים ועד למצוא פעילויות מעניינות להפעלת ילדים באירוע. שימוש נכון במטלות ותכנון זמנים לקראת החתונה יכול להקל משמעותית על הלחץ המלווה את רוב הזוגות בזמנים אלו";
     private static final String ED_TASK_BACK = "ED_TASK_BACK";
     private static final String ED_TASK_ITEM = "TASK_ITEM";
     private static final int RC_EXPANDABLE = 9001;
@@ -69,7 +72,7 @@ public class CategoriesActivity extends AppCompatActivity
 
         // END editing View
         initRecyclerView();
-
+        showManuel();
     }
 
     private void CreateTaskFromBusinessActivity(Intent i) {
@@ -207,6 +210,27 @@ public class CategoriesActivity extends AppCompatActivity
 
     @Override
     public void acceptDelition() {
+
+    }
+
+    /**
+     * the method opens the guide animation in the user's first run in the page
+     */
+    private void showManuel() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
+
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser+"Categories");
+
+
+        sequence.setConfig(config);
+
+        sequence.addSequenceItem(new View(this),
+                CATEGORYTEXTINFO, "קיבלתי");
+        sequence.addSequenceItem(addTodo,
+                "לאחר כתיבה של נושא למטלה, פשוט לחץ על כפתור ההוספה ורשימת המטלות תיווצר", "קיבלתי");
+
+        sequence.start();
 
     }
 }

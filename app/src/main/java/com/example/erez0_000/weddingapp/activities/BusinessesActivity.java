@@ -103,7 +103,7 @@ public class BusinessesActivity extends AppCompatActivity
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); // half second between each showcase view
 
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, "1");
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser+"Business");
 
 
         sequence.setConfig(config);
