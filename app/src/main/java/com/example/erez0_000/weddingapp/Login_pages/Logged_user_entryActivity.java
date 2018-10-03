@@ -103,7 +103,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
 
 //        sequence.addSequenceItem(mButtonThree,
 //                "This is button three", "GOT IT");
-
+//
         sequence.start();
 
 
