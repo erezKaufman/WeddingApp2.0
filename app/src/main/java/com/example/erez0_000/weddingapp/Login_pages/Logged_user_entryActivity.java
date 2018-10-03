@@ -37,14 +37,14 @@ import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class Logged_user_entryActivity extends AppCompatActivity
         implements View.OnClickListener,
-        BusinessChartFragment.OnUpdateCostsListener{
+        BusinessChartFragment.OnUpdateCostsListener {
     private static final String TAG = "LoggedUsErentryActivity";
     private RecyclerView recyclerView;
     private ProgressDialog mprogressDialog;
     private List<Businesses> businessHorizontalList;
-    private TextView curBalance,welcome_text;
-    private LinearLayout currentBalanceLayout,horizontalBusLayout;
-    private Button gotopZone, gotoSearch,goto_categories;
+    private TextView curBalance, welcome_text;
+    private LinearLayout currentBalanceLayout, horizontalBusLayout;
+    private Button gotopZone, gotoSearch, goto_categories;
 
     private static final String WELCOMETEXT = "ברוכים הבאים לאפליקציית תכנון החתונות! האפליקציה נועדה לעזור לכם למצוא בעלי מקצוע העוסקים בארגון," +
             " תכנון והכנה לאירוע המרגש שלכם, ולעשות סדר בכל הנוגע למטלות והכנות שצריך לעשות לקראת האירוע. המדריך נועד להראות לכם את האפשרויות ";
@@ -68,7 +68,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
         horizontalBusLayout = findViewById(R.id.horizontalBusLayout);
         findViewById(R.id.chartLinearLayout).setOnClickListener(this);
         welcome_text = findViewById(R.id.welcome_text);
-        welcome_text.setText(String.format("שלום %s! ברוך שובך",User.thisUser.getUsername()));
+        welcome_text.setText(String.format("שלום %s! ברוך שובך", User.thisUser.getUsername()));
 
         // TODO add image of app's logo
         ImageView weddingImage = (ImageView) findViewById(R.id.weedingHello);
@@ -81,7 +81,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
         currentBalanceLayout = findViewById(R.id.chartLinearLayout);
 
 
-       showManuel();
+        showManuel();
     }
 
 
@@ -94,7 +94,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
         ShowcaseConfig config = new ShowcaseConfig();
         config.setDelay(500); // half second between each showcase view
 
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername()+"LOGGED");
+        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(this, User.thisUser.getUsername() + "LOGGED");
 
         sequence.setConfig(config);
 
@@ -120,19 +120,29 @@ public class Logged_user_entryActivity extends AppCompatActivity
         curBalance.setText(String.format("בין %s לבין %s",
                 curUser.getMinCurrentDestinedAmmount(),
                 curUser.getMaxCurrentDestinedAmmount()));
-        int currentCost = Integer.parseInt(curUser.getCost());
-        if (currentCost != 0) {
-            if (currentCost >= curUser.getMinCurrentDestinedAmmount()) {
-                if (currentCost <= curUser.getMaxCurrentDestinedAmmount()) {
-                    // TODO: 30/09/2018 change color to yellow add warning text
-                    currentBalanceLayout.setBackgroundColor(Color.YELLOW);
-                    return;
-                }
-                currentBalanceLayout.setBackgroundColor(R.drawable.red_border);
-                // TODO: 30/09/2018 change color to red and add warning text
+        // the user wishing cost for the wedding
+        int userWishingCost = Integer.parseInt(curUser.getCost());
+        if (userWishingCost != 0) {
+            if (curUser.getMaxCurrentDestinedAmmount() <= userWishingCost ){
+                currentBalanceLayout.setBackgroundColor(Color.WHITE);
+                return;
             }
+            // 250000
+            if (userWishingCost  >= curUser.getMinCurrentDestinedAmmount()  &&
+                    userWishingCost <= curUser.getMaxCurrentDestinedAmmount() ) {
+                currentBalanceLayout.setBackgroundColor(Color.YELLOW);
+                return;
+            }
+            if (userWishingCost  <= curUser.getMinCurrentDestinedAmmount() ) {
+                // TODO: 30/09/2018 change color to yellow add warning text
+                currentBalanceLayout.setBackgroundColor(Color.RED);
+            }
+
+
+            // TODO: 30/09/2018 change color to red and add warning text
         }
     }
+
 
     @Override
     protected void onResume() {
@@ -146,7 +156,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
         Database db = Database.getInstance();
         // TODO: 29/09/2018 need to have user with his preferences here
 
-        Map<String,String> map = getRandomPreferencesMap();
+        Map<String, String> map = getRandomPreferencesMap();
         db.getBusinesses(map, new Callback<List<Businesses>>() {
             @Override
             public void onResponse(Call<List<Businesses>> call, Response<List<Businesses>> response) {
@@ -242,14 +252,14 @@ public class Logged_user_entryActivity extends AppCompatActivity
     }
 
     public Map<String, String> getRandomPreferencesMap() {
-        Map<String,String> curMap = new HashMap<>();
+        Map<String, String> curMap = new HashMap<>();
         User curUser = User.thisUser;
-            if (curUser.getArea()!= null && !curUser.getArea().isEmpty()){
-            curMap.put("Region",curUser.getArea());
+        if (curUser.getArea() != null && !curUser.getArea().isEmpty()) {
+            curMap.put("Region", curUser.getArea());
         }
         int randomNum = ThreadLocalRandom.current().nextInt(1, 6);
         String businessType = getResources().getStringArray(R.array.Business_Type)[randomNum];
-        curMap.put("Business_Type",businessType);
+        curMap.put("Business_Type", businessType);
 
         return curMap;
 
