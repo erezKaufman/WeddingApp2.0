@@ -96,7 +96,7 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
             }
         });
 
-        showManuel();
+//        showManuel();
         return view;
     }
 
@@ -258,26 +258,26 @@ public class SetAppointmentFragment extends DialogFragment implements View.OnCli
         mprogressDialog.show();
     }
 
-
-    private void showManuel() {
-        ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(500); // half second between each showcase view
-
-        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), User.thisUser.getUsername()+"SETAPPOINTEMNT");
-
-
-        sequence.setConfig(config);
-
-        sequence.addSequenceItem(addValueToChart,
-                "זהו כפתור גישה למידע על העסק", "קיבלתי");
-        sequence.addSequenceItem(gotoTodos,
-                "בכפתור זה תוכל לגשת ללוח השנה של בעל העסק ולראות תאריכים זמינים, ליצור קשר, ולקבוע פגישה", "קיבלתי");
-        sequence.addSequenceItem(createCalendarEvent,
-                "זהו כפתור גישה למידע על העסק", "קיבלתי");
-
-        sequence.start();
-
-    }
+//
+//    private void showManuel() {
+//        ShowcaseConfig config = new ShowcaseConfig();
+//        config.setDelay(500); // half second between each showcase view
+//
+//        MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity(), User.thisUser.getUsername()+"SETAPPOINTEMNT");
+//
+//
+//        sequence.setConfig(config);
+//
+//        sequence.addSequenceItem(addValueToChart,
+//                "זהו כפתור גישה למידע על העסק", "קיבלתי");
+//        sequence.addSequenceItem(gotoTodos,
+//                "בכפתור זה תוכל לגשת ללוח השנה של בעל העסק ולראות תאריכים זמינים, ליצור קשר, ולקבוע פגישה", "קיבלתי");
+//        sequence.addSequenceItem(createCalendarEvent,
+//                "זהו כפתור גישה למידע על העסק", "קיבלתי");
+//
+//        sequence.start();
+//
+//    }
 
 }
 

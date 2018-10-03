@@ -257,7 +257,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
         if (curUser.getArea() != null && !curUser.getArea().isEmpty()) {
             curMap.put("Region", curUser.getArea());
         }
-        int randomNum = ThreadLocalRandom.current().nextInt(1, 6);
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 14);
         String businessType = getResources().getStringArray(R.array.Business_Type)[randomNum];
         curMap.put("Business_Type", businessType);
 

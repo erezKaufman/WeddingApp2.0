@@ -64,20 +64,21 @@ public class CategoriesActivity extends AppCompatActivity
         addTodo = findViewById(R.id.bt_main);
         addTodo.setOnClickListener(this);
         gRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
         Intent i = getIntent();
+        taskBusinessText= i.getExtras().getString("task name");
 
-        CreateTaskFromBusinessActivity(i);
+        CreateTaskFromBusinessActivity();
 
 
         // END editing View
         initRecyclerView();
-        showManuel();
+        if (taskBusinessText ==null){
+            showManuel();
+        }
     }
 
-    private void CreateTaskFromBusinessActivity(Intent i) {
-//        businessTypeFromSetAppointment = i.getExtras().getString("business type");
-        taskBusinessText= i.getExtras().getString("task name");
+    private void CreateTaskFromBusinessActivity() {
+
         if (taskBusinessText != null){
             TodoList listToSend = searchAndReturnGroup("המטלות שלי");
             Intent newIntent = new Intent(this, EXpandableActivity.class);
