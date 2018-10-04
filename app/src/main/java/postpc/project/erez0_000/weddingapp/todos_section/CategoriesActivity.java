@@ -61,16 +61,15 @@ public class CategoriesActivity extends AppCompatActivity
         addTodo.setOnClickListener(this);
         gRecyclerView = (RecyclerView) findViewById(postpc.project.erez0_000.weddingapp.R.id.recyclerView);
         Intent i = getIntent();
-        taskBusinessText= i.getExtras().getString("task name");
-
-        CreateTaskFromBusinessActivity();
-
-
+        taskBusinessText = i.getExtras().getString("task name");
+        if (!taskBusinessText.equals("NULL") ){
+            CreateTaskFromBusinessActivity();
+        }
+        initRecyclerView();
+        showManuel();
         // END editing View
-//        initRecyclerView();
-//        if (taskBusinessText ==null){
-//            showManuel();
-//        }
+
+
     }
 
     private void CreateTaskFromBusinessActivity() {

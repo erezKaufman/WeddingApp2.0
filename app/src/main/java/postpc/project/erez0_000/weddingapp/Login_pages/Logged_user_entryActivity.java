@@ -222,6 +222,7 @@ public class Logged_user_entryActivity extends AppCompatActivity
      */
     private void startCategoryActivity() {
         Intent intent = new Intent(this, CategoriesActivity.class);
+        intent.putExtra("task name","NULL");
         startActivity(intent);
     }
 
