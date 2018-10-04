@@ -66,7 +66,7 @@ public class CategoriesActivity extends AppCompatActivity
             CreateTaskFromBusinessActivity();
         }
         initRecyclerView();
-        showManuel();
+//        showManuel();
         // END editing View
 
 
