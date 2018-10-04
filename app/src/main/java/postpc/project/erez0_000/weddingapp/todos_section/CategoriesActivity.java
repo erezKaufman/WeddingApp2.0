@@ -67,10 +67,10 @@ public class CategoriesActivity extends AppCompatActivity
 
 
         // END editing View
-        initRecyclerView();
-        if (taskBusinessText ==null){
-            showManuel();
-        }
+//        initRecyclerView();
+//        if (taskBusinessText ==null){
+//            showManuel();
+//        }
     }
 
     private void CreateTaskFromBusinessActivity() {
