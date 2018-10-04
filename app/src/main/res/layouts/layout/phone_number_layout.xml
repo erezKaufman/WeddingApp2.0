@@ -8,4 +8,5 @@
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:paddingRight="6dip"
     android:textAppearance="?android:attr/textAppearanceLarge"
+    android:background="@drawable/wedback"
     android:textSize="16sp" />

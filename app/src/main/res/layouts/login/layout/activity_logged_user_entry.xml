@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Login_pages.Logged_user_entryActivity"
+    android:background="@drawable/wedback"
     tools:layout_editor_absoluteY="81dp">
 
     <LinearLayout

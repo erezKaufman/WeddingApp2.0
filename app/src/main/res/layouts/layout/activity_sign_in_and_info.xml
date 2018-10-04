@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/wedback"
     tools:context=".Login_pages.Sign_in_and_info_Activity">
     <ScrollView
         android:layout_width="fill_parent"

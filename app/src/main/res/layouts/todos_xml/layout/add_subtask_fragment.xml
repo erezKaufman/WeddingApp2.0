@@ -5,6 +5,7 @@
     android:id="@+id/subtask_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/wedback"
     android:orientation="vertical">
 
     <TextView
